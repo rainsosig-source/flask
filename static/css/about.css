@@ -142,17 +142,28 @@
             }
         }
 
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--text-main), var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideDown 0.8s ease;
+        .home-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            transition: color 0.2s;
         }
+        .home-link:hover { color: var(--accent-cyan); }
 
-        @keyframes slideDown {
+
+
+
+
+
+
+
+
+
+
             from {
                 opacity: 0;
                 transform: translateY(-20px);
@@ -164,7 +175,7 @@
             }
         }
 
-        .logo span {
+        .home-link span {
             color: var(--accent-cyan);
         }
 
@@ -284,7 +295,7 @@
                 padding: 10px 16px;
             }
 
-            .logo {
+            .home-link {
                 font-size: 2rem;
             }
 
@@ -315,7 +326,7 @@
             z-index: 100;
         }
 
-        .logo {
+        .home-link {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-main);
