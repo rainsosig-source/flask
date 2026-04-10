@@ -4,6 +4,7 @@ tcp_traceroute.py를 사용하여 경로 추적 + 3D 지구본 시각화
 """
 
 import subprocess
+import os
 import json
 import re
 from flask import Blueprint, render_template, request, jsonify
@@ -19,7 +20,7 @@ def run_tcp_traceroute(target: str, max_hops: int = 30, probes: int = 3, protoco
     
     try:
         cmd = [
-            'python3', '/root/flask-app/tcp_traceroute.py',
+            'sudo', 'python3', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tcp_traceroute.py'),
             target,
             '-m', str(max_hops),
             '-q', str(probes),
