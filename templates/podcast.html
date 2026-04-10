@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Calendar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-cyan: #4cc9f0;
+            --accent-amber: #ff9e00;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .home-link {
+            text-decoration: none;
+            color: var(--accent-cyan);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .home-link:hover {
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            gap: 40px;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Left Panel: Calendar & Filters */
+        .sidebar {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-shrink: 0;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .glass-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* Filter Groups */
+        .filter-group h3 {
+            margin: 0 0 15px 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            border-color: var(--accent-cyan);
+            color: #fff;
+            background: rgba(76, 201, 240, 0.1);
+        }
+
+        .tag.active {
+            background: rgba(76, 201, 240, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.2);
+        }
+
+        /* Calendar */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-btn:hover {
+            color: #fff;
+        }
+
+        .calendar-grid-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .day-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .day:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .day.selected {
+            background: var(--accent-amber);
+            color: #000;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(255, 158, 0, 0.4);
+        }
+
+        .day.has-data::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 5px var(--accent-cyan);
+        }
+
+        .day.empty {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* Right Panel: Episode List */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .list-header {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .episode-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 120px;
+            min-height: 0;
+        }
+
+        .episode-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .episode-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .episode-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .episode-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .episode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-cyan);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .episode-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .episode-card:hover::before {
+            opacity: 1;
+        }
+
+        .episode-card.playing {
+            border-color: var(--accent-amber);
+            background: rgba(255, 158, 0, 0.05);
+        }
+
+        .episode-card.playing::before {
+            background: var(--accent-amber);
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .episode-card:hover .play-icon {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.4);
+        }
+
+        .episode-card.playing .play-icon {
+            background: var(--accent-amber);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 158, 0, 0.4);
+        }
+
+        .episode-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .episode-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .episode-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .episode-date {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .article-link {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 2px 8px;
+            background: rgba(76, 201, 240, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 4px;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .article-link:hover {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+
+        /* Player Bar (Bottom) */
+        .player-bar {
+            background: rgba(10, 10, 15, 0.9);
+            border-top: 1px solid var(--card-border);
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            backdrop-filter: blur(20px);
+            z-index: 200;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .player-bar.active {
+            transform: translateY(0);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .btn-control {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-control:hover {
+            color: var(--accent-cyan);
+        }
+
+        .btn-play {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            color: #000;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.4);
+            padding-left: 4px;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.1);
+            color: #000;
+            background: #fff;
+        }
+
+        .track-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .track-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 3px;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .track-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .progress-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            min-width: 200px;
+        }
+
+        .progress-bar-wrapper {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-amber);
+            width: 0%;
+            border-radius: 3px;
+            position: relative;
+            transition: width 0.1s linear;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .progress-bar-wrapper:hover .progress-fill::after {
+            opacity: 1;
+        }
+
+        .visualizer {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            height: 30px;
+            width: 60px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .bar {
+            width: 6px;
+            background: var(--accent-cyan);
+            border-radius: 3px;
+            animation: bounce 1s infinite ease-in-out;
+        }
+
+        .bar:nth-child(1) {
+            animation-delay: 0.0s;
+            height: 40%;
+        }
+
+        .bar:nth-child(2) {
+            animation-delay: 0.1s;
+            height: 80%;
+        }
+
+        .bar:nth-child(3) {
+            animation-delay: 0.2s;
+            height: 60%;
+        }
+
+        .bar:nth-child(4) {
+            animation-delay: 0.3s;
+            height: 90%;
+        }
+
+        .bar:nth-child(5) {
+            animation-delay: 0.4s;
+            height: 50%;
+        }
+
+        .visualizer.paused .bar {
+            animation-play-state: paused;
+            height: 10% !important;
+            transition: height 0.5s;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                height: 20%;
+            }
+
+            50% {
+                height: 100%;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 50px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+
+            html,
+            body {
+                height: auto !important;
+                min-height: 100vh;
+                overflow-y: auto !important;
+                display: block !important;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .container {
+                display: block !important;
+                padding: 20px;
+                padding-bottom: 250px !important;
+                /* Space for player bar */
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .sidebar {
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid var(--card-border);
+                flex: none !important;
+            }
+
+            .main-content {
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                display: block !important;
+                flex: none !important;
+            }
+
+            .episode-list {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding-bottom: 0 !important;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .player-bar {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                height: auto;
+                max-height: 30vh;
+                overflow-y: auto;
+            }
+
+            .player-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .track-info {
+                width: 100%;
+                text-align: center;
+            }
+
+            .progress-container {
+                width: 100%;
+            }
+
+            .visualizer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/" class="home-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+        </a>
+        <h1>Daily Briefing</h1>
+        <div style="width: 100px;"></div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Keyword Filter -->
+            <div class="glass-panel filter-group">
+                <h3>Topic</h3>
+                <div class="tags-container" id="keywordTags">
+                    <div class="tag active" onclick="filterKeyword(null, this)">All</div>
+                </div>
+            </div>
+
+            <!-- Calendar (Moved Up) -->
+            <div class="glass-panel">
+                <div class="calendar-header">
+                    <button class="nav-btn" id="prevMonth">‹</button>
+                    <h2 id="currentMonth">Month Year</h2>
+                    <button class="nav-btn" id="nextMonth">›</button>
+                </div>
+                <div class="calendar-grid-header">
+                    <div class="day-name">S</div>
+                    <div class="day-name">M</div>
+                    <div class="day-name">T</div>
+                    <div class="day-name">W</div>
+                    <div class="day-name">T</div>
+                    <div class="day-name">F</div>
+                    <div class="day-name">S</div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+
+            <!-- Time Filter (Moved Down & Updated Logic) -->
+            <div class="glass-panel filter-group" id="timeFilterPanel" style="display:none;">
+                <h3>Time</h3>
+                <div class="tags-container" id="timeTags">
+                    <div class="tag active" onclick="filterTime(null, this)">All</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="list-header" id="listHeader">Recent Episodes</div>
+            <div id="episodeList" class="episode-list">
+                <!-- Episodes injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Player Bar -->
+    <div class="player-bar" id="playerBar">
+        <div class="player-controls">
+            <button class="btn-control" onclick="skip(-10)" title="-10s">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
+                </svg>
+            </button>
+            <button class="btn-control btn-play" id="mainPlayBtn" onclick="togglePlay()">▶</button>
+            <button class="btn-control" onclick="skip(10)" title="+10s">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 17l5-5-5-5M6 17l5-5-5-5" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="track-info">
+            <div class="track-title" id="playerTitle">Select an episode</div>
+            <div class="track-meta" id="playerMeta">--</div>
+        </div>
+
+        <div class="visualizer paused" id="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div class="progress-container">
+            <span id="currentTime">0:00</span>
+            <div class="progress-bar-wrapper" id="progressBarWrapper">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span id="duration">0:00</span>
+        </div>
+
+        <audio id="audioPlayer" style="display:none;"></audio>
+    </div>
+
+    <script>
+        function log(msg) {
+            console.log(msg);
+        }
+
+        const API_CALENDAR = '/api/calendar-data';
+        const API_EPISODES = '/api/episodes';
+        const API_KEYWORDS = '/api/keywords';
+
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedKeyword = null;
+        let selectedHour = null;
+        let episodeCounts = {};
+        let currentEpisodes = [];
+        let filteredEpisodes = [];
+
+        // Player State
+        const audio = document.getElementById('audioPlayer');
+        const playerBar = document.getElementById('playerBar');
+        const mainPlayBtn = document.getElementById('mainPlayBtn');
+        const progressFill = document.getElementById('progressFill');
+        const progressBarWrapper = document.getElementById('progressBarWrapper');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const visualizer = document.getElementById('visualizer');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerMeta = document.getElementById('playerMeta');
+
+        async function init() {
+            log('Init started');
+            await fetchKeywords();
+            await fetchCalendarData();
+
+            // Auto-select today's date
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            selectedDate = `${year}-${month}-${day}`;
+
+            fetchEpisodes(selectedDate);
+            renderCalendar();
+        }
+
+        async function fetchKeywords() {
+            try {
+                const res = await fetch(API_KEYWORDS);
+                const keywords = await res.json();
+                const container = document.getElementById('keywordTags');
+                container.innerHTML = '<div class="tag active" onclick="filterKeyword(null, this)">All</div>';
+                keywords.forEach(k => {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerText = k.topic || k.keyword;
+                    tag.onclick = () => filterKeyword(k.id, tag);
+                    container.appendChild(tag);
+                });
+            } catch (err) { log('Err keywords: ' + err); }
+        }
+
+        async function fetchCalendarData() {
+            let url = API_CALENDAR;
+            if (selectedKeyword) url += `?keyword_id=${selectedKeyword}`;
+            try {
+                const res = await fetch(url);
+                episodeCounts = await res.json();
+                renderCalendar();
+            } catch (err) { log('Err calendar: ' + err); }
+        }
+
+        async function fetchEpisodes(dateStr) {
+            let url = API_EPISODES + '?';
+            if (dateStr) url += `date=${dateStr}&`;
+            if (selectedKeyword) url += `keyword_id=${selectedKeyword}&`;
+
+            const listHeader = document.getElementById('listHeader');
+            listHeader.innerText = dateStr ? `Episodes for ${dateStr}` : 'Recent Episodes';
+
+            try {
+                const res = await fetch(url);
+                currentEpisodes = await res.json();
+
+                // Reset time filter when fetching new episodes
+                selectedHour = null;
+                updateTimeFilterUI();
+
+                filterEpisodes();
+            } catch (err) { log('Err episodes: ' + err); }
+        }
+
+        function updateTimeFilterUI() {
+            const panel = document.getElementById('timeFilterPanel');
+            const container = document.getElementById('timeTags');
+
+            if (!currentEpisodes || currentEpisodes.length === 0) {
+                panel.style.display = 'none';
+                return;
+            }
+
+            // Extract unique HOURS
+            const hours = new Set();
+            currentEpisodes.forEach(ep => {
+                // created_at format: YYYY-MM-DD HH:MM:SS
+                const timePart = ep.created_at.split(' ')[1]; // HH:MM:SS
+                const h = timePart.substring(0, 2); // HH
+                hours.add(h);
+            });
+
+            if (hours.size <= 1) {
+                panel.style.display = 'none'; // Don't show if only 1 hour group
+                return;
+            }
+
+            panel.style.display = 'block';
+            container.innerHTML = '<div class="tag active" onclick="filterTime(null, this)">All</div>';
+
+            Array.from(hours).sort().forEach(h => {
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerText = `${h}시`; // Format: 09시
+                tag.onclick = () => filterTime(h, tag);
+                container.appendChild(tag);
+            });
+        }
+
+        function filterEpisodes() {
+            if (selectedHour) {
+                filteredEpisodes = currentEpisodes.filter(ep => {
+                    const timePart = ep.created_at.split(' ')[1];
+                    return timePart.startsWith(selectedHour);
+                });
+            } else {
+                filteredEpisodes = currentEpisodes;
+            }
+            renderEpisodeList();
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            document.getElementById('currentMonth').innerText = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(currentDate);
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < firstDay; i++) grid.appendChild(createDayEl('empty'));
+
+            for (let i = 1; i <= lastDate; i++) {
+                const el = createDayEl('day');
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+
+                el.innerHTML = `<span>${i}</span>`;
+
+                if (episodeCounts[dateStr]) el.classList.add('has-data');
+                if (dateStr === selectedDate) el.classList.add('selected');
+
+                el.onclick = () => {
+                    selectedDate = dateStr;
+                    fetchEpisodes(dateStr);
+                    renderCalendar();
+                };
+                grid.appendChild(el);
+            }
+        }
+
+        function createDayEl(className) {
+            const el = document.createElement('div');
+            el.className = className;
+            return el;
+        }
+
+        function renderEpisodeList() {
+            const container = document.getElementById('episodeList');
+            container.innerHTML = '';
+
+            if (filteredEpisodes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No episodes found.</p>
+                    </div>`;
+                return;
+            }
+
+            filteredEpisodes.forEach(ep => {
+                const card = document.createElement('div');
+                card.className = 'episode-card';
+                if (audio.src.includes(ep.static_path)) card.classList.add('playing');
+
+                card.onclick = () => playEpisode(ep, card);
+
+                card.innerHTML = `
+                    <div class="play-icon">▶</div>
+                    <div class="episode-info">
+                        <h3>${ep.title}</h3>
+                        <p>
+                            ${ep.press} 
+                            <a href="${ep.link}" target="_blank" onclick="event.stopPropagation()" class="article-link">Read Article ↗</a>
+                        </p>
+                        <div class="episode-date">${ep.created_at}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterKeyword(id, tagEl) {
+            selectedKeyword = id;
+            document.querySelectorAll('#keywordTags .tag').forEach(t => t.classList.remove('active'));
+            tagEl.classList.add('active');
+            // Keep selected date when filtering by keyword, or reset? 
+            // User asked for "today automatically selected", so let's keep it if set, or reset to today if null.
+            // For now, let's just refresh data.
+            fetchCalendarData();
+            fetchEpisodes(selectedDate);
+        }
+
+        function filterTime(hour, tagEl) {
+            selectedHour = hour;
+            document.querySelectorAll('#timeTags .tag').forEach(t => t.classList.remove('active'));
+            tagEl.classList.add('active');
+            filterEpisodes();
+        }
+
+        document.getElementById('prevMonth').onclick = () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        };
+
+        document.getElementById('nextMonth').onclick = () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        };
+
+        // Player Logic
+        function playEpisode(ep, cardEl) {
+            document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('playing'));
+            if (cardEl) cardEl.classList.add('playing');
+
+            const path = '/static/' + (ep.static_path.startsWith('/') ? ep.static_path.substring(1) : ep.static_path);
+            audio.src = path;
+            audio.play();
+
+            playerTitle.innerText = ep.title;
+            playerMeta.innerText = ep.press;
+            playerBar.classList.add('active');
+
+            updatePlayBtn(true);
+        }
+
+        function togglePlay() {
+            if (audio.paused) { audio.play(); updatePlayBtn(true); }
+            else { audio.pause(); updatePlayBtn(false); }
+        }
+
+        function updatePlayBtn(isPlaying) {
+            if (isPlaying) {
+                mainPlayBtn.innerText = '⏸';
+                mainPlayBtn.style.paddingLeft = '0';
+                visualizer.classList.remove('paused');
+            } else {
+                mainPlayBtn.innerText = '▶';
+                mainPlayBtn.style.paddingLeft = '4px';
+                visualizer.classList.add('paused');
+            }
+        }
+
+        function skip(seconds) { audio.currentTime += seconds; }
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = `${percent}%`;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+            durationEl.innerText = formatTime(audio.duration || 0);
+        });
+
+        audio.addEventListener('ended', () => {
+            updatePlayBtn(false);
+            progressFill.style.width = '0%';
+        });
+
+        progressBarWrapper.addEventListener('click', (e) => {
+            const rect = progressBarWrapper.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

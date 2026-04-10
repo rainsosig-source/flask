@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE 목록 - sosig.shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 1.8em;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-section h3 {
+            color: #00d4ff;
+            font-size: 1em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .filter-group select,
+        .filter-group input[type="date"] {
+            padding: 10px 14px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 8px;
+            background: #1a1a2e;
+            color: #ffffff;
+            font-size: 0.95em;
+            min-width: 160px;
+            cursor: pointer;
+        }
+
+        .filter-group select option {
+            background: #1a1a2e;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .filter-group select:focus,
+        .filter-group input[type="date"]:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .filter-group input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.primary {
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            color: #fff;
+        }
+
+        .filter-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .filter-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        /* Sort Controls */
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .sort-controls label {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .sort-controls select {
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 6px;
+            background: #1a1a2e;
+            color: #ffffff;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .sort-controls select:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        /* Active Filters */
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #00d4ff;
+        }
+
+        .filter-tag .remove {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .filter-tag .remove:hover {
+            opacity: 1;
+        }
+
+        /* Result Info */
+        .result-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.95em;
+        }
+
+        .result-info strong {
+            color: #00d4ff;
+        }
+
+        /* Severity Quick Filters */
+        .severity-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .severity-btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid;
+        }
+
+        .severity-btn.all {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #aaa;
+        }
+
+        .severity-btn.all:hover,
+        .severity-btn.all.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .severity-btn.critical {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+        }
+
+        .severity-btn.critical:hover,
+        .severity-btn.critical.active {
+            background: rgba(220, 53, 69, 0.2);
+        }
+
+        .severity-btn.high {
+            background: rgba(253, 126, 20, 0.1);
+            border-color: rgba(253, 126, 20, 0.3);
+            color: #fd7e14;
+        }
+
+        .severity-btn.high:hover,
+        .severity-btn.high.active {
+            background: rgba(253, 126, 20, 0.2);
+        }
+
+        .severity-btn.medium {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+
+        .severity-btn.medium:hover,
+        .severity-btn.medium.active {
+            background: rgba(255, 193, 7, 0.2);
+        }
+
+        .severity-btn.low {
+            background: rgba(23, 162, 184, 0.1);
+            border-color: rgba(23, 162, 184, 0.3);
+            color: #17a2b8;
+        }
+
+        .severity-btn.low:hover,
+        .severity-btn.low.active {
+            background: rgba(23, 162, 184, 0.2);
+        }
+
+        /* Table */
+        .cve-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.3);
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        th.sortable:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        th.sortable .sort-icon {
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+
+        th.sortable.active .sort-icon {
+            opacity: 1;
+            color: #00d4ff;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-critical {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .badge-high {
+            background: rgba(253, 126, 20, 0.2);
+            color: #fd7e14;
+            border: 1px solid #fd7e14;
+        }
+
+        .badge-medium {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .badge-low {
+            background: rgba(23, 162, 184, 0.2);
+            color: #17a2b8;
+            border: 1px solid #17a2b8;
+        }
+
+        .badge-unknown {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        .cve-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .cve-link:hover {
+            text-decoration: underline;
+        }
+
+        .cvss-score {
+            font-weight: bold;
+        }
+
+        .cvss-critical {
+            color: #dc3545;
+        }
+
+        .cvss-high {
+            color: #fd7e14;
+        }
+
+        .cvss-medium {
+            color: #ffc107;
+        }
+
+        .cvss-low {
+            color: #17a2b8;
+        }
+
+        .software-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.5);
+            border-radius: 4px;
+            font-size: 0.75em;
+            margin: 1px;
+            color: #a78bfa;
+        }
+
+        .description {
+            max-width: 350px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+
+        .pagination .current {
+            background: #00d4ff;
+            color: #000;
+            border-color: #00d4ff;
+        }
+
+        .pagination .disabled {
+            color: #444;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            padding: 20px;
+            border-radius: 10px;
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 25px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .filter-form {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select,
+            .filter-group input[type="date"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>📋 CVE 취약점 목록</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="/">🏠 홈</a>
+            <a href="/vuln">📊 대시보드</a>
+            <a href="/vuln/list" class="active">📋 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/client">💻 클라이언트</a>
+        </nav>
+
+        {% if error %}
+        <div class="error-message">⚠️ 오류: {{ error }}</div>
+        {% endif %}
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3>🔍 필터</h3>
+            <form class="filter-form" method="get" action="/vuln/list">
+                <div class="filter-group">
+                    <label>소프트웨어</label>
+                    <select name="software">
+                        <option value="">전체</option>
+                        {% for sw in software_list %}
+                        <option value="{{ sw.id }}" {% if current_software==sw.id|string %}selected{% endif %}>
+                            {{ sw.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>심각도</label>
+                    <select name="severity">
+                        <option value="">전체</option>
+                        <option value="CRITICAL" {% if current_severity=='CRITICAL' %}selected{% endif %}>🔴 Critical
+                        </option>
+                        <option value="HIGH" {% if current_severity=='HIGH' %}selected{% endif %}>🟠 High</option>
+                        <option value="MEDIUM" {% if current_severity=='MEDIUM' %}selected{% endif %}>🟡 Medium</option>
+                        <option value="LOW" {% if current_severity=='LOW' %}selected{% endif %}>🔵 Low</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>시작일</label>
+                    <input type="date" name="date_from" value="{{ date_from or '' }}">
+                </div>
+
+                <div class="filter-group">
+                    <label>종료일</label>
+                    <input type="date" name="date_to" value="{{ date_to or '' }}">
+                </div>
+
+                <div class="filter-group">
+                    <label>정렬 기준</label>
+                    <select name="sort_by">
+                        <option value="cvss_score" {% if sort_by=='cvss_score' %}selected{% endif %}>CVSS 점수</option>
+                        <option value="published_date" {% if sort_by=='published_date' %}selected{% endif %}>발행일
+                        </option>
+                        <option value="last_modified" {% if sort_by=='last_modified' %}selected{% endif %}>수정일</option>
+                        <option value="cve_id" {% if sort_by=='cve_id' %}selected{% endif %}>CVE ID</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>정렬 방향</label>
+                    <select name="sort_order">
+                        <option value="desc" {% if sort_order=='desc' %}selected{% endif %}>내림차순 ▼</option>
+                        <option value="asc" {% if sort_order=='asc' %}selected{% endif %}>오름차순 ▲</option>
+                    </select>
+                </div>
+
+                <div class="filter-buttons">
+                    <button type="submit" class="filter-btn primary">검색</button>
+                    <a href="/vuln/list" class="filter-btn secondary">초기화</a>
+                </div>
+            </form>
+
+            <!-- Active Filters Display -->
+            {% if current_severity or current_software or date_from or date_to %}
+            <div class="active-filters">
+                <span style="color: #888; font-size: 0.85em;">활성 필터:</span>
+                {% if current_software %}
+                {% for sw in software_list %}
+                {% if sw.id|string == current_software %}
+                <span class="filter-tag">
+                    💻 {{ sw.name }}
+                </span>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if current_severity %}
+                <span class="filter-tag">
+                    ⚠️ {{ current_severity }}
+                </span>
+                {% endif %}
+                {% if date_from %}
+                <span class="filter-tag">
+                    📅 {{ date_from }} ~
+                </span>
+                {% endif %}
+                {% if date_to %}
+                <span class="filter-tag">
+                    📅 ~ {{ date_to }}
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Result Info -->
+        <div class="result-info">
+            <div>
+                총 <strong>{{ total }}</strong>개의 CVE
+            </div>
+            <div class="severity-filters">
+                <a href="/vuln/list{% if current_software %}?software={{ current_software }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+                    class="severity-btn all {% if not current_severity %}active{% endif %}">전체</a>
+                <a href="/vuln/list?severity=CRITICAL{% if current_software %}&software={{ current_software }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+                    class="severity-btn critical {% if current_severity == 'CRITICAL' %}active{% endif %}">Critical</a>
+                <a href="/vuln/list?severity=HIGH{% if current_software %}&software={{ current_software }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+                    class="severity-btn high {% if current_severity == 'HIGH' %}active{% endif %}">High</a>
+                <a href="/vuln/list?severity=MEDIUM{% if current_software %}&software={{ current_software }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+                    class="severity-btn medium {% if current_severity == 'MEDIUM' %}active{% endif %}">Medium</a>
+                <a href="/vuln/list?severity=LOW{% if current_software %}&software={{ current_software }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+                    class="severity-btn low {% if current_severity == 'LOW' %}active{% endif %}">Low</a>
+            </div>
+        </div>
+
+        <!-- CVE Table -->
+        <div class="cve-section">
+            <table>
+                <thead>
+                    <tr>
+                        {% set base_sort_url = "/vuln/list?" %}
+                        {% set sort_params = [] %}
+                        {% if current_severity %}{% set sort_params = sort_params + ["severity=" + current_severity]
+                        %}{% endif %}
+                        {% if current_software %}{% set sort_params = sort_params + ["software=" + current_software]
+                        %}{% endif %}
+                        {% if date_from %}{% set sort_params = sort_params + ["date_from=" + date_from] %}{% endif %}
+                        {% if date_to %}{% set sort_params = sort_params + ["date_to=" + date_to] %}{% endif %}
+                        {% set sort_param_str = sort_params|join("&") %}
+                        {% if sort_param_str %}{% set sort_param_str = sort_param_str + "&" %}{% endif %}
+
+                        <th class="sortable {% if sort_by == 'cve_id' %}active{% endif %}">
+                            <a href="{{ base_sort_url }}{{ sort_param_str }}sort_by=cve_id&sort_order={% if sort_by == 'cve_id' and sort_order == 'asc' %}desc{% else %}asc{% endif %}"
+                                style="color: inherit; text-decoration: none;">
+                                CVE ID
+                                <span class="sort-icon">{% if sort_by == 'cve_id' %}{% if sort_order == 'asc' %}▲{% else
+                                    %}▼{% endif %}{% else %}↕{% endif %}</span>
+                            </a>
+                        </th>
+                        <th>심각도</th>
+                        <th class="sortable {% if sort_by == 'cvss_score' %}active{% endif %}">
+                            <a href="{{ base_sort_url }}{{ sort_param_str }}sort_by=cvss_score&sort_order={% if sort_by == 'cvss_score' and sort_order == 'desc' %}asc{% else %}desc{% endif %}"
+                                style="color: inherit; text-decoration: none;">
+                                CVSS
+                                <span class="sort-icon">{% if sort_by == 'cvss_score' %}{% if sort_order == 'asc' %}▲{%
+                                    else %}▼{% endif %}{% else %}↕{% endif %}</span>
+                            </a>
+                        </th>
+                        <th>소프트웨어</th>
+                        <th>설명</th>
+                        <th class="sortable {% if sort_by == 'published_date' %}active{% endif %}">
+                            <a href="{{ base_sort_url }}{{ sort_param_str }}sort_by=published_date&sort_order={% if sort_by == 'published_date' and sort_order == 'desc' %}asc{% else %}desc{% endif %}"
+                                style="color: inherit; text-decoration: none;">
+                                발행일
+                                <span class="sort-icon">{% if sort_by == 'published_date' %}{% if sort_order == 'asc'
+                                    %}▲{% else %}▼{% endif %}{% else %}↕{% endif %}</span>
+                            </a>
+                        </th>
+                        <th class="sortable {% if sort_by == 'last_modified' %}active{% endif %}">
+                            <a href="{{ base_sort_url }}{{ sort_param_str }}sort_by=last_modified&sort_order={% if sort_by == 'last_modified' and sort_order == 'desc' %}asc{% else %}desc{% endif %}"
+                                style="color: inherit; text-decoration: none;">
+                                수정일
+                                <span class="sort-icon">{% if sort_by == 'last_modified' %}{% if sort_order == 'asc'
+                                    %}▲{% else %}▼{% endif %}{% else %}↕{% endif %}</span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cve in cves %}
+                    <tr>
+                        <td><a href="/vuln/cve/{{ cve.cve_id }}" class="cve-link">{{ cve.cve_id }}</a></td>
+                        <td><span class="badge badge-{{ cve.severity|lower }}">{{ cve.severity }}</span></td>
+                        <td><span class="cvss-score cvss-{{ cve.severity|lower }}">{{ "%.1f"|format(cve.cvss_score or 0)
+                                }}</span></td>
+                        <td>
+                            {% if cve.software %}
+                            {% for sw in cve.software.split(',')[:3] %}
+                            <span class="software-tag">{{ sw }}</span>
+                            {% endfor %}
+                            {% else %}
+                            <span style="color: #666;">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="description" title="{{ cve.description_ko or cve.description_en }}">
+                                {{ cve.description_ko or cve.description_en or '-' }}
+                            </div>
+                        </td>
+                        <td style="white-space: nowrap; color: #888; font-size: 0.9em;">
+                            {{ cve.published_date.strftime('%Y-%m-%d') if cve.published_date else '-' }}
+                        </td>
+                        <td style="white-space: nowrap; color: #666; font-size: 0.85em;">
+                            {{ cve.last_modified.strftime('%Y-%m-%d %H:%M') if cve.last_modified else '-' }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
+                            해당하는 CVE가 없습니다.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+        <div class="pagination">
+            {% set base_url = "/vuln/list?" %}
+            {% set params = [] %}
+            {% if current_severity %}{% set params = params + ["severity=" + current_severity] %}{% endif %}
+            {% if current_software %}{% set params = params + ["software=" + current_software] %}{% endif %}
+            {% if date_from %}{% set params = params + ["date_from=" + date_from] %}{% endif %}
+            {% if date_to %}{% set params = params + ["date_to=" + date_to] %}{% endif %}
+            {% if sort_by %}{% set params = params + ["sort_by=" + sort_by] %}{% endif %}
+            {% if sort_order %}{% set params = params + ["sort_order=" + sort_order] %}{% endif %}
+            {% set param_str = params|join("&") %}
+            {% if param_str %}{% set param_str = param_str + "&" %}{% endif %}
+
+            {% if page > 1 %}
+            <a href="{{ base_url }}{{ param_str }}page=1">« 처음</a>
+            <a href="{{ base_url }}{{ param_str }}page={{ page - 1 }}">‹ 이전</a>
+            {% else %}
+            <span class="disabled">« 처음</span>
+            <span class="disabled">‹ 이전</span>
+            {% endif %}
+
+            {% for p in range(1, total_pages + 1) %}
+            {% if p == page %}
+            <span class="current">{{ p }}</span>
+            {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %} <a
+                href="{{ base_url }}{{ param_str }}page={{ p }}">{{ p }}</a>
+                {% elif p == page - 3 or p == page + 3 %}
+                <span style="color: #666;">...</span>
+                {% endif %}
+                {% endfor %}
+
+                {% if page < total_pages %} <a href="{{ base_url }}{{ param_str }}page={{ page + 1 }}">다음 ›</a>
+                    <a href="{{ base_url }}{{ param_str }}page={{ total_pages }}">마지막 »</a>
+                    {% else %}
+                    <span class="disabled">다음 ›</span>
+                    <span class="disabled">마지막 »</span>
+                    {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p><a href="https://nvd.nist.gov/" target="_blank">NIST NVD</a> | <a href="/">sosig.shop</a></p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE 검색 - sosig.shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            color: #00d4ff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        .search-box button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.05);
+        }
+
+        .result-info {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #888;
+        }
+
+        .result-info strong {
+            color: #00d4ff;
+        }
+
+        .cve-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.3);
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-critical {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .badge-high {
+            background: rgba(253, 126, 20, 0.2);
+            color: #fd7e14;
+            border: 1px solid #fd7e14;
+        }
+
+        .badge-medium {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .badge-low {
+            background: rgba(23, 162, 184, 0.2);
+            color: #17a2b8;
+            border: 1px solid #17a2b8;
+        }
+
+        .badge-unknown {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        .cve-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .cve-link:hover {
+            text-decoration: underline;
+        }
+
+        .cvss-score {
+            font-weight: bold;
+        }
+
+        .cvss-critical {
+            color: #dc3545;
+        }
+
+        .cvss-high {
+            color: #fd7e14;
+        }
+
+        .cvss-medium {
+            color: #ffc107;
+        }
+
+        .cvss-low {
+            color: #17a2b8;
+        }
+
+        .description {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            padding: 20px;
+            border-radius: 10px;
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🔍 CVE 검색</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="https://sosig.shop">🏠 홈</a>
+            <a href="/vuln">📊 대시보드</a>
+            <a href="/vuln/list">📋 전체 목록</a>
+            <a href="/vuln/search" class="active">🔍 검색</a>
+            <a href="/vuln/client">💻 클라이언트</a>
+        </nav>
+
+        <div class="search-box">
+            <form action="/vuln/search" method="get">
+                <input type="text" name="q" placeholder="CVE ID, 소프트웨어, 설명으로 검색..." value="{{ query }}">
+                <button type="submit">🔍 검색</button>
+            </form>
+        </div>
+
+        {% if error %}
+        <div class="error-message">⚠️ 오류: {{ error }}</div>
+        {% endif %}
+
+        {% if query %}
+        <div class="result-info">
+            "<strong>{{ query }}</strong>" 검색 결과: <strong>{{ results|length }}</strong>건
+        </div>
+
+        {% if results %}
+        <div class="cve-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>CVE ID</th>
+                        <th>심각도</th>
+                        <th>CVSS</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cve in results %}
+                    <tr>
+                        <td><a href="/vuln/cve/{{ cve.cve_id }}" class="cve-link">{{ cve.cve_id }}</a></td>
+                        <td><span class="badge badge-{{ cve.severity|lower }}">{{ cve.severity }}</span></td>
+                        <td><span class="cvss-score cvss-{{ cve.severity|lower }}">{{ "%.1f"|format(cve.cvss_score or 0)
+                                }}</span></td>
+                        <td>
+                            <div class="description" title="{{ cve.description_ko or cve.description_en }}">
+                                {{ cve.description_ko or cve.description_en or '-' }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-results">
+            <h3>😕 검색 결과가 없습니다</h3>
+            <p>다른 검색어로 시도해보세요.</p>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="no-results">
+            <h3>🔍 CVE를 검색하세요</h3>
+            <p>CVE ID, 소프트웨어 이름, 설명 등으로 검색할 수 있습니다.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p><a href="https://nvd.nist.gov/" target="_blank">NIST NVD</a> | <a href="/">sosig.shop</a></p>
+    </footer>
+</body>
+
+</html>

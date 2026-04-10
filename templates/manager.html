@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Manager</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-cyan: #4cc9f0;
+            --accent-purple: #764ba2;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --danger: #fc8181;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Glows */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -200px;
+            background: var(--accent-cyan);
+        }
+
+        .glow-2 {
+            bottom: -200px;
+            right: -200px;
+            background: var(--accent-purple);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border: none;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            color: var(--danger);
+            border-color: rgba(252, 129, 129, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 0 20px rgba(252, 129, 129, 0.3);
+        }
+
+        /* Card & Table */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .requirements-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-muted);
+        }
+
+        .priority-badge {
+            background: rgba(76, 201, 240, 0.1);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .edit-btn {
+            color: var(--accent-cyan);
+        }
+
+        .delete-btn {
+            color: var(--danger);
+        }
+
+        .back-link {
+            margin-top: 40px;
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: white;
+            font-family: inherit;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-cyan);
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Keyword Manager</h1>
+            <button class="btn btn-primary" onclick="openModal()">+ Add Keyword</button>
+        </header>
+
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Topic (주제)</th>
+                        <th>Keyword (검색어)</th>
+                        <th>Requirements</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="keywordTableBody">
+                    <!-- JS will populate -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="keywordModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" style="margin-top: 0; margin-bottom: 20px; font-size: 1.8em;">Add Keyword</h2>
+            <form id="keywordForm">
+                <input type="hidden" id="keywordId">
+
+                <div class="form-group">
+                    <label>Topic (주제 - 카테고리명)</label>
+                    <input type="text" id="topicInput" required placeholder="예: 인공지능, 경제, 부동산">
+                </div>
+
+                <div class="form-group">
+                    <label>Keyword (검색어 - 네이버 뉴스 검색)</label>
+                    <input type="text" id="keywordInput" required placeholder="예: AI 기술 혁신, 금리 인상">
+                </div>
+
+                <div class="form-group">
+                    <label>Priority (Higher = First)</label>
+                    <input type="number" id="priorityInput" required value="10">
+                </div>
+
+                <div class="form-group">
+                    <label>AI Requirements</label>
+                    <textarea id="requirementsInput"
+                        placeholder="e.g. Focus on technical details, exclude opening remarks..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api/keywords';
+        let keywordsData = [];
+
+        async function fetchKeywords() {
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                keywordsData = data;
+                renderTable(keywordsData);
+            } catch (err) {
+                console.error('Failed to fetch keywords:', err);
+            }
+        }
+
+        function renderTable(keywords) {
+            const tbody = document.getElementById('keywordTableBody');
+            tbody.innerHTML = '';
+
+            keywords.forEach(k => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="priority-badge">${k.priority}</span></td>
+                    <td style="font-weight: 600;">${k.topic || k.keyword}</td>
+                    <td style="color: var(--text-muted);">${k.keyword}</td>
+                    <td class="requirements-cell" title="${k.requirements || ''}">${k.requirements || '-'}</td>
+                    <td class="actions">
+                        <button class="action-btn edit-btn" onclick="editKeyword(${k.id})">✎</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('keywordModal');
+        const form = document.getElementById('keywordForm');
+
+        function openModal() {
+            document.getElementById('modalTitle').innerText = 'Add Keyword';
+            document.getElementById('keywordId').value = '';
+            form.reset();
+            modal.classList.add('active');
+        }
+
+        function editKeyword(id) {
+            const k = keywordsData.find(item => item.id === id);
+            if (!k) return;
+
+            document.getElementById('modalTitle').innerText = 'Edit Keyword';
+            document.getElementById('keywordId').value = k.id;
+            document.getElementById('topicInput').value = k.topic || k.keyword;
+            document.getElementById('keywordInput').value = k.keyword;
+            document.getElementById('priorityInput').value = k.priority;
+            document.getElementById('requirementsInput').value = k.requirements || '';
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Form Submit
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('keywordId').value;
+            const data = {
+                topic: document.getElementById('topicInput').value,
+                keyword: document.getElementById('keywordInput').value,
+                priority: parseInt(document.getElementById('priorityInput').value),
+                requirements: document.getElementById('requirementsInput').value
+            };
+
+            try {
+                const method = id ? 'PUT' : 'POST';
+                const url = id ? `${API_URL}/${id}` : API_URL;
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (res.ok) {
+                    closeModal();
+                    fetchKeywords();
+                } else {
+                    alert('Failed to save keyword');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error occurred');
+            }
+        };
+
+        // Init
+        fetchKeywords();
+    </script>
+</body>
+
+</html>

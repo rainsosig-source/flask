@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 소개 - AI 뉴스 플랫폼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            /* Light Mode */
+            --bg-color-light: #f8f9fa;
+            --card-bg-light: rgba(255, 255, 255, 0.9);
+            --card-border-light: rgba(0, 0, 0, 0.1);
+            --text-main-light: #212529;
+            --text-muted-light: #6c757d;
+            --code-bg-light: #e9ecef;
+
+            /* Dark Mode */
+            --bg-color-dark: #050510;
+            --card-bg-dark: rgba(255, 255, 255, 0.05);
+            --card-border-dark: rgba(255, 255, 255, 0.2);
+            --text-main-dark: #ffffff;
+            --text-muted-dark: #aaa;
+            --code-bg-dark: rgba(0, 0, 0, 0.3);
+
+            /* Accent Colors */
+            --accent-cyan: #4cc9f0;
+            --accent-gold: #ff9e00;
+
+            /* Active Theme */
+            --bg-color: var(--bg-color-dark);
+            --card-bg: var(--card-bg-dark);
+            --card-border: var(--card-border-dark);
+            --text-main: var(--text-main-dark);
+            --text-muted: var(--text-muted-dark);
+            --code-bg: var(--code-bg-dark);
+        }
+
+        html.light-mode {
+            --bg-color: var(--bg-color-light);
+            --card-bg: var(--card-bg-light);
+            --card-border: var(--card-border-light);
+            --text-main: var(--text-main-light);
+            --text-muted: var(--text-muted-light);
+            --code-bg: var(--code-bg-light);
+        }
+
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-cyan);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Background Glows */
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -100px;
+            background: var(--accent-cyan);
+        }
+
+        .glow-2 {
+            bottom: -200px;
+            right: -100px;
+            background: var(--accent-gold);
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(30px, 30px) scale(1.1);
+            }
+        }
+
+        /* Header */
+        header {
+            padding: 60px 20px 40px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            animation: cardFadeIn 0.6s ease both;
+        }
+
+        .section-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .section-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .section-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .section-card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--accent-gold);
+            margin-top: 25px;
+            font-size: 1.3rem;
+        }
+
+        p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        /* Mermaid Diagram */
+        .mermaid {
+            background: var(--code-bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            overflow-x: auto;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .theme-toggle {
+                top: 20px;
+                right: 20px;
+                padding: 10px 16px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            main {
+                padding: 0 20px 40px;
+            }
+
+            .section-card {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            margin-bottom: 0;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span id="themeText">다크 모드</span>
+    </button>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <header>
+        <a href="/" class="logo">Back</a>
+    </header>
+
+    <main>
+        <div class="section-card">
+            <h2>1. 프로젝트 개요</h2>
+            <ul>
+                <li><strong>프로젝트명</strong>: AI News Platform (Sosig Shop)</li>
+                <li><strong>목표</strong>: 매일 엄선된 AI/경제 뉴스를 크롤링하여 자동 요약 후 팟캐스트로 제공</li>
+                <li><strong>기술</strong>: Python (Flask), MariaDB, Google Gemini API, Google Cloud TTS, Windows Task
+                    Scheduler</li>
+                <li><strong>인프라</strong>: Windows PC (자동 실행), Remote Server (Web/DB)</li>
+                <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중</li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h2>2. 시스템 아키텍처</h2>
+            <h3>2.1. 논리적 아키텍처 (Logical)</h3>
+            <p>데이터의 흐름과 처리 과정을 중심으로 표현했습니다.</p>
+            <div class="mermaid">
+                graph LR
+                subgraph Collection [수집 단계]
+                News[📰 뉴스 기사] -->|크롤링| Crawler(크롤러)
+                end
+
+                subgraph Processing [가공 단계]
+                Crawler -->|텍스트| AI[🤖 AI 요약/대본]
+                AI -->|대본| TTS[🎙️ 음성 합성]
+                end
+
+                subgraph Serving [서비스 단계]
+                TTS -->|MP3| FileServer[📂 파일 서버]
+                AI -->|메타데이터| DB[(🗄️ DB)]
+                FileServer -->|스트리밍| User((👤 청취자))
+                DB -->|정보 제공| User
+                end
+            </div>
+
+            <h3>2.2. 물리적 아키텍처 (Physical)</h3>
+            <p>실제 서버 구성과 인프라 배치를 나타냅니다.</p>
+            <div class="mermaid">
+                graph TD
+                %% Node Styling
+                classDef blue fill:#e1f5fe,stroke:#039be5,stroke-width:2px,color:#01579b;
+                classDef windows fill:#fff3e0,stroke:#ff6f00,stroke-width:2px,color:#e65100;
+                classDef server fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#004d40;
+
+                subgraph Windows [🖥️ Windows PC]
+                Scheduler[⏰ Task Scheduler]:::windows --> |매시 정각| Crawler[🐍 Python Crawler]:::blue
+                end
+
+                subgraph External [🌐 External APIs]
+                Crawler <--> |크롤링| Naver[네이버 뉴스]:::blue
+                    Crawler <--> |대본 생성| Gemini[Google Gemini]:::blue
+                        Crawler <--> |음성 합성| G_TTS[Google TTS]:::blue
+                            end
+
+                            subgraph RemoteServer [🏢 Remote Server 139.150.x.x]
+                            Crawler --> |SQL| MariaDB[(🗄️ MariaDB)]:::server
+                            Crawler --> |SFTP| FileServer[📂 Nginx / SFTP]:::server
+                            User((👤 Client)) <--> |HTTPS| FileServer
+                                end
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>3. 주요 기능</h2>
+
+            <h3>📰 자동 뉴스 크롤링</h3>
+            <p>Windows Task Scheduler가 매시 정각 Python 크롤러를 실행하여 최신 AI/경제 뉴스를 수집.</p>
+
+            <h3>🤖 AI 요약 & 대본 (Gemini)</h3>
+            <p>Google Gemini 2.5 Flash 모델이 '상현(선배)'과 '지민(후배)'의 티키타카 대본으로 재구성.</p>
+
+            <h3>🎙️ 고품질 팟캐스트 (Google TTS)</h3>
+            <p>Google Cloud TTS의 WaveNet 음성을 사용하여 실제 라디오 방송 같은 자연스러운 오디오 생성.</p>
+
+            <h3>📅 캘린더 UI</h3>
+            <p>날짜별, 키워드별로 뉴스를 탐색 가능.</p>
+
+            <h3>⚙️ 관리자 대시보드</h3>
+            <p>키워드 관리, 우선순위 설정, 통계 확인.</p>
+
+            <h3>🔒 보안 게이트</h3>
+            <p>3D 지구본 인터랙션 챌린지로 관리자 페이지 보안 강화.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>4. 개발 스토리</h2>
+            <p><strong>Google Antigravity AI</strong>를 활용하여 전체 프로젝트를 개발했습니다.</p>
+
+            <h3>개발 과정</h3>
+            <ul>
+                <li><strong>Phase 1</strong>: 크롤러 구현 및 데이터베이스 스키마 설계</li>
+                <li><strong>Phase 2</strong>: Flask 백엔드 및 REST API 개발</li>
+                <li><strong>Phase 3</strong>: 반응형 웹 프론트엔드 제작</li>
+                <li><strong>Phase 4</strong>: 관리자 대시보드 및 보안 강화</li>
+                <li><strong>Phase 5</strong>: UI/UX 개선 (다크 모드, 애니메이션)</li>
+                <li><strong>Phase 6</strong>: Google Cloud Run 마이그레이션 및 완전 자동화</li>
+                <li><strong>Phase 7</strong>: Topic/Keyword 분리 시스템 및 Cloud Run 메모리 최적화 (2025.12)</li>
+                <li><strong>Phase 8</strong>: Windows로컬 PC 마이그레이션 - API Rate Limit 최적화 및 네이버 뉴스 우선 추출 (2025.12)</li>
+            </ul>
+
+            <h3>기술적 도전</h3>
+            <ul>
+                <li><strong>로컬 실행 최적화</strong>: Windows Task Scheduler 기반 자동화로 Cloud Run의 SFTP 제약 및 네트워크 제한 문제 해결</li>
+                <li><strong>IP 차단 해결</strong>: 무료 TTS 서비스의 IP 차단 문제를 Google Cloud TTS 공식 API 도입으로 해결</li>
+                <li><strong>프롬프트 엔지니어링</strong>: 단순 요약을 넘어선 '페르소나(상현/지민)' 기반의 몰입감 있는 대본 생성</li>
+                <li><strong>자동화 파이프라인</strong>: Cloud Scheduler와 연동하여 사람의 개입 없는 24/7 뉴스 생성 시스템 구축</li>
+                <li><strong>Topic/Keyword 분리</strong>: 검색어(Keyword)와 표시명(Topic)을 분리하여 유연한 카테고리 관리</li>
+                <li><strong>API Rate Limit 보호</strong>: Gemini API 호출 후 7초 대기 및 실패 시 30초 재시도로 429 오류 방지</li>
+                <li><strong>콘텐츠 추출 개선</strong>: 네이버 뉴스 링크 우선 사용으로 본문 추출 성공률 향상</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>제작: <strong>TS.Song</strong> | 문의: <a href="mailto:sddari@gmail.com" class="footer-link">sddari@gmail.com</a>
+        </p>
+        <p style="margin-top: 15px; opacity: 0.7;">Powered by <span style="color: var(--accent-cyan);">Google
+                Antigravity</span></p>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        if (currentTheme === 'light') {
+            html.classList.add('light-mode');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = '라이트 모드';
+        }
+
+        function toggleTheme() {
+            html.classList.toggle('light-mode');
+
+            if (html.classList.contains('light-mode')) {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = '라이트 모드';
+                localStorage.setItem('theme', 'light');
+                mermaid.initialize({ startOnLoad: true, theme: 'default' });
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = '다크 모드';
+                localStorage.setItem('theme', 'dark');
+                mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+            }
+
+            location.reload();
+        }
+
+        // Mermaid initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            const isDark = !html.classList.contains('light-mode');
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: isDark ? 'dark' : 'default',
+                securityLevel: 'loose',
+            });
+        });
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 't' && e.ctrlKey) {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+
+</html>

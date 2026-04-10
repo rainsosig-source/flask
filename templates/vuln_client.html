@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>취약점 점검 클라이언트 - sosig.shop</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #888;
+            font-size: 1em;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            padding: 10px 18px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #00d4ff;
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h3 {
+            color: #7c3aed;
+            margin-top: 25px;
+        }
+
+        .architecture {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .arch-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            flex: 0 0 200px;
+            min-width: 180px;
+        }
+
+        .arch-card .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .arch-card h4 {
+            color: #00d4ff;
+            margin: 10px 0;
+        }
+
+        .arch-card p {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #7c3aed;
+            flex: 0 0 auto;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+
+        .code-block .comment {
+            color: #8b949e;
+        }
+
+        .code-block .command {
+            color: #79c0ff;
+        }
+
+        .code-block .output {
+            color: #7ee787;
+            white-space: pre;
+            display: block;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #7c3aed, #00d4ff);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 5px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .download-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .feature-item .icon {
+            font-size: 1.5em;
+        }
+
+        .feature-item h4 {
+            margin: 0 0 5px 0;
+            color: #00d4ff;
+        }
+
+        .feature-item p {
+            margin: 0;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .api-table th,
+        .api-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .api-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: #00d4ff;
+        }
+
+        .api-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .method.get {
+            background: rgba(0, 200, 100, 0.2);
+            color: #00c864;
+        }
+
+        .method.post {
+            background: rgba(0, 150, 255, 0.2);
+            color: #0096ff;
+        }
+
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .software-tag {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 6px;
+            padding: 8px 12px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #a78bfa;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .architecture {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🛡️ CVE 취약점 모니터링</h1>
+        <p>리눅스 취약점 점검 클라이언트</p>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="/">🏠 Home</a>
+            <a href="/vuln">📊 대시보드</a>
+            <a href="/vuln/list">📋 전체 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/client" class="active">💻 클라이언트</a>
+        </nav>
+
+        <!-- 시스템 구조 -->
+        <div class="section">
+            <h2>📐 시스템 아키텍처</h2>
+            <div class="architecture">
+                <div class="arch-card">
+                    <div class="icon">🐧</div>
+                    <h4>Linux Client</h4>
+                    <p>설치된 소프트웨어 탐지<br>취약점 검증 코드 실행</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="arch-card">
+                    <div class="icon">🌐</div>
+                    <h4>sosig.shop API</h4>
+                    <p>CVE 데이터베이스 조회<br>검증 코드 제공</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="arch-card">
+                    <div class="icon">🗄️</div>
+                    <h4>CVE Database</h4>
+                    <p>NVD 실시간 동기화<br>AI 분석 결과 저장</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 다운로드 -->
+        <div class="section">
+            <h2>📥 클라이언트 다운로드</h2>
+            <p>리눅스 서버에서 아래 명령어로 클라이언트를 다운로드하고 실행하세요.</p>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <a href="https://raw.githubusercontent.com/rainsosig-source/CVE_vulnerability/main/client/vuln_checker.py"
+                    class="download-btn">📥 vuln_checker.py 다운로드</a>
+                <a href="https://github.com/rainsosig-source/CVE_vulnerability" class="download-btn secondary"
+                    target="_blank">🔗
+                    GitHub</a>
+            </div>
+
+            <h3>1단계: 다운로드</h3>
+            <div class="code-block">
+                <span class="comment"># wget으로 다운로드</span><br>
+                <span class="command">wget
+                    https://raw.githubusercontent.com/rainsosig-source/CVE_vulnerability/main/client/vuln_checker.py</span><br><br>
+                <span class="comment"># 또는 curl로 다운로드</span><br>
+                <span class="command">curl -o vuln_checker.py
+                    https://raw.githubusercontent.com/rainsosig-source/CVE_vulnerability/main/client/vuln_checker.py</span>
+            </div>
+
+            <h3>2단계: 의존성 설치</h3>
+            <div class="code-block">
+                <span class="command">pip3 install requests</span>
+            </div>
+
+            <h3>3단계: 실행</h3>
+            <div class="code-block">
+                <span class="comment"># 기본 실행 (탐지 → 스캔 → 검증)</span><br>
+                <span class="command">python3 vuln_checker.py</span><br><br>
+                <span class="comment"># JSON 출력 (자동화용)</span><br>
+                <span class="command">python3 vuln_checker.py --json</span><br><br>
+                <span class="comment"># 검증 코드 실행 안함 (빠른 스캔)</span><br>
+                <span class="command">python3 vuln_checker.py --no-verify</span>
+            </div>
+        </div>
+
+        <!-- 기능 소개 -->
+        <div class="section">
+            <h2>✨ 주요 기능</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🔍</div>
+                    <div>
+                        <h4>자동 소프트웨어 탐지</h4>
+                        <p>17종 주요 소프트웨어 자동 감지 및 버전 확인</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🌐</div>
+                    <div>
+                        <h4>실시간 CVE 조회</h4>
+                        <p>sosig.shop API를 통한 최신 취약점 정보 조회</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🔧</div>
+                    <div>
+                        <h4>자동 취약점 검증</h4>
+                        <p>샌드박스 환경에서 안전하게 검증 코드 실행</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📊</div>
+                    <div>
+                        <h4>상세 리포트</h4>
+                        <p>컬러 테이블 또는 JSON 형식 결과 출력</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 지원 소프트웨어 -->
+        <div class="section">
+            <h2>🖥️ 지원 소프트웨어</h2>
+            <p>다음 소프트웨어가 설치되어 있으면 자동으로 탐지됩니다:</p>
+            <div class="software-grid">
+                <div class="software-tag">Apache</div>
+                <div class="software-tag">Nginx</div>
+                <div class="software-tag">MySQL</div>
+                <div class="software-tag">MariaDB</div>
+                <div class="software-tag">PostgreSQL</div>
+                <div class="software-tag">PHP</div>
+                <div class="software-tag">Redis</div>
+                <div class="software-tag">OpenSSH</div>
+                <div class="software-tag">OpenSSL</div>
+                <div class="software-tag">Sudo</div>
+                <div class="software-tag">Bash</div>
+                <div class="software-tag">Docker</div>
+                <div class="software-tag">Kubernetes</div>
+                <div class="software-tag">Node.js</div>
+                <div class="software-tag">Python</div>
+                <div class="software-tag">Git</div>
+                <div class="software-tag">Tomcat</div>
+            </div>
+        </div>
+
+        <!-- 실행 예시 -->
+        <div class="section">
+            <h2>📺 실행 예시</h2>
+            <div class="code-block">
+                <span class="output">============================================================
+  🛡️  리눅스 취약점 점검 클라이언트 v1.0.0
+  📡 서버: https://sosig.shop
+============================================================
+
+🔍 시스템 스캔 중...
+   ✓ nginx 1.18.0 발견
+   ✓ mysql 8.0.32 발견
+   ✓ openssh 8.2 발견
+
+📋 취약점 조회 중...
+
+📊 스캔 결과:
+   총 5개 취약점 발견
+   🔴 CRITICAL: 1
+   🟠 HIGH: 2
+   🟡 MEDIUM: 2
+   🔵 LOW: 0
+
+🔧 검증 실행 중...
+   CVE-2024-1234: ⚠️ 취약 - 버전 1.18.0 &lt; 1.20.0
+   CVE-2024-5678: ✅ 양호 - 패치 적용됨
+
+================================================================================
+CVE ID             심각도     소프트웨어      설명
+================================================================================
+CVE-2024-1234      CRITICAL   Nginx          버퍼 오버플로우로 인한 원격...
+CVE-2024-5678      HIGH       MySQL          SQL 인젝션 취약점...
+================================================================================
+
+📊 요약:
+   탐지된 소프트웨어: 3개
+   발견된 취약점: 5개
+   검증 완료: 2개
+   취약 판정: 1개
+
+============================================================
+  점검 완료!
+============================================================</span>
+            </div>
+        </div>
+
+        <!-- 데이터 흐름 -->
+        <div class="section">
+            <h2>🔄 데이터 흐름</h2>
+            <p>CVE 취약점 데이터가 수집되고 클라이언트로 전달되는 과정입니다.</p>
+
+            <h3>1️⃣ NVD API에서 CVE 수집</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🌐</div>
+                    <div>
+                        <h4>NIST NVD API 연동</h4>
+                        <p>미국 국립표준기술연구소(NIST)의 National Vulnerability Database에서 실시간 CVE 정보 수집</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🔍</div>
+                    <div>
+                        <h4>키워드 기반 검색</h4>
+                        <p>Apache, Nginx, MySQL 등 17종 소프트웨어별 키워드로 관련 CVE 필터링</p>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <span class="comment"># NVD API 호출 예시</span><br>
+                <span class="command">GET https://services.nvd.nist.gov/rest/json/cves/2.0</span><br>
+                <span class="command"> ?keywordSearch=nginx&pubStartDate=2024-01-01</span>
+            </div>
+
+            <h3>2️⃣ 데이터베이스 저장</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🗄️</div>
+                    <div>
+                        <h4>MySQL/MariaDB 저장</h4>
+                        <p>CVE ID, 심각도, CVSS 점수, 설명, 영향받는 버전 등 저장</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📝</div>
+                    <div>
+                        <h4>변경 이력 관리</h4>
+                        <p>CVE 정보 업데이트 시 이전 데이터 이력 보관</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>3️⃣ AI 분석 및 번역</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🤖</div>
+                    <div>
+                        <h4>Groq AI 분석</h4>
+                        <p>CVE 설명을 분석하여 영향범위, 조치방법, 위험도 평가 생성</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🇰🇷</div>
+                    <div>
+                        <h4>한글 번역</h4>
+                        <p>영문 CVE 설명을 이해하기 쉬운 한글로 자동 번역</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🔧</div>
+                    <div>
+                        <h4>검증 코드 생성</h4>
+                        <p>취약점 존재 여부를 확인하는 Python/Shell 코드 자동 생성</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>4️⃣ 클라이언트 실행</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🐧</div>
+                    <div>
+                        <h4>소프트웨어 탐지</h4>
+                        <p>클라이언트가 시스템에 설치된 소프트웨어와 버전 자동 탐지</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📡</div>
+                    <div>
+                        <h4>API 조회</h4>
+                        <p>탐지된 소프트웨어 정보를 sosig.shop API로 전송하여 관련 CVE 조회</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">✅</div>
+                    <div>
+                        <h4>취약점 검증</h4>
+                        <p>AI가 생성한 검증 코드를 샌드박스에서 실행하여 실제 취약 여부 판정</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>5️⃣ 알림 발송</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">💬</div>
+                    <div>
+                        <h4>Telegram</h4>
+                        <p>봇 API로 즉시 알림</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🎮</div>
+                    <div>
+                        <h4>Discord</h4>
+                        <p>Webhook으로 채널 알림</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📧</div>
+                    <div>
+                        <h4>Email</h4>
+                        <p>SMTP로 리포트 발송</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- API 문서 -->
+        <div class="section">
+            <h2>📡 API 엔드포인트</h2>
+            <p>고급 사용자를 위한 API 직접 호출:</p>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/client/software</td>
+                        <td>모니터링 대상 소프트웨어 목록</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>/api/client/scan</td>
+                        <td>취약점 스캔 요청</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/client/verify/{cve_id}</td>
+                        <td>검증 코드 다운로드</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/client/download</td>
+                        <td>클라이언트 스크립트 다운로드</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>API 예제</h3>
+            <div class="code-block">
+                <span class="comment"># 소프트웨어 목록 조회</span><br>
+                <span class="command">curl https://sosig.shop/api/client/software</span><br><br>
+                <span class="comment"># 취약점 스캔</span><br>
+                <span class="command">curl -X POST https://sosig.shop/api/client/scan \</span><br>
+                <span class="command"> -H "Content-Type: application/json" \</span><br>
+                <span class="command"> -d '{"software": [{"name": "nginx", "version": "1.18.0"}]}'</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 sosig.shop | <a href="/">메인으로</a></p>
+    </footer>
+</body>
+
+</html>

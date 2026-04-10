@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ cve.cve_id if cve else 'CVE 상세' }} - sosig.shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 1.8em;
+            color: #00d4ff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        nav a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        /* Score Overview Section */
+        .score-overview {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .score-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CVSS Gauge */
+        .gauge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge {
+            position: relative;
+            width: 160px;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .gauge-bg {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: conic-gradient(#dc3545 0deg 36deg,
+                    #fd7e14 36deg 72deg,
+                    #ffc107 72deg 108deg,
+                    #17a2b8 108deg 144deg,
+                    #6c757d 144deg 180deg,
+                    rgba(255, 255, 255, 0.1) 180deg 360deg);
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+        }
+
+        .gauge-fill {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+        }
+
+        .gauge-needle {
+            position: absolute;
+            width: 4px;
+            height: 60px;
+            background: linear-gradient(to top, #fff 0%, #00d4ff 100%);
+            bottom: 0;
+            left: 78px;
+            transform-origin: bottom center;
+            transform: rotate(var(--rotation));
+            border-radius: 2px;
+            transition: transform 1s ease-out;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .gauge-center {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #00d4ff;
+            border-radius: 50%;
+            bottom: -8px;
+            left: 72px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .gauge-score {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .gauge-label {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .score-critical .gauge-score {
+            color: #dc3545;
+        }
+
+        .score-high .gauge-score {
+            color: #fd7e14;
+        }
+
+        .score-medium .gauge-score {
+            color: #ffc107;
+        }
+
+        .score-low .gauge-score {
+            color: #17a2b8;
+        }
+
+        .score-unknown .gauge-score {
+            color: #6c757d;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-item label {
+            display: block;
+            color: #888;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-critical {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+
+        .badge-high {
+            background: rgba(253, 126, 20, 0.2);
+            color: #fd7e14;
+            border: 1px solid #fd7e14;
+        }
+
+        .badge-medium {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .badge-low {
+            background: rgba(23, 162, 184, 0.2);
+            color: #17a2b8;
+            border: 1px solid #17a2b8;
+        }
+
+        .badge-unknown {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .tabs-nav {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #00d4ff;
+            border-bottom-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Description Boxes */
+        .description-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .description-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .description-box.korean {
+            border-left: 4px solid #00d4ff;
+        }
+
+        .description-box.simple {
+            border-left: 4px solid #28a745;
+        }
+
+        .description-box.english {
+            border-left: 4px solid #7c3aed;
+            color: #aaa;
+        }
+
+        .description-box h3 {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* AI Analysis */
+        .ai-item {
+            margin-bottom: 25px;
+        }
+
+        .ai-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .ai-item h4 {
+            color: #7c3aed;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .ai-item p {
+            color: #ccc;
+            line-height: 1.7;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        /* Code Block with Copy Button */
+        .code-container {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
+        }
+
+        .code-header span {
+            color: #888;
+            font-size: 0.85em;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            color: #00d4ff;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .copy-btn.copied {
+            background: rgba(40, 167, 69, 0.2);
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .code-block {
+            background: #0d0d1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0 0 8px 8px;
+            padding: 20px;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            color: #00ff88;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Software & References */
+        .software-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .software-tag {
+            padding: 8px 15px;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.5);
+            border-radius: 8px;
+            color: #a78bfa;
+            font-size: 0.95em;
+        }
+
+        .ref-list {
+            list-style: none;
+        }
+
+        .ref-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ref-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ref-list a {
+            color: #00d4ff;
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.3s ease;
+        }
+
+        .ref-list a:hover {
+            color: #7c3aed;
+            text-decoration: underline;
+        }
+
+        .ref-source {
+            color: #666;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #888;
+        }
+
+        /* Error */
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            padding: 30px;
+            border-radius: 10px;
+            color: #dc3545;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🔍 {{ cve.cve_id if cve else 'CVE 상세 정보' }}</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="https://sosig.shop">🏠 홈</a>
+            <a href="/vuln">📊 대시보드</a>
+            <a href="/vuln/list">📋 전체 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/client">💻 클라이언트</a>
+        </nav>
+
+        {% if error %}
+        <div class="error-message">
+            <h2>⚠️ {{ error }}</h2>
+            <p style="margin-top: 15px;"><a href="/vuln/list">목록으로 돌아가기</a></p>
+        </div>
+        {% elif cve %}
+
+        <!-- Score Overview with Gauge -->
+        <div class="score-overview">
+            <div class="gauge-container score-{{ cve.severity|lower }}">
+                <div class="gauge">
+                    <div class="gauge-bg"></div>
+                    <div class="gauge-fill"></div>
+                    <div class="gauge-needle" style="--rotation: {{ ((cve.cvss_score or 0) / 10 * 180) - 90 }}deg;">
+                    </div>
+                    <div class="gauge-center"></div>
+                </div>
+                <div class="gauge-score">{{ "%.1f"|format(cve.cvss_score or 0) }}</div>
+                <div class="gauge-label">CVSS Score</div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>심각도</label>
+                    <span class="badge badge-{{ cve.severity|lower }}">{{ cve.severity }}</span>
+                </div>
+                <div class="info-item">
+                    <label>발행일</label>
+                    <span class="value">{{ cve.published_date.strftime('%Y-%m-%d') if cve.published_date else '-'
+                        }}</span>
+                </div>
+                <div class="info-item">
+                    <label>최종 수정</label>
+                    <span class="value">{{ cve.last_modified.strftime('%Y-%m-%d %H:%M') if cve.last_modified else '-'
+                        }}</span>
+                </div>
+                <div class="info-item">
+                    <label>AI 분석</label>
+                    <span class="value">{{ '✅ 완료' if cve.ai_analyzed else '⏳ 대기중' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab('description')">📝 취약점 설명</button>
+                <button class="tab-btn" onclick="switchTab('analysis')">🤖 AI 분석</button>
+                <button class="tab-btn" onclick="switchTab('technical')">🔧 기술 정보</button>
+                <button class="tab-btn" onclick="switchTab('references')">🔗 참조 링크</button>
+            </div>
+
+            <!-- Tab: Description -->
+            <div id="tab-description" class="tab-content active">
+                {% if cve.description_ko %}
+                <div class="description-box korean">
+                    <h3>🇰🇷 한글 설명</h3>
+                    {{ cve.description_ko }}
+                </div>
+                {% endif %}
+
+                {% if cve.simple_explanation %}
+                <div class="description-box simple">
+                    <h3>💡 쉬운 설명</h3>
+                    {{ cve.simple_explanation }}
+                </div>
+                {% endif %}
+
+                <div class="description-box english">
+                    <h3>🇺🇸 원문 (English)</h3>
+                    {{ cve.description_en or 'No description available.' }}
+                </div>
+            </div>
+
+            <!-- Tab: AI Analysis -->
+            <div id="tab-analysis" class="tab-content">
+                {% if cve.ai_analyzed %}
+                {% if cve.affected_systems %}
+                <div class="ai-item">
+                    <h4>📍 영향받는 시스템</h4>
+                    <p>{{ cve.affected_systems }}</p>
+                </div>
+                {% endif %}
+
+                {% if cve.attack_vector %}
+                <div class="ai-item">
+                    <h4>⚔️ 공격 벡터</h4>
+                    <p>{{ cve.attack_vector }}</p>
+                </div>
+                {% endif %}
+
+                {% if cve.remediation %}
+                <div class="ai-item">
+                    <h4>🛡️ 대응 방법</h4>
+                    <p>{{ cve.remediation }}</p>
+                </div>
+                {% endif %}
+
+                {% if cve.verification_code %}
+                <div class="ai-item">
+                    <h4>🔧 검증 코드</h4>
+                    {% if cve.verification_description %}
+                    <p style="margin-bottom: 15px;">{{ cve.verification_description }}</p>
+                    {% endif %}
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>Shell / Script</span>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <span class="copy-icon">📋</span>
+                                <span class="copy-text">복사</span>
+                            </button>
+                        </div>
+                        <pre class="code-block" id="verification-code">{{ cve.verification_code }}</pre>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not cve.affected_systems and not cve.attack_vector and not cve.remediation and not
+                cve.verification_code %}
+                <div class="empty-state">
+                    <h3>📭 분석 데이터 없음</h3>
+                    <p>AI 분석은 완료되었으나 추가 분석 데이터가 없습니다.</p>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="empty-state">
+                    <h3>⏳ AI 분석 대기중</h3>
+                    <p>이 CVE는 아직 AI 분석이 완료되지 않았습니다.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Tab: Technical -->
+            <div id="tab-technical" class="tab-content">
+                {% if cve.cvss_vector %}
+                <div class="ai-item">
+                    <h4>📊 CVSS Vector String</h4>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>CVSS Vector</span>
+                            <button class="copy-btn" onclick="copyCode(this)">
+                                <span class="copy-icon">📋</span>
+                                <span class="copy-text">복사</span>
+                            </button>
+                        </div>
+                        <pre class="code-block">{{ cve.cvss_vector }}</pre>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if cve.software_list %}
+                <div class="ai-item">
+                    <h4>💻 영향받는 소프트웨어</h4>
+                    <div class="software-list">
+                        {% for sw in cve.software_list %}
+                        <span class="software-tag">{{ sw.software_name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not cve.cvss_vector and not cve.software_list %}
+                <div class="empty-state">
+                    <h3>📭 기술 정보 없음</h3>
+                    <p>추가 기술 정보가 없습니다.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Tab: References -->
+            <div id="tab-references" class="tab-content">
+                {% if cve.references %}
+                <ul class="ref-list">
+                    {% for ref in cve.references %}
+                    <li>
+                        <a href="{{ ref.url }}" target="_blank">{{ ref.url }}</a>
+                        {% if ref.source %}<span class="ref-source">({{ ref.source }})</span>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="empty-state">
+                    <h3>📭 참조 링크 없음</h3>
+                    <p>등록된 참조 링크가 없습니다.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <footer>
+        <p><a href="https://nvd.nist.gov/" target="_blank">NIST NVD</a> | <a href="/">sosig.shop</a></p>
+    </footer>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Copy code to clipboard
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-container').querySelector('.code-block');
+            const text = codeBlock.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                // Success feedback
+                button.classList.add('copied');
+                button.querySelector('.copy-icon').textContent = '✅';
+                button.querySelector('.copy-text').textContent = '복사됨!';
+
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.querySelector('.copy-icon').textContent = '📋';
+                    button.querySelector('.copy-text').textContent = '복사';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('복사에 실패했습니다.');
+            });
+        }
+
+        // Animate gauge on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const needle = document.querySelector('.gauge-needle');
+            if (needle) {
+                needle.style.transition = 'none';
+                needle.style.transform = 'rotate(-90deg)';
+                setTimeout(() => {
+                    needle.style.transition = 'transform 1s ease-out';
+                    needle.style.transform = '';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+
+</html>

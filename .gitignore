@@ -1,0 +1,11 @@
+venv/
+.env
+__pycache__/
+*.pyc
+static/podcast/
+static/earth_texture.*
+static/earth_bump.*
+static/earth.jpg
+static/countries.geojson
+cookies.txt
+*.log
