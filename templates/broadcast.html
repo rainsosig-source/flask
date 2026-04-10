@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="전체 에피소드를 검색하고 토픽별로 필터링하며 바로 재생해보세요.">
+    <meta name="description" content="AI 뉴스 플랫폼 방명록 - 방문 소감을 남겨주세요.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="방영록 - AI 뉴스 플랫폼">
-    <meta property="og:description" content="전체 에피소드를 검색하고 토픽별로 필터링하며 바로 재생해보세요.">
+    <meta property="og:title" content="방명록 - AI 뉴스 플랫폼">
+    <meta property="og:description" content="방문 소감을 남겨주세요.">
     <meta property="og:url" content="https://sosig.shop/broadcast">
     <meta property="og:site_name" content="AI 뉴스 플랫폼">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="방영록 - AI 뉴스 플랫폼">
-    <meta name="twitter:description" content="전체 에피소드를 검색하고 토픽별로 필터링하며 바로 재생해보세요.">
-    <title>방영록 - AI 뉴스 플랫폼</title>
+    <meta name="twitter:title" content="방명록 - AI 뉴스 플랫폼">
+    <meta name="twitter:description" content="방문 소감을 남겨주세요.">
+    <title>방명록 - AI 뉴스 플랫폼</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/broadcast.css">
+    <link rel="stylesheet" href="/static/css/broadcast.css?v=6">
 </head>
 
 <body>
@@ -26,59 +26,33 @@
             </svg>
             Back to Home
         </a>
-        <h1>Broadcast Log</h1>
-        <button class="theme-toggle-sm" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <h1>Guestbook</h1>
+        <button class="theme-toggle-sm" onclick="toggleTheme()" id="themeBtn">&#127769;</button>
     </header>
 
-    <!-- Stats -->
-    <div class="stats-bar" id="statsBar"></div>
-
-    <!-- Filters -->
-    <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterTopic(null, this)">All</button>
-        <div id="topicFilters"></div>
-        <input type="text" class="search-input" id="searchInput" placeholder="Search title or press..." oninput="debounceSearch()">
+    <!-- Write Form -->
+    <div class="write-card">
+        <h2>메시지 남기기</h2>
+        <div class="form-row">
+            <input type="text" id="nickname" placeholder="닉네임 (최대 50자)" maxlength="50">
+        </div>
+        <div class="form-row">
+            <textarea id="message" placeholder="메시지를 입력해주세요 (최대 500자)" maxlength="500" rows="3"></textarea>
+            <div class="char-count"><span id="charCount">0</span>/500</div>
+        </div>
+        <button class="submit-btn" id="submitBtn" onclick="submitMessage()">등록</button>
     </div>
 
-    <!-- Table -->
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th class="td-play"></th>
-                    <th>Title</th>
-                    <th>Topic</th>
-                    <th>Press</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-        <div id="emptyState" style="display:none;" class="empty-state">
-            <div class="empty-state-icon">📭</div>
-            <p>No episodes found.</p>
+    <!-- Messages -->
+    <div class="messages-section">
+        <div class="messages-header">
+            <span id="totalCount">0</span>개의 메시지
         </div>
+        <div id="messageList"></div>
+        <div class="pagination" id="pagination"></div>
     </div>
 
-    <!-- Pagination -->
-    <div class="pagination" id="pagination"></div>
-
-    <!-- Mini Player -->
-    <div class="mini-player" id="miniPlayer">
-        <button class="mini-play-btn" id="miniPlayBtn" onclick="togglePlay()">▶</button>
-        <div class="mini-info">
-            <div class="mini-title" id="miniTitle">-</div>
-            <div class="mini-meta" id="miniMeta">-</div>
-        </div>
-        <div class="mini-progress" id="miniProgressBar">
-            <div class="mini-progress-fill" id="miniProgressFill"></div>
-        </div>
-        <span class="mini-time" id="miniTime">0:00 / 0:00</span>
-        <button class="mini-speed" id="miniSpeedBtn" onclick="cycleSpeed()">1x</button>
-        <audio id="audioPlayer"></audio>
-    </div>
-
-    <script src="/static/js/broadcast.js"></script>
+    <script src="/static/js/broadcast.js?v=6"></script>
 </body>
 
 </html>

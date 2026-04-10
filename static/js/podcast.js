@@ -241,8 +241,9 @@ function log(msg) {
 
             const path = '/static/' + (ep.static_path.startsWith('/') ? ep.static_path.substring(1) : ep.static_path);
             audio.src = path;
-            audio.playbackRate = speeds[speedIndex];
-            audio.play();
+            audio.play().then(() => {
+                audio.playbackRate = speeds[speedIndex];
+            }).catch(() => {});
 
             playerTitle.innerText = ep.title;
             playerMeta.innerText = ep.press;
@@ -280,7 +281,7 @@ function log(msg) {
             btn.classList.toggle('active', speedIndex !== 0);
         }
 
-        audio.addEventListener("playing", () => {
+        audio.addEventListener('loadeddata', () => {
             audio.playbackRate = speeds[speedIndex];
         });
 

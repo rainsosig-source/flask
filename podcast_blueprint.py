@@ -1,6 +1,6 @@
 # ==============================================================================
 # 팟캐스트 관련 Blueprint
-# 방문자 카운터, 에피소드, 캘린더, 키워드, 방영록 API
+# 방문자 카운터, 에피소드, 캘린더, 키워드, 방명록 API
 # ==============================================================================
 
 from flask import Blueprint, render_template, jsonify, request, session, current_app
@@ -77,69 +77,79 @@ def get_visit_count():
         conn.close()
 
 
-# --- Broadcast API ---
+# --- Guestbook API ---
 
-@podcast_bp.route('/api/broadcast')
-def api_broadcast():
+@podcast_bp.route('/api/guestbook')
+def api_guestbook():
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 50))
-    keyword_id = request.args.get('keyword_id')
-    q = request.args.get('q', '').strip()
+    per_page = int(request.args.get('per_page', 20))
     offset = (page - 1) * per_page
 
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            where = "WHERE 1=1"
-            params = []
-            if keyword_id:
-                where += " AND e.keyword_id = %s"
-                params.append(keyword_id)
-            if q:
-                where += " AND (e.title LIKE %s OR e.press LIKE %s)"
-                params.extend([f'%{q}%', f'%{q}%'])
-
-            cursor.execute(f"SELECT COUNT(*) as total FROM episodes e {where}", tuple(params))
+            cursor.execute("SELECT COUNT(*) as total FROM guestbook WHERE is_visible = 1")
             total = cursor.fetchone()['total']
 
-            cursor.execute(f"""
-                SELECT e.press, e.title, e.link, e.mp3_path, e.created_at, e.keyword_id,
-                       COALESCE(k.topic, k.keyword) as topic
-                FROM episodes e
-                LEFT JOIN keywords k ON e.keyword_id = k.id
-                {where}
-                ORDER BY e.created_at DESC
+            cursor.execute("""
+                SELECT id, nickname, message, created_at
+                FROM guestbook WHERE is_visible = 1
+                ORDER BY created_at DESC
                 LIMIT %s OFFSET %s
-            """, tuple(params + [per_page, offset]))
-            episodes = cursor.fetchall()
+            """, (per_page, offset))
+            messages = cursor.fetchall()
+            for m in messages:
+                m['created_at'] = m['created_at'].strftime('%Y-%m-%d %H:%M')
 
-            for ep in episodes:
-                ep['static_path'] = _static_path(ep['mp3_path'])
-                ep['created_at'] = ep['created_at'].strftime('%Y-%m-%d %H:%M')
-
-        return jsonify({"episodes": episodes, "total": total, "page": page, "per_page": per_page})
+        return jsonify({"messages": messages, "total": total, "page": page, "per_page": per_page})
     except Exception as e:
-        current_app.logger.error(f"Error: {e}")
+        current_app.logger.error(f"Guestbook error: {e}")
         return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
-@podcast_bp.route('/api/broadcast/stats')
-def api_broadcast_stats():
+
+@podcast_bp.route('/api/guestbook', methods=['POST'])
+def post_guestbook():
+    data = request.json or {}
+    nickname = data.get('nickname', '').strip()
+    message = data.get('message', '').strip()
+
+    if not nickname or not message:
+        return jsonify({"error": "닉네임과 메시지를 입력해주세요."}), 400
+    if len(nickname) > 50:
+        return jsonify({"error": "닉네임은 50자 이내로 입력해주세요."}), 400
+    if len(message) > 500:
+        return jsonify({"error": "메시지는 500자 이내로 입력해주세요."}), 400
+
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) as total FROM episodes")
-            total = cursor.fetchone()['total']
-            cursor.execute("SELECT COUNT(*) as today FROM episodes WHERE DATE(created_at) = CURDATE()")
-            today = cursor.fetchone()['today']
-            cursor.execute("SELECT COUNT(DISTINCT keyword_id) as topics FROM episodes")
-            topics = cursor.fetchone()['topics']
-            cursor.execute("SELECT COUNT(DISTINCT press) as sources FROM episodes")
-            sources = cursor.fetchone()['sources']
-        return jsonify({"total": total, "today": today, "topics": topics, "sources": sources})
+            cursor.execute(
+                "INSERT INTO guestbook (nickname, message) VALUES (%s, %s)",
+                (nickname, message)
+            )
+        conn.commit()
+        return jsonify({"message": "등록되었습니다!"}), 201
     except Exception as e:
-        current_app.logger.error(f"Error: {e}")
+        current_app.logger.error(f"Guestbook write error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+    finally:
+        conn.close()
+
+
+@podcast_bp.route('/api/guestbook/<int:msg_id>', methods=['DELETE'])
+def delete_guestbook(msg_id):
+    if not session.get('challenge_passed'):
+        return jsonify({"error": "unauthorized"}), 403
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("UPDATE guestbook SET is_visible = 0 WHERE id = %s", (msg_id,))
+        conn.commit()
+        return jsonify({"message": "삭제되었습니다."}), 200
+    except Exception as e:
+        current_app.logger.error(f"Guestbook delete error: {e}")
         return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
