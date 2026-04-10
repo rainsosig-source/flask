@@ -40,6 +40,117 @@ def get_db_connection():
 def index():
     return render_template('index.html')
 
+@app.route('/api/visit', methods=['POST'])
+def visit_count():
+    page = request.json.get('page', '/')
+    visit_key = f"visited_{page}"
+    if session.get(visit_key):
+        conn = get_db_connection()
+        try:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT count FROM visit_counter WHERE page = %s", (page,))
+                result = cursor.fetchone()
+                return jsonify({"count": result['count'] if result else 0})
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        finally:
+            conn.close()
+    session[visit_key] = True
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("INSERT INTO visit_counter (page, count) VALUES (%s, 1) ON DUPLICATE KEY UPDATE count = count + 1", (page,))
+            conn.commit()
+            cursor.execute("SELECT count FROM visit_counter WHERE page = %s", (page,))
+            result = cursor.fetchone()
+            return jsonify({"count": result['count']})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/api/visit', methods=['GET'])
+def get_visit_count():
+    page = request.args.get('page', '/')
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT count FROM visit_counter WHERE page = %s", (page,))
+            result = cursor.fetchone()
+            return jsonify({"count": result['count'] if result else 0})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/broadcast')
+def broadcast():
+    return render_template('broadcast.html')
+
+@app.route('/api/broadcast')
+def api_broadcast():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 50))
+    keyword_id = request.args.get('keyword_id')
+    q = request.args.get('q', '').strip()
+    offset = (page - 1) * per_page
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            where = "WHERE 1=1"
+            params = []
+            if keyword_id:
+                where += " AND e.keyword_id = %s"
+                params.append(keyword_id)
+            if q:
+                where += " AND (e.title LIKE %s OR e.press LIKE %s)"
+                params.extend([f'%{q}%', f'%{q}%'])
+
+            cursor.execute(f"SELECT COUNT(*) as total FROM episodes e {where}", tuple(params))
+            total = cursor.fetchone()['total']
+
+            cursor.execute(f"""
+                SELECT e.press, e.title, e.link, e.mp3_path, e.created_at, e.keyword_id,
+                       COALESCE(k.topic, k.keyword) as topic
+                FROM episodes e
+                LEFT JOIN keywords k ON e.keyword_id = k.id
+                {where}
+                ORDER BY e.created_at DESC
+                LIMIT %s OFFSET %s
+            """, tuple(params + [per_page, offset]))
+            episodes = cursor.fetchall()
+
+            for ep in episodes:
+                full_path = ep['mp3_path']
+                ep['static_path'] = full_path.split('/static/')[1] if '/static/' in full_path else full_path
+                ep['created_at'] = ep['created_at'].strftime('%Y-%m-%d %H:%M')
+
+        return jsonify({"episodes": episodes, "total": total, "page": page, "per_page": per_page})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+@app.route('/api/broadcast/stats')
+def api_broadcast_stats():
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) as total FROM episodes")
+            total = cursor.fetchone()['total']
+            cursor.execute("SELECT COUNT(*) as today FROM episodes WHERE DATE(created_at) = CURDATE()")
+            today = cursor.fetchone()['today']
+            cursor.execute("SELECT COUNT(DISTINCT keyword_id) as topics FROM episodes")
+            topics = cursor.fetchone()['topics']
+            cursor.execute("SELECT COUNT(DISTINCT press) as sources FROM episodes")
+            sources = cursor.fetchone()['sources']
+        return jsonify({"total": total, "today": today, "topics": topics, "sources": sources})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
 @app.route('/podcast')
 def podcast():
     return render_template('podcast.html')
@@ -60,6 +171,8 @@ def manager_dashboard():
 # --- Security Endpoint ---
 @app.route('/api/gate/unlock', methods=['POST'])
 def gate_unlock():
+    if not session.get('challenge_passed'):
+        return jsonify({"error": "unauthorized"}), 403
     session['is_admin'] = True
     return jsonify({"status": "unlocked"})
 
@@ -83,6 +196,8 @@ def get_keywords():
 
 @app.route('/api/keywords', methods=['POST'])
 def add_keyword():
+    if not session.get('challenge_passed'):
+        return jsonify({"error": "unauthorized"}), 403
     data = request.json
     keyword = data.get('keyword')
     topic = data.get('topic', keyword)  # topic이 없으면 keyword 사용
@@ -108,6 +223,8 @@ def add_keyword():
 
 @app.route('/api/keywords/<int:id>', methods=['PUT'])
 def update_keyword(id):
+    if not session.get('challenge_passed'):
+        return jsonify({"error": "unauthorized"}), 403
     data = request.json
     keyword = data.get('keyword')
     topic = data.get('topic', keyword)  # topic이 없으면 keyword 사용
@@ -133,6 +250,8 @@ def update_keyword(id):
 
 @app.route('/api/keywords/<int:id>', methods=['DELETE'])
 def delete_keyword(id):
+    if not session.get('challenge_passed'):
+        return jsonify({"error": "unauthorized"}), 403
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
@@ -255,7 +374,7 @@ def request_mfa_code():
         
         # In a real app, we would send 'names' via Email/SMS and NOT return them here.
         # But for this demo/simulation, we return them so the UI can display them.
-        return jsonify({'status': 'sent', 'session_token': session_token, 'debug_codes': names})
+        return jsonify({'status': 'sent', 'session_token': session_token})
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -17,6 +17,19 @@
             --text-muted: #888888;
         }
 
+        /* Light Mode Colors */
+        html.light-mode {
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-main: #212529;
+            --text-muted: #6c757d;
+        }
+
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -35,7 +48,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(5, 5, 5, 0.8);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--card-border);
             flex-shrink: 0;
@@ -207,7 +220,7 @@
             transition: all 0.2s;
             position: relative;
             font-size: 0.9rem;
-            color: #ddd;
+            color: var(--text-muted);
         }
 
         .day:hover {
@@ -361,7 +374,7 @@
             margin: 0 0 5px 0;
             font-size: 1.1rem;
             font-weight: 500;
-            color: #fff;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -399,7 +412,7 @@
 
         /* Player Bar (Bottom) */
         .player-bar {
-            background: rgba(10, 10, 15, 0.9);
+            background: var(--card-bg);
             border-top: 1px solid var(--card-border);
             padding: 15px 40px;
             display: flex;
@@ -473,7 +486,7 @@
             font-size: 1rem;
             font-weight: 500;
             margin-bottom: 3px;
-            color: #fff;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -530,6 +543,32 @@
 
         .progress-bar-wrapper:hover .progress-fill::after {
             opacity: 1;
+        }
+
+        .speed-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .speed-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .speed-btn.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: #000;
+            font-weight: 700;
         }
 
         .visualizer {
@@ -682,6 +721,30 @@
                 display: none;
             }
         }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 50px;
+            padding: 8px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .theme-icon {
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -694,7 +757,7 @@
             Back to Home
         </a>
         <h1>Daily Briefing</h1>
-        <div style="width: 100px;"></div>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"><span class="theme-icon" id="themeIcon">&#x1F319;</span><span id="themeText">Dark</span></button>
     </header>
 
     <div class="container">
@@ -765,6 +828,8 @@
             <div class="track-title" id="playerTitle">Select an episode</div>
             <div class="track-meta" id="playerMeta">--</div>
         </div>
+
+        <button class="speed-btn" id="speedBtn" onclick="cycleSpeed()" title="재생 속도">1x</button>
 
         <div class="visualizer paused" id="visualizer">
             <div class="bar"></div>
@@ -1057,6 +1122,16 @@
 
         function skip(seconds) { audio.currentTime += seconds; }
 
+        const speeds = [1, 1.25, 1.5, 1.75, 2];
+        let speedIndex = 0;
+        function cycleSpeed() {
+            speedIndex = (speedIndex + 1) % speeds.length;
+            audio.playbackRate = speeds[speedIndex];
+            const btn = document.getElementById('speedBtn');
+            btn.innerText = speeds[speedIndex] + 'x';
+            btn.classList.toggle('active', speedIndex !== 0);
+        }
+
         audio.addEventListener('timeupdate', () => {
             const percent = (audio.currentTime / audio.duration) * 100;
             progressFill.style.width = `${percent}%`;
@@ -1080,6 +1155,28 @@
             const m = Math.floor(seconds / 60);
             const s = Math.floor(seconds % 60);
             return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+
+        // Theme toggle
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        const html = document.documentElement;
+        if (currentTheme === 'light') {
+            html.classList.add('light-mode');
+            document.getElementById('themeIcon').textContent = '\u2600\uFE0F';
+            document.getElementById('themeText').textContent = 'Light';
+        }
+        function toggleTheme() {
+            html.classList.toggle('light-mode');
+            if (html.classList.contains('light-mode')) {
+                document.getElementById('themeIcon').textContent = '\u2600\uFE0F';
+                document.getElementById('themeText').textContent = 'Light';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.getElementById('themeIcon').textContent = '\uD83C\uDF19';
+                document.getElementById('themeText').textContent = 'Dark';
+                localStorage.setItem('theme', 'dark');
+            }
         }
 
         init();
