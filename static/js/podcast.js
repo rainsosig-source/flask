@@ -280,7 +280,7 @@ function log(msg) {
             btn.classList.toggle('active', speedIndex !== 0);
         }
 
-        audio.addEventListener("play", () => {
+        audio.addEventListener("playing", () => {
             audio.playbackRate = speeds[speedIndex];
         });
 
