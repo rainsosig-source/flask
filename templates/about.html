@@ -39,7 +39,7 @@
             <ul>
                 <li><strong>프로젝트명</strong>: AI News Platform (Sosig Shop)</li>
                 <li><strong>목표</strong>: 매일 엄선된 AI/경제 뉴스를 크롤링하여 자동 요약 후 팟캐스트로 제공</li>
-                <li><strong>기술</strong>: Python (Flask + Gunicorn), Nginx, MariaDB, Google Gemini API, Google Cloud TTS, Windows Task
+                <li><strong>기술</strong>: Python (Flask + Gunicorn), Nginx, MariaDB, Google Gemini API, Microsoft Edge TTS, Windows Task
                     Scheduler</li>
                 <li><strong>인프라</strong>: Windows PC (자동 실행), Remote Server (Web/DB)</li>
                 <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중</li>
@@ -85,7 +85,7 @@
                 subgraph External [🌐 External APIs]
                 Crawler <--> |크롤링| Naver[네이버 뉴스]:::blue
                     Crawler <--> |대본 생성| Gemini[Google Gemini]:::blue
-                        Crawler <--> |음성 합성| G_TTS[Google TTS]:::blue
+                        Crawler <--> |음성 합성| Edge_TTS[Edge TTS]:::blue
                             end
 
                             subgraph RemoteServer [🏢 Remote Server 139.150.x.x]
@@ -105,8 +105,8 @@
             <h3>🤖 AI 요약 & 대본 (Gemini)</h3>
             <p>Google Gemini 2.5 Flash 모델이 '상현(선배)'과 '지민(후배)'의 티키타카 대본으로 재구성.</p>
 
-            <h3>🎙️ 고품질 팟캐스트 (Google TTS)</h3>
-            <p>Google Cloud TTS의 WaveNet 음성을 사용하여 실제 라디오 방송 같은 자연스러운 오디오 생성.</p>
+            <h3>🎙️ 고품질 팟캐스트 (Edge TTS)</h3>
+            <p>Microsoft Edge TTS의 Neural 음성(InJoon, SunHi)을 사용하여 실제 라디오 방송 같은 자연스러운 오디오 생성.</p>
 
             <h3>📅 캘린더 UI</h3>
             <p>날짜별, 키워드별로 뉴스를 탐색 가능.</p>
@@ -146,7 +146,7 @@
             <h3>기술적 도전</h3>
             <ul>
                 <li><strong>로컬 실행 최적화</strong>: Windows Task Scheduler 기반 자동화로 Cloud Run의 SFTP 제약 및 네트워크 제한 문제 해결</li>
-                <li><strong>IP 차단 해결</strong>: 무료 TTS 서비스의 IP 차단 문제를 Google Cloud TTS 공식 API 도입으로 해결</li>
+                <li><strong>IP 차단 해결</strong>: 무료 TTS 서비스의 IP 차단 문제를 Microsoft Edge TTS로 전환하여 해결</li>
                 <li><strong>프롬프트 엔지니어링</strong>: 단순 요약을 넘어선 '페르소나(상현/지민)' 기반의 몰입감 있는 대본 생성</li>
                 <li><strong>자동화 파이프라인</strong>: Windows Task Scheduler와 연동하여 사람의 개입 없는 24/7 뉴스 생성 시스템 구축</li>
                 <li><strong>Topic/Keyword 분리</strong>: 검색어(Keyword)와 표시명(Topic)을 분리하여 유연한 카테고리 관리</li>
