@@ -4,10 +4,13 @@ from vuln_blueprint import vuln_bp
 import random
 import json
 import uuid
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for, Response
 import pymysql
+from dbutils.pooled_db import PooledDB
 import os
 import sys
+import logging
+from logging.handlers import RotatingFileHandler
 from collections import Counter
 from datetime import datetime
 
@@ -17,6 +20,23 @@ app.register_blueprint(route_bp)
 app.register_blueprint(vuln_bp)
 app.register_blueprint(client_bp, url_prefix="/api/client")
 
+
+# === Logging Setup ===
+if not os.path.exists('/var/log/flask-app'):
+    os.makedirs('/var/log/flask-app')
+
+_file_handler = RotatingFileHandler(
+    '/var/log/flask-app/app.log',
+    maxBytes=10 * 1024 * 1024,
+    backupCount=5
+)
+_file_handler.setFormatter(logging.Formatter(
+    '%(asctime)s %(levelname)s [%(funcName)s] %(message)s'
+))
+_file_handler.setLevel(logging.INFO)
+app.logger.addHandler(_file_handler)
+app.logger.setLevel(logging.INFO)
+
 # Database Configuration (from environment variables)
 DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_USER = os.environ.get('DB_USER', 'root')
@@ -24,15 +44,23 @@ DB_PASS = os.environ.get('DB_PASS', '')
 DB_NAME = os.environ.get('DB_NAME', 'podcast')
 
 
+# Connection Pool
+db_pool = PooledDB(
+    creator=pymysql,
+    maxconnections=10,
+    mincached=2,
+    maxcached=5,
+    host=DB_HOST,
+    user=DB_USER,
+    password=DB_PASS,
+    db=DB_NAME,
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+
+
 def get_db_connection():
-    return pymysql.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASS,
-        db=DB_NAME,
-        charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
-    )
+    return db_pool.connection()
 
 # --- Routes ---
 
@@ -52,7 +80,8 @@ def visit_count():
                 result = cursor.fetchone()
                 return jsonify({"count": result['count'] if result else 0})
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            app.logger.error(f"Error: {e}")
+            return jsonify({"error": "Internal server error"}), 500
         finally:
             conn.close()
     session[visit_key] = True
@@ -65,7 +94,8 @@ def visit_count():
             result = cursor.fetchone()
             return jsonify({"count": result['count']})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -79,7 +109,8 @@ def get_visit_count():
             result = cursor.fetchone()
             return jsonify({"count": result['count'] if result else 0})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -128,7 +159,8 @@ def api_broadcast():
 
         return jsonify({"episodes": episodes, "total": total, "page": page, "per_page": per_page})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -147,7 +179,8 @@ def api_broadcast_stats():
             sources = cursor.fetchone()['sources']
         return jsonify({"total": total, "today": today, "topics": topics, "sources": sources})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -189,7 +222,7 @@ def get_keywords():
             cursor.execute(sql)
             keywords = cursor.fetchall()
     except Exception as e:
-        print(f"DB Error: {e}")
+        app.logger.error(f"DB Error: {e}")
     finally:
         conn.close()
     return jsonify(keywords)
@@ -217,7 +250,8 @@ def add_keyword():
         conn.commit()
         return jsonify({"message": "Keyword added"}), 201
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -244,7 +278,8 @@ def update_keyword(id):
         conn.commit()
         return jsonify({"message": "Keyword updated"}), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -260,7 +295,8 @@ def delete_keyword(id):
         conn.commit()
         return jsonify({"message": "Keyword deleted"}), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
     finally:
         conn.close()
 
@@ -292,7 +328,7 @@ def calendar_data():
                 data[date] = count
                 
     except Exception as e:
-        print(f"DB Error: {e}")
+        app.logger.error(f"DB Error: {e}")
     finally:
         conn.close()
     return jsonify(data)
@@ -336,7 +372,7 @@ def get_episodes():
                 row['created_at'] = row['created_at'].strftime('%Y-%m-%d %H:%M:%S')
                 episodes.append(row)
     except Exception as e:
-        print(f"DB Error: {e}")
+        app.logger.error(f"DB Error: {e}")
     finally:
         conn.close()
     return jsonify(episodes)
@@ -377,7 +413,8 @@ def request_mfa_code():
         return jsonify({'status': 'sent', 'session_token': session_token})
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f'Error: {e}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/auth/verify-code', methods=['POST'])
 def verify_mfa_code():
@@ -414,7 +451,8 @@ def verify_mfa_code():
             return jsonify({'status': 'fail', 'message': 'Incorrect sequence'})
             
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f'Error: {e}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 
@@ -453,7 +491,8 @@ def generate_challenge():
         finally:
             conn.close()
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f'Error: {e}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/challenge/current', methods=['GET'])
 def get_current_challenge():
@@ -473,7 +512,8 @@ def get_current_challenge():
         finally:
             conn.close()
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f'Error: {e}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/challenge/verify', methods=['POST'])
 def verify_challenge():
@@ -504,7 +544,8 @@ def verify_challenge():
         finally:
             conn.close()
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f'Error: {e}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/manager/settings')
 def manager_settings():
@@ -515,6 +556,34 @@ def manager_settings():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+# === Error Handlers ===
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html', code=404, message='Page Not Found'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    app.logger.error(f'500 error: {e}')
+    return render_template('error.html', code=500, message='Internal Server Error'), 500
+
+
+# === SEO Routes ===
+@app.route('/robots.txt')
+def robots_txt():
+    txt = "User-agent: *\nAllow: /\nAllow: /podcast\nAllow: /broadcast\nAllow: /about\nDisallow: /manager\nDisallow: /api/\n\nSitemap: https://sosig.shop/sitemap.xml\n"
+    return Response(txt, mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    pages = ['/', '/podcast', '/broadcast', '/about', '/route', '/vuln']
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for page in pages:
+        xml += f'  <url><loc>https://sosig.shop{page}</loc></url>\n'
+    xml += '</urlset>'
+    return Response(xml, mimetype='application/xml')
 
 if __name__ == '__main__':
     sys.stdout.reconfigure(line_buffering=True)

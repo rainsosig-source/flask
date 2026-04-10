@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ code }} - AI 뉴스 플랫폼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent-cyan: #4cc9f0;
+            --accent-amber: #ff9e00;
+        }
+        html.light-mode {
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text-main: #212529;
+            --text-muted: #6c757d;
+        }
+        * { transition: background-color 0.3s ease, color 0.3s ease; }
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: "Outfit", sans-serif;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+        }
+        .error-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 60px 50px;
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+        }
+        .error-code {
+            font-size: 6rem; font-weight: 700; margin: 0;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-amber));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .error-message { font-size: 1.3rem; color: var(--text-muted); margin: 10px 0 30px; }
+        .home-btn {
+            display: inline-block; padding: 12px 30px;
+            background: var(--accent-cyan); color: #000;
+            text-decoration: none; border-radius: 50px;
+            font-weight: 600; font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .home-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(76,201,240,0.4); }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <p class="error-code">{{ code }}</p>
+        <p class="error-message">{{ message }}</p>
+        <a href="/" class="home-btn">홈으로 돌아가기</a>
+    </div>
+    <script>
+        if (localStorage.getItem("theme") === "light") document.documentElement.classList.add("light-mode");
+    </script>
+</body>
+</html>
