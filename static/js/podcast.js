@@ -280,6 +280,10 @@ function log(msg) {
             btn.classList.toggle('active', speedIndex !== 0);
         }
 
+        audio.addEventListener("play", () => {
+            audio.playbackRate = speeds[speedIndex];
+        });
+
         audio.addEventListener('timeupdate', () => {
             const percent = (audio.currentTime / audio.duration) * 100;
             progressFill.style.width = `${percent}%`;
