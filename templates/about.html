@@ -39,7 +39,7 @@
             <ul>
                 <li><strong>프로젝트명</strong>: AI News Platform (Sosig Shop)</li>
                 <li><strong>목표</strong>: 매일 엄선된 AI/경제 뉴스를 크롤링하여 자동 요약 후 팟캐스트로 제공</li>
-                <li><strong>기술</strong>: Python (Flask), MariaDB, Google Gemini API, Google Cloud TTS, Windows Task
+                <li><strong>기술</strong>: Python (Flask + Gunicorn), Nginx, MariaDB, Google Gemini API, Google Cloud TTS, Windows Task
                     Scheduler</li>
                 <li><strong>인프라</strong>: Windows PC (자동 실행), Remote Server (Web/DB)</li>
                 <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중</li>
@@ -116,6 +116,15 @@
 
             <h3>🔒 보안 게이트</h3>
             <p>3D 지구본 인터랙션 챌린지로 관리자 페이지 보안 강화.</p>
+
+            <h3>🌐 네트워크 경로 추적</h3>
+            <p>TCP/UDP traceroute 결과를 Three.js 기반 3D 지구본 위에 실시간 시각화.</p>
+
+            <h3>🛡️ CVE 취약점 모니터링</h3>
+            <p>주요 소프트웨어별 보안 취약점 현황과 최신 CVE를 자동 수집하여 대시보드로 제공.</p>
+
+            <h3>📋 방영록</h3>
+            <p>전체 에피소드를 검색, 토픽별 필터링, 인라인 재생 기능을 제공하는 아카이브 페이지.</p>
         </div>
 
         <div class="section-card">
@@ -139,7 +148,7 @@
                 <li><strong>로컬 실행 최적화</strong>: Windows Task Scheduler 기반 자동화로 Cloud Run의 SFTP 제약 및 네트워크 제한 문제 해결</li>
                 <li><strong>IP 차단 해결</strong>: 무료 TTS 서비스의 IP 차단 문제를 Google Cloud TTS 공식 API 도입으로 해결</li>
                 <li><strong>프롬프트 엔지니어링</strong>: 단순 요약을 넘어선 '페르소나(상현/지민)' 기반의 몰입감 있는 대본 생성</li>
-                <li><strong>자동화 파이프라인</strong>: Cloud Scheduler와 연동하여 사람의 개입 없는 24/7 뉴스 생성 시스템 구축</li>
+                <li><strong>자동화 파이프라인</strong>: Windows Task Scheduler와 연동하여 사람의 개입 없는 24/7 뉴스 생성 시스템 구축</li>
                 <li><strong>Topic/Keyword 분리</strong>: 검색어(Keyword)와 표시명(Topic)을 분리하여 유연한 카테고리 관리</li>
                 <li><strong>API Rate Limit 보호</strong>: Gemini API 호출 후 7초 대기 및 실패 시 30초 재시도로 429 오류 방지</li>
                 <li><strong>콘텐츠 추출 개선</strong>: 네이버 뉴스 링크 우선 사용으로 본문 추출 성공률 향상</li>
