@@ -241,6 +241,7 @@ function log(msg) {
 
             const path = '/static/' + (ep.static_path.startsWith('/') ? ep.static_path.substring(1) : ep.static_path);
             audio.src = path;
+            audio.playbackRate = speeds[speedIndex];
             audio.play();
 
             playerTitle.innerText = ep.title;
