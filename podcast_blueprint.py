@@ -11,9 +11,11 @@ podcast_bp = Blueprint('podcast', __name__)
 
 
 def _static_path(mp3_path):
-    """mp3_path에서 static 상대경로 추출"""
+    """mp3_path를 static 상대경로로 반환 (신규: 상대경로 / 구: /.../static/ 접두어 제거)."""
+    if not mp3_path:
+        return mp3_path
     if '/static/' in mp3_path:
-        return mp3_path.split('/static/')[1]
+        return mp3_path.split('/static/', 1)[1]
     return mp3_path
 
 
@@ -282,7 +284,8 @@ def get_episodes():
     episodes = []
     try:
         with conn.cursor() as cursor:
-            sql = "SELECT press, title, link, mp3_path, created_at FROM episodes WHERE 1=1"
+            sql = ("SELECT press, title, link, mp3_path, duration_sec, summary, created_at "
+                   "FROM episodes WHERE 1=1")
             params = []
             if date_str:
                 sql += " AND DATE(created_at) = %s"
