@@ -17,9 +17,13 @@ TCP Traceroute - TCP 기반 네트워크 경로 추적 도구
 import socket
 import struct
 import sys
+import os
+import re
 import time
 import select
 import json
+import sqlite3
+import threading
 import urllib.request
 import argparse
 import ipaddress
@@ -41,11 +45,74 @@ DEFAULT_PROBES = 3  # 각 홉당 프로브 수
 UDP_BASE_PORT = 33434  # UDP traceroute 시작 포트
 GEOLOCATION_API_URL = "http://ip-api.com/json/{ip}"
 GEOLOCATION_TIMEOUT = 1.0
+GEOIP_CACHE_DB = os.environ.get(
+    "TRACEROUTE_GEOIP_CACHE",
+    "/opt/flask-app/cache/geoip.db",
+)
+GEOIP_CACHE_TTL = 30 * 86400  # 30일
 
 # 프로토콜 모드
 PROTOCOL_TCP = "tcp"
 PROTOCOL_UDP = "udp"
 PROTOCOL_BOTH = "both"  # TCP 실패 시 UDP 폴백
+
+
+# 백본 라우터 호스트명에 자주 등장하는 IATA/도시 코드 → (위도, 경도)
+# DB 미스 시 호스트명 토큰에서 위치를 보정하기 위한 힌트
+IATA_HINTS: Dict[str, Tuple[float, float]] = {
+    # Asia
+    "icn": (37.4602, 126.4407), "gmp": (37.5583, 126.7906),
+    "nrt": (35.7647, 140.3863), "hnd": (35.5494, 139.7798),
+    "kix": (34.4347, 135.2440), "itm": (34.7855, 135.4382),
+    "hkg": (22.3080, 113.9185), "tpe": (25.0777, 121.2328),
+    "sin": (1.3644, 103.9915), "kul": (2.7456, 101.7099),
+    "bkk": (13.6900, 100.7501), "cgk": (-6.1256, 106.6559),
+    "del": (28.5562, 77.1000), "bom": (19.0896, 72.8656),
+    "maa": (12.9941, 80.1709), "blr": (13.1986, 77.7066),
+    # Middle East
+    "dxb": (25.2532, 55.3657), "auh": (24.4330, 54.6511),
+    "doh": (25.2731, 51.6080),
+    # Europe
+    "lhr": (51.4700, -0.4543), "lcy": (51.5048, 0.0495),
+    "ams": (52.3105, 4.7683), "cdg": (49.0097, 2.5479),
+    "fra": (50.0379, 8.5622), "muc": (48.3538, 11.7861),
+    "zrh": (47.4647, 8.5492), "vie": (48.1102, 16.5697),
+    "mad": (40.4983, -3.5676), "bcn": (41.2974, 2.0833),
+    "fco": (41.8003, 12.2389), "mxp": (45.6306, 8.7281),
+    "arn": (59.6519, 17.9186), "cph": (55.6180, 12.6508),
+    "hel": (60.3172, 24.9633), "osl": (60.1976, 11.1004),
+    "dub": (53.4264, -6.2499), "waw": (52.1657, 20.9671),
+    "prg": (50.1008, 14.2632), "buh": (44.5711, 26.0850),
+    "ist": (41.2753, 28.7519), "svo": (55.9726, 37.4146),
+    # North America
+    "jfk": (40.6413, -73.7781), "lga": (40.7769, -73.8740),
+    "ewr": (40.6895, -74.1745),
+    "iad": (38.9531, -77.4565), "dca": (38.8512, -77.0402),
+    "bos": (42.3656, -71.0096), "phl": (39.8744, -75.2424),
+    "atl": (33.6407, -84.4277), "mia": (25.7959, -80.2870),
+    "ord": (41.9742, -87.9073), "mdw": (41.7868, -87.7522),
+    "dfw": (32.8998, -97.0403), "iah": (29.9902, -95.3368),
+    "den": (39.8561, -104.6737), "phx": (33.4373, -112.0078),
+    "lax": (33.9416, -118.4085), "sfo": (37.6213, -122.3790),
+    "sjc": (37.3639, -121.9289), "sea": (47.4502, -122.3088),
+    "yyz": (43.6777, -79.6248), "yul": (45.4706, -73.7408),
+    "yvr": (49.1967, -123.1815),
+    # South America
+    "gru": (-23.4356, -46.4731), "gig": (-22.8099, -43.2505),
+    "scl": (-33.3930, -70.7858), "bog": (4.7016, -74.1469),
+    "eze": (-34.8222, -58.5358),
+    # Africa
+    "jnb": (-26.1392, 28.2460), "cpt": (-33.9690, 18.6020),
+    "cai": (30.1219, 31.4056), "los": (6.5774, 3.3211),
+    # Oceania
+    "syd": (-33.9399, 151.1753), "mel": (-37.6733, 144.8430),
+    "akl": (-37.0082, 174.7850),
+}
+
+_IATA_TOKEN_RE = re.compile(r"(?:^|[^a-z])([a-z]{3})\d*(?=[^a-z]|$)", re.IGNORECASE)
+
+# SQLite 연결을 스레드별로 분리 (sqlite3는 같은 conn을 다중 스레드에서 쓰면 위험)
+_db_local = threading.local()
 
 
 # ============================================================================
@@ -127,24 +194,16 @@ def is_private_ip(ip: str) -> bool:
         return False
 
 
+class TracerouteError(RuntimeError):
+    """Traceroute 실행 중 발생한 회복 불가 오류."""
+
+
 def get_target_ip(host: str) -> str:
-    """
-    호스트명을 IP 주소로 변환합니다.
-    
-    Args:
-        host: 변환할 호스트명 또는 IP 주소
-        
-    Returns:
-        IP 주소 문자열
-        
-    Raises:
-        SystemExit: DNS 조회 실패 시
-    """
+    """호스트명을 IP 주소로 변환. 실패 시 TracerouteError."""
     try:
         return socket.gethostbyname(host)
     except socket.gaierror as e:
-        print(f"오류: 호스트 '{host}'를 찾을 수 없습니다. ({e})")
-        sys.exit(1)
+        raise TracerouteError(f"호스트 '{host}'를 찾을 수 없습니다. ({e})") from e
 
 
 def get_local_ip(target_ip: str) -> str:
@@ -184,20 +243,72 @@ def get_hostname(ip: str) -> str:
         return ip
 
 
-@lru_cache(maxsize=256)
-def get_geolocation(ip: str) -> Tuple[Optional[float], Optional[float], Optional[str]]:
-    """
-    IP 주소의 지리적 위치를 조회합니다. (캐싱 적용)
-    
-    Args:
-        ip: 조회할 IP 주소
-        
-    Returns:
-        (위도, 경도, 국가) 튜플. 조회 실패 시 (None, None, None)
-    """
-    if is_private_ip(ip):
-        return None, None, None
-    
+def _get_cache_conn() -> Optional[sqlite3.Connection]:
+    """스레드 로컬 SQLite 연결을 반환. 디렉터리/테이블 없으면 생성."""
+    conn = getattr(_db_local, "conn", None)
+    if conn is not None:
+        return conn
+    try:
+        os.makedirs(os.path.dirname(GEOIP_CACHE_DB), exist_ok=True)
+        conn = sqlite3.connect(GEOIP_CACHE_DB, timeout=2.0, isolation_level=None)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS geoip (
+                ip         TEXT PRIMARY KEY,
+                lat        REAL,
+                lon        REAL,
+                country    TEXT,
+                cached_at  INTEGER NOT NULL
+            )
+        """)
+        conn.execute("PRAGMA journal_mode=WAL")
+        _db_local.conn = conn
+        return conn
+    except (OSError, sqlite3.Error):
+        # 캐시는 옵셔널. 실패해도 계속 동작.
+        _db_local.conn = None
+        return None
+
+
+def _cache_get(ip: str) -> Optional[Tuple[Optional[float], Optional[float], Optional[str]]]:
+    conn = _get_cache_conn()
+    if conn is None:
+        return None
+    try:
+        cutoff = int(time.time()) - GEOIP_CACHE_TTL
+        row = conn.execute(
+            "SELECT lat, lon, country FROM geoip WHERE ip=? AND cached_at>?",
+            (ip, cutoff),
+        ).fetchone()
+        return (row[0], row[1], row[2]) if row else None
+    except sqlite3.Error:
+        return None
+
+
+def _cache_put(ip: str, lat: Optional[float], lon: Optional[float], country: Optional[str]) -> None:
+    conn = _get_cache_conn()
+    if conn is None:
+        return
+    try:
+        conn.execute(
+            "INSERT OR REPLACE INTO geoip(ip, lat, lon, country, cached_at) VALUES (?,?,?,?,?)",
+            (ip, lat, lon, country, int(time.time())),
+        )
+    except sqlite3.Error:
+        pass
+
+
+def hostname_iata_hint(hostname: Optional[str]) -> Optional[Tuple[float, float]]:
+    """호스트명에서 IATA 3글자 코드를 찾아 (위도, 경도)를 반환. 없으면 None."""
+    if not hostname:
+        return None
+    for match in _IATA_TOKEN_RE.finditer(hostname):
+        code = match.group(1).lower()
+        if code in IATA_HINTS:
+            return IATA_HINTS[code]
+    return None
+
+
+def _fetch_geolocation_remote(ip: str) -> Tuple[Optional[float], Optional[float], Optional[str]]:
     try:
         url = GEOLOCATION_API_URL.format(ip=ip)
         request = urllib.request.Request(
@@ -208,10 +319,38 @@ def get_geolocation(ip: str) -> Tuple[Optional[float], Optional[float], Optional
             data = json.loads(response.read().decode())
             if data.get('status') == 'success':
                 return data.get('lat'), data.get('lon'), data.get('country')
-    except (urllib.error.URLError, json.JSONDecodeError, TimeoutError):
+    except (urllib.error.URLError, json.JSONDecodeError, TimeoutError, OSError):
         pass
-    
     return None, None, None
+
+
+@lru_cache(maxsize=512)
+def get_geolocation(
+    ip: str,
+    hostname: Optional[str] = None,
+) -> Tuple[Optional[float], Optional[float], Optional[str]]:
+    """IP 위경도/국가 조회. SQLite 영구 캐시 + IATA 호스트명 힌트 + 원격 호출 순."""
+    if is_private_ip(ip):
+        return None, None, None
+
+    cached = _cache_get(ip)
+    if cached is not None:
+        lat, lon, country = cached
+        # 캐시에 위경도가 비어있고 호스트명 힌트가 있으면 보정해서 사용
+        if (lat is None or lon is None) and hostname:
+            hint = hostname_iata_hint(hostname)
+            if hint is not None:
+                return hint[0], hint[1], country
+        return lat, lon, country
+
+    lat, lon, country = _fetch_geolocation_remote(ip)
+    # 원격이 위경도 비웠으면 호스트명에서 IATA 힌트로 보강
+    if (lat is None or lon is None) and hostname:
+        hint = hostname_iata_hint(hostname)
+        if hint is not None:
+            lat, lon = hint[0], hint[1]
+    _cache_put(ip, lat, lon, country)
+    return lat, lon, country
 
 
 def get_connection_refused_errno() -> int:
@@ -272,21 +411,16 @@ class ReceiverSocket:
             
             self.socket.setblocking(False)
             
-        except PermissionError:
-            self._print_permission_error()
-            sys.exit(1)
+        except PermissionError as e:
+            raise TracerouteError(self._permission_error_msg()) from e
         except OSError as e:
-            print(f"오류: 수신 소켓 생성 실패 - {e}")
-            sys.exit(1)
-    
-    def _print_permission_error(self):
-        """권한 오류 메시지를 출력합니다."""
-        print("\n오류: Raw 소켓 생성에 관리자 권한이 필요합니다.")
+            raise TracerouteError(f"수신 소켓 생성 실패 - {e}") from e
+
+    def _permission_error_msg(self) -> str:
         if self.is_windows:
-            print("PowerShell을 관리자 권한으로 실행하세요.")
-            print("(PowerShell 우클릭 -> 관리자 권한으로 실행)\n")
-        else:
-            print("sudo를 사용하여 스크립트를 실행하세요.\n")
+            return ("Raw 소켓 생성에 관리자 권한이 필요합니다. "
+                    "PowerShell을 관리자 권한으로 실행하세요.")
+        return "Raw 소켓 생성에 관리자 권한이 필요합니다. sudo로 실행하세요."
     
     def receive(self, buffer_size: int = 512) -> Tuple[bytes, Tuple[str, int]]:
         """
@@ -488,7 +622,7 @@ class Traceroute:
     def _log(self, message: str):
         """상세 모드에서 메시지를 출력합니다."""
         if self.verbose:
-            print(f"[DEBUG] {message}")
+            print(f"[DEBUG] {message}", file=sys.stderr)
     
     def _create_sender_socket(self, ttl: int) -> Optional[socket.socket]:
         """
@@ -527,15 +661,14 @@ class Traceroute:
             rtt = (time.time() - start_time) * 1000
             
             if so_error == 0:
-                # 연결 성공
-                lat, lon, country = None, None, None
+                hostname = get_hostname(self.target_ip)
+                lat, lon, country = (None, None, None)
                 if self.show_location:
-                    lat, lon, country = get_geolocation(self.target_ip)
-                
+                    lat, lon, country = get_geolocation(self.target_ip, hostname)
                 return HopResult(
-                    ttl=0,  # 호출 시 설정
+                    ttl=0,
                     ip_address=self.target_ip,
-                    hostname=get_hostname(self.target_ip),
+                    hostname=hostname,
                     rtt_ms=round(rtt, 2),
                     latitude=lat,
                     longitude=lon,
@@ -543,15 +676,14 @@ class Traceroute:
                     status="open"
                 )
             elif so_error == self.connection_refused_errno:
-                # 연결 거부 (포트 닫힘)
-                lat, lon, country = None, None, None
+                hostname = get_hostname(self.target_ip)
+                lat, lon, country = (None, None, None)
                 if self.show_location:
-                    lat, lon, country = get_geolocation(self.target_ip)
-                
+                    lat, lon, country = get_geolocation(self.target_ip, hostname)
                 return HopResult(
                     ttl=0,
                     ip_address=self.target_ip,
-                    hostname=get_hostname(self.target_ip),
+                    hostname=hostname,
                     rtt_ms=round(rtt, 2),
                     latitude=lat,
                     longitude=lon,
@@ -590,19 +722,20 @@ class Traceroute:
             icmp_type, _ = result
             rtt = (recv_time - start_time) * 1000
             sender_ip = addr[0]
-            
-            lat, lon, country = None, None, None
+
+            hostname = get_hostname(sender_ip)
+            lat, lon, country = (None, None, None)
             if self.show_location:
-                lat, lon, country = get_geolocation(sender_ip)
-            
+                lat, lon, country = get_geolocation(sender_ip, hostname)
+
             status = "intermediate"
             if icmp_type == PacketParser.ICMP_DEST_UNREACHABLE:
                 status = "unreachable"
-            
+
             return HopResult(
                 ttl=0,
                 ip_address=sender_ip,
-                hostname=get_hostname(sender_ip),
+                hostname=hostname,
                 rtt_ms=round(rtt, 2),
                 latitude=lat,
                 longitude=lon,
@@ -734,22 +867,22 @@ class Traceroute:
                                            PacketParser.ICMP_DEST_UNREACHABLE):
                                 rtt = (recv_time - start_time) * 1000
                                 sender_ip = addr[0]
-                                
-                                lat, lon, country = None, None, None
+
+                                hostname = get_hostname(sender_ip)
+                                lat, lon, country = (None, None, None)
                                 if self.show_location:
-                                    lat, lon, country = get_geolocation(sender_ip)
-                                
+                                    lat, lon, country = get_geolocation(sender_ip, hostname)
+
                                 status = "intermediate"
-                                # ICMP Port Unreachable = 목적지 도달
                                 if icmp_type == 3 and icmp_code == 3:
                                     status = "closed"
                                 elif icmp_type == 3:
                                     status = "unreachable"
-                                
+
                                 return HopResult(
                                     ttl=ttl,
                                     ip_address=sender_ip,
-                                    hostname=get_hostname(sender_ip),
+                                    hostname=hostname,
                                     rtt_ms=round(rtt, 2),
                                     latitude=lat,
                                     longitude=lon,
@@ -823,38 +956,71 @@ class Traceroute:
         else:
             return HopResult(ttl=ttl, status="timeout", probes=probe_results)
     
+    def _probe_hop_owns_socket(self, ttl: int) -> HopResult:
+        """병렬 실행을 위해 자체 ReceiverSocket을 생성하고 한 홉을 처리."""
+        try:
+            with ReceiverSocket(self.local_ip) as recv_socket:
+                return self._probe_hop_with_retries(ttl, recv_socket)
+        except TracerouteError:
+            # 권한 등 회복 불가 — 상위에서 처리하도록 다시 raise
+            raise
+        except Exception as e:
+            self._log(f"hop {ttl} 처리 실패: {e}")
+            return HopResult(ttl=ttl, status="timeout", probes=[])
+
     def run(self) -> TracerouteResult:
-        """
-        Traceroute를 실행합니다.
-        
-        Returns:
-            TracerouteResult 객체
-        """
-        # 프로토콜 정보 출력
+        """Traceroute 실행. 모든 홉을 병렬로 프로빙하고 TTL 순으로 정렬."""
         protocol_info = self.protocol.upper()
         if self.protocol == PROTOCOL_BOTH:
             protocol_info = "TCP+UDP"
-        
+
         fallback_info = ""
         if self.fallback_ports:
             fallback_info = f", Fallback ports: {self.fallback_ports}"
-        
-        print(f"Traceroute to {self.target_host} ({self.target_ip})")
-        print(f"Protocol: {protocol_info}, Port: {self.port}, Max hops: {self.max_hops}, Probes: {self.probes}{fallback_info}\n")
-        
+
+        print(f"Traceroute to {self.target_host} ({self.target_ip})", file=sys.stderr)
+        print(
+            f"Protocol: {protocol_info}, Port: {self.port}, "
+            f"Max hops: {self.max_hops}, Probes: {self.probes}{fallback_info}\n",
+            file=sys.stderr,
+        )
         self._log(f"로컬 IP: {self.local_ip}")
-        
-        with ReceiverSocket(self.local_ip) as recv_socket:
-            for ttl in range(1, self.max_hops + 1):
-                hop_result = self._probe_hop_with_retries(ttl, recv_socket)
-                self._print_hop(hop_result)
-                self.result.hops.append(hop_result)
-                
-                # 최종 목적지 도달 확인
-                if hop_result.status in ("open", "closed", "unreachable"):
-                    if hop_result.ip_address == self.target_ip:
-                        break
-        
+
+        # 권한 사전 검증 (병렬 워커 띄우기 전 빠른 실패)
+        try:
+            with ReceiverSocket(self.local_ip):
+                pass
+        except TracerouteError:
+            raise
+
+        # max_hops 만큼 병렬 프로빙. 워커는 홉 수 + 약간의 헤드룸으로 제한.
+        max_workers = min(self.max_hops, 16)
+        hops_by_ttl: Dict[int, HopResult] = {}
+        with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="hop") as pool:
+            futures = {pool.submit(self._probe_hop_owns_socket, ttl): ttl
+                       for ttl in range(1, self.max_hops + 1)}
+            for fut in as_completed(futures):
+                ttl = futures[fut]
+                try:
+                    hops_by_ttl[ttl] = fut.result()
+                except TracerouteError:
+                    # 한 워커가 회복 불가 오류면 나머지는 결과 없이 종료
+                    raise
+
+        # TTL 순서로 정렬하면서 목적지 도달 후 추가 홉은 잘라냄
+        truncate_at: Optional[int] = None
+        for ttl in range(1, self.max_hops + 1):
+            hop = hops_by_ttl.get(ttl, HopResult(ttl=ttl, status="timeout", probes=[]))
+            self._print_hop(hop)
+            self.result.hops.append(hop)
+            if (hop.status in ("open", "closed", "unreachable")
+                    and hop.ip_address == self.target_ip):
+                truncate_at = ttl
+                break
+
+        if truncate_at is not None:
+            self.result.hops = self.result.hops[:truncate_at]
+
         return self.result
     
     def _print_hop(self, hop: HopResult):
@@ -878,7 +1044,7 @@ class Traceroute:
         
         # 모든 프로브가 타임아웃인 경우
         if hop.status == "timeout":
-            print(f"{hop.ttl}\t{rtt_str}\tRequest timed out.")
+            print(f"{hop.ttl}\t{rtt_str}\tRequest timed out.", file=sys.stderr)
             return
         
         # 위치 정보 문자열
@@ -901,7 +1067,7 @@ class Traceroute:
         else:
             host_str = hop.ip_address
         
-        print(f"{hop.ttl}\t{rtt_str}\t{host_str}{location_str}{status_str}")
+        print(f"{hop.ttl}\t{rtt_str}\t{host_str}{location_str}{status_str}", file=sys.stderr)
 
 
 # ============================================================================
@@ -984,36 +1150,41 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def main():
-    """메인 진입점"""
+    """메인 진입점. --json 모드에서 stdout은 JSON만, 사람용 표는 stderr."""
     args = parse_arguments()
-    
-    # 폴백 포트 파싱
-    fallback_ports = []
+
+    fallback_ports: List[int] = []
     if args.fallback_ports:
         try:
             fallback_ports = [int(p.strip()) for p in args.fallback_ports.split(",")]
         except ValueError:
-            print("오류: 폴백 포트는 정수여야 합니다 (예: 443,8080)")
+            print("오류: 폴백 포트는 정수여야 합니다 (예: 443,8080)", file=sys.stderr)
             sys.exit(1)
-    
-    traceroute = Traceroute(
-        target_host=args.target,
-        port=args.port,
-        max_hops=args.max_hops,
-        timeout=args.timeout,
-        probes=args.probes,
-        protocol=args.protocol,
-        fallback_ports=fallback_ports,
-        verbose=args.verbose,
-        show_location=not args.no_location
-    )
-    
-    result = traceroute.run()
-    
+
+    try:
+        traceroute = Traceroute(
+            target_host=args.target,
+            port=args.port,
+            max_hops=args.max_hops,
+            timeout=args.timeout,
+            probes=args.probes,
+            protocol=args.protocol,
+            fallback_ports=fallback_ports,
+            verbose=args.verbose,
+            show_location=not args.no_location,
+        )
+        result = traceroute.run()
+    except TracerouteError as e:
+        if args.json:
+            error_doc = {"error": str(e), "target_host": args.target, "hops": []}
+            print(json.dumps(error_doc, ensure_ascii=False))
+        else:
+            print(f"오류: {e}", file=sys.stderr)
+        sys.exit(2)
+
     if args.json:
-        print("\n" + "=" * 60)
-        print("JSON 결과:")
-        print(result.to_json())
+        # stdout은 JSON 한 줄만 — 호출자(blueprint)가 안전하게 json.loads 가능
+        print(result.to_json(indent=None))
 
 
 if __name__ == "__main__":

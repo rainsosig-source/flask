@@ -10,3 +10,4 @@ static/countries.geojson
 cookies.txt
 *.log
 static/podcast
+cache/

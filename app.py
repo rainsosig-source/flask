@@ -26,7 +26,7 @@ app.logger.setLevel(logging.INFO)
 # === Blueprints ===
 from podcast_blueprint import podcast_bp
 from auth_blueprint import auth_bp
-from route_blueprint import route_bp
+from route_blueprint import route_bp, limiter as route_limiter
 from vuln_blueprint import vuln_bp
 from client_api import client_bp
 
@@ -35,6 +35,9 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(route_bp)
 app.register_blueprint(vuln_bp)
 app.register_blueprint(client_bp, url_prefix="/api/client")
+
+# /route/trace에 IP당 rate-limit (분 5건, 시간 30건)
+route_limiter.init_app(app)
 
 
 # === Pages ===

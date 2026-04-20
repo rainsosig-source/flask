@@ -678,6 +678,18 @@
     </div>
 
     <script>
+        // 신뢰할 수 없는 문자열을 HTML에 안전하게 끼워 넣기 위한 이스케이프 헬퍼.
+        // 사용자 입력(t.host)과 서버 응답(hop.hostname/ip/country, data.error 등)에 항상 적용한다.
+        function escapeHtml(s) {
+            if (s === null || s === undefined) return '';
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         let scene, camera, renderer, globe, pathLines = [], hopMarkers = [], controls;
         let cloudsMesh = null, sunLight = null, ambientLight = null;
         let cloudsEnabled = true, sunEnabled = true;
@@ -1163,13 +1175,19 @@
             loadingDiv.className = 'loading-msg';
             resultsDiv.appendChild(loadingDiv);
 
-            for (var i = 0; i < targets.length; i++) {
-                var t = targets[i];
-                loadingDiv.textContent = t.host + ' 추적 중... (' + (i + 1) + '/' + targets.length + ')';
-                try {
-                    var controller = new AbortController();
-                    var timeoutId = setTimeout(function () { controller.abort(); }, 90000); // 90초 타임아웃
+            // 멀티타겟 동시 실행 (서버 세마포어가 동시 2건으로 제한하므로 클라도 2로 맞춤)
+            var concurrency = Math.min(2, targets.length);
+            var done = 0;
+            function refreshLoading() {
+                loadingDiv.textContent = '추적 중... (' + done + '/' + targets.length + ')';
+            }
+            refreshLoading();
 
+            async function runOne(t) {
+                var controller = new AbortController();
+                // 백엔드 60s + 약간의 여유 (네트워크 왕복).
+                var timeoutId = setTimeout(function () { controller.abort(); }, 65000);
+                try {
                     var res = await fetch('/route/trace', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1177,7 +1195,10 @@
                         signal: controller.signal
                     });
                     clearTimeout(timeoutId);
-
+                    if (res.status === 429) {
+                        showError(t.host + ': 요청이 너무 잦습니다. 잠시 후 다시 시도해주세요.');
+                        return;
+                    }
                     if (!res.ok) {
                         throw new Error('서버 응답 오류: ' + res.status);
                     }
@@ -1185,22 +1206,36 @@
                     if (data.success) {
                         displayResults(data, t.color, pre);
                         drawPathColored(data.hops, t.color);
-                        // RTT 데이터 수집
                         addRttData(data.hops, t.host, t.color);
-                        // 결과 저장
                         traceResults.push({ target: t.host, color: t.color, data: data });
                     } else {
                         showError(t.host + ': ' + (data.error || '추적 실패'));
                     }
                 } catch (e) {
+                    clearTimeout(timeoutId);
                     console.error(t.host, e);
                     if (e.name === 'AbortError') {
-                        showError(t.host + ': 요청 시간 초과 (90초)');
+                        showError(t.host + ': 요청 시간 초과 (65초)');
                     } else {
                         showError(t.host + ': ' + (e.message || '네트워크 오류'));
                     }
+                } finally {
+                    done++;
+                    refreshLoading();
                 }
             }
+
+            // 단순 N-병렬 풀: idx를 공유 카운터로 사용
+            var idx = 0;
+            async function worker() {
+                while (idx < targets.length) {
+                    var myIdx = idx++;
+                    await runOne(targets[myIdx]);
+                }
+            }
+            var workers = [];
+            for (var w = 0; w < concurrency; w++) workers.push(worker());
+            await Promise.all(workers);
             // RTT 그래프 업데이트
             updateRttChart();
             // 내보내기 버튼 표시
@@ -1217,7 +1252,7 @@
         function showError(message) {
             var errorDiv = document.createElement('div');
             errorDiv.className = 'error-toast';
-            errorDiv.innerHTML = '⚠️ ' + message;
+            errorDiv.textContent = '⚠️ ' + message;
             resultsDiv.insertBefore(errorDiv, resultsDiv.firstChild);
         }
 
@@ -1314,10 +1349,12 @@
                 '<div class="rtt-stat"><span class="rtt-stat-label">평균:</span><span class="rtt-stat-value avg">' + avgRtt.toFixed(1) + 'ms</span></div>' +
                 '<div class="rtt-stat"><span class="rtt-stat-label">최대:</span><span class="rtt-stat-value max">' + maxRtt.toFixed(1) + 'ms</span></div>';
 
-            // 레전드 표시
+            // 레전드: ds.label은 호스트명(사용자 입력) → 반드시 escape.
+            // borderColor는 자체 생성된 색상이지만 안전하게 검증.
             var legendHtml = '';
             rttDatasets.forEach(function (ds) {
-                legendHtml += '<div class="rtt-legend-item"><span class="rtt-legend-color" style="background:' + ds.borderColor + '"></span>' + ds.label + '</div>';
+                var color = (typeof ds.borderColor === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(ds.borderColor)) ? ds.borderColor : '#888';
+                legendHtml += '<div class="rtt-legend-item"><span class="rtt-legend-color" style="background:' + color + '"></span>' + escapeHtml(ds.label) + '</div>';
             });
             document.getElementById('rttLegend').innerHTML = legendHtml;
 
@@ -1465,18 +1502,19 @@
                     document.getElementById('results').appendChild(pre);
                 }
             }
+            // 안전한 색상 토큰만 허용 (#RRGGBB / #RGB)
+            var safeColor = (typeof colorHex === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(colorHex)) ? colorHex : '';
             var line = '';
-            if (colorHex) {
-                line += '<span style="color:' + colorHex + '">■</span> ';
+            if (safeColor) {
+                line += '<span style="color:' + safeColor + '">■</span> ';
             }
-            line += 'traceroute to ' + data.target + ' (' + (data.target_ip || '') + ')\n';
+            line += 'traceroute to ' + escapeHtml(data.target) + ' (' + escapeHtml(data.target_ip || '') + ')\n';
             hops.forEach(function (hop) {
                 var rttText = '* * *';
                 var rttClass = '';
                 if (hop.rtts && hop.rtts.length > 0) {
                     var avgRtt = hop.rtts.reduce(function (a, b) { return a + b; }, 0) / hop.rtts.length;
                     rttText = hop.rtts.map(function (r) { return r.toFixed(1) + 'ms'; }).join(' ');
-                    // RTT 이상치 하이라이트: 100ms 이상 노란색, 200ms 이상 빨간색
                     if (avgRtt >= 200) {
                         rttClass = 'rtt-critical';
                     } else if (avgRtt >= 100) {
@@ -1484,18 +1522,17 @@
                     }
                 }
                 var host = hop.hostname || hop.ip || '*';
-                var country = hop.country ? ' [' + hop.country + ']' : '';
-                // 호스트명에 \n 문자열이 있으면 실제 줄바꿈으로 치환
-                host = host.replace(/\\n/g, '\n');
+                var country = hop.country ? ' [' + escapeHtml(hop.country) + ']' : '';
+                // 모든 사용자/서버 문자열은 escape 후 삽입.
+                var safeHost = escapeHtml(host).replace(/\\n/g, '\n');
+                var safeRtt = escapeHtml(rttText);
                 if (rttClass) {
-                    line += '  ' + hop.ttl + '  ' + host + country + '  <span class="' + rttClass + '">' + rttText + '</span>\n';
+                    line += '  ' + hop.ttl + '  ' + safeHost + country + '  <span class="' + rttClass + '">' + safeRtt + '</span>\n';
                 } else {
-                    line += '  ' + hop.ttl + '  ' + host + country + '  ' + rttText + '\n';
+                    line += '  ' + hop.ttl + '  ' + safeHost + country + '  ' + safeRtt + '\n';
                 }
             });
-            // 연속된 줄바꿈을 하나로 처리
             line = line.replace(/\n{2,}/g, '\n');
-            // 마지막에 빈 줄 하나 추가 (다음 결과와 구분)
             line += '\n';
             pre.innerHTML += line;
         }
