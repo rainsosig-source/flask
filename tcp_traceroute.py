@@ -43,13 +43,15 @@ DEFAULT_MAX_HOPS = 30
 DEFAULT_TIMEOUT = 2.0
 DEFAULT_PROBES = 3  # 각 홉당 프로브 수
 UDP_BASE_PORT = 33434  # UDP traceroute 시작 포트
-GEOLOCATION_API_URL = "http://ip-api.com/json/{ip}"
-GEOLOCATION_TIMEOUT = 1.0
+# ipwho.is: HTTPS, API 키 불필요, 무제한 (무료). ip-api.com HTTP 평문 → MITM 위험 제거.
+GEOLOCATION_API_URL = "https://ipwho.is/{ip}"
+GEOLOCATION_TIMEOUT = 1.5
 GEOIP_CACHE_DB = os.environ.get(
     "TRACEROUTE_GEOIP_CACHE",
     "/opt/flask-app/cache/geoip.db",
 )
-GEOIP_CACHE_TTL = 30 * 86400  # 30일
+GEOIP_CACHE_TTL = 30 * 86400         # 성공 응답: 30일
+GEOIP_CACHE_NULL_TTL = 3600          # 실패/null 응답: 1시간 (일시 장애 고착 방지)
 
 # 프로토콜 모드
 PROTOCOL_TCP = "tcp"
@@ -199,11 +201,17 @@ class TracerouteError(RuntimeError):
 
 
 def get_target_ip(host: str) -> str:
-    """호스트명을 IP 주소로 변환. 실패 시 TracerouteError."""
+    """호스트명을 IP 주소로 변환. 사설/루프백/예약 IP면 거부 (DNS-rebind SSRF 방지).
+    실패 시 TracerouteError."""
     try:
-        return socket.gethostbyname(host)
+        ip = socket.gethostbyname(host)
     except socket.gaierror as e:
         raise TracerouteError(f"호스트 '{host}'를 찾을 수 없습니다. ({e})") from e
+    if is_private_ip(ip):
+        raise TracerouteError(
+            f"'{host}'가 내부망 IP({ip})로 해석되어 추적을 거부합니다."
+        )
+    return ip
 
 
 def get_local_ip(target_ip: str) -> str:
@@ -270,14 +278,22 @@ def _get_cache_conn() -> Optional[sqlite3.Connection]:
 
 
 def _cache_get(ip: str) -> Optional[Tuple[Optional[float], Optional[float], Optional[str]]]:
+    """캐시 조회. 성공 행은 GEOIP_CACHE_TTL, null 행은 GEOIP_CACHE_NULL_TTL 적용."""
     conn = _get_cache_conn()
     if conn is None:
         return None
     try:
-        cutoff = int(time.time()) - GEOIP_CACHE_TTL
+        now = int(time.time())
+        long_cutoff = now - GEOIP_CACHE_TTL
+        short_cutoff = now - GEOIP_CACHE_NULL_TTL
         row = conn.execute(
-            "SELECT lat, lon, country FROM geoip WHERE ip=? AND cached_at>?",
-            (ip, cutoff),
+            """
+            SELECT lat, lon, country FROM geoip
+            WHERE ip = ?
+              AND ((lat IS NOT NULL AND cached_at > ?)
+                OR (lat IS NULL AND cached_at > ?))
+            """,
+            (ip, long_cutoff, short_cutoff),
         ).fetchone()
         return (row[0], row[1], row[2]) if row else None
     except sqlite3.Error:
@@ -309,6 +325,7 @@ def hostname_iata_hint(hostname: Optional[str]) -> Optional[Tuple[float, float]]
 
 
 def _fetch_geolocation_remote(ip: str) -> Tuple[Optional[float], Optional[float], Optional[str]]:
+    """ipwho.is에서 위치 조회. 응답 형식: {success, latitude, longitude, country}."""
     try:
         url = GEOLOCATION_API_URL.format(ip=ip)
         request = urllib.request.Request(
@@ -317,8 +334,8 @@ def _fetch_geolocation_remote(ip: str) -> Tuple[Optional[float], Optional[float]
         )
         with urllib.request.urlopen(request, timeout=GEOLOCATION_TIMEOUT) as response:
             data = json.loads(response.read().decode())
-            if data.get('status') == 'success':
-                return data.get('lat'), data.get('lon'), data.get('country')
+            if data.get('success') is True:
+                return data.get('latitude'), data.get('longitude'), data.get('country')
     except (urllib.error.URLError, json.JSONDecodeError, TimeoutError, OSError):
         pass
     return None, None, None

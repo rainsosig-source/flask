@@ -137,4 +137,10 @@ def trace():
     finally:
         _trace_semaphore.release()
 
+    # 감사 로그: abuse 추적에 필요 (IP당 rate-limit 통과한 후의 실제 사용 기록)
+    current_app.logger.info(
+        'route.trace from=%s target=%s protocol=%s success=%s hops=%d',
+        request.remote_addr, target, protocol,
+        result.get('success'), len(result.get('hops', [])),
+    )
     return jsonify(result)
