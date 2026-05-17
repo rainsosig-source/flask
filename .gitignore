@@ -11,3 +11,12 @@ cookies.txt
 *.log
 static/podcast
 cache/
+
+# 운영 백업/스냅샷 (2026-05-18 정리)
+*.bak
+*.bak-*
+*.bak.*
+backup-*/
+*.old-*
+.env.old-*
+*.bak_*
