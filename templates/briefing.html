@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="시간대별·일별 뉴스 합본 팟캐스트 — 새벽/아침/낮/저녁/밤 + 일별 모음을 한 번에.">
+  <title>시간대별 모음 - sosig.shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+  <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+  {% if briefing_jsonld %}<script type="application/ld+json">{{ briefing_jsonld | safe }}</script>{% endif %}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: #e6edf3; font-weight: 600; }
+    main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+    p.lead { color: #8b949e; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+    .date-picker { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .date-btn { padding: 8px 14px; border-radius: 20px; border: 1px solid #30363d; background: #161b22; color: #8b949e; cursor: pointer; font-family: inherit; font-size: 0.85rem; transition: all 0.15s; }
+    .date-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+    .date-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .compile-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.25rem; border-left: 4px solid #388bfd; }
+    .compile-card.missing { opacity: 0.55; border-left-color: #6e7681; }
+    .compile-card.daily { border-left-color: #d29922; background: #1a1a14; }
+    .compile-card h3 { font-size: 1.05rem; color: #e6edf3; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+    .compile-card h3 .badge { font-size: 0.7rem; background: #21262d; color: #8b949e; padding: 2px 8px; border-radius: 10px; font-weight: 400; }
+    .compile-card .meta { font-size: 0.8rem; color: #8b949e; margin-bottom: 0.6rem; }
+    .compile-card audio { width: 100%; height: 36px; filter: invert(0.85) hue-rotate(180deg) brightness(1.1); margin-top: 0.4rem; }
+    .compile-card .no-audio { font-size: 0.82rem; color: #6e7681; padding: 0.6rem 0; }
+    .empty { text-align: center; padding: 3rem 0; color: #484f58; }
+    @media (max-width: 500px) { main { padding: 1rem; } header { padding: 1rem; } }
+  </style>
+</head>
+<body>
+<header>
+  <a href="/">← sosig.shop</a>
+  <h1>🎧 시간대별 모음</h1>
+</header>
+<main>
+  <p class="lead">새벽·아침·낮·저녁·밤 5개 시간대와 일별 전체 모음을 자동 생성합니다. 기사 사이 1.5초 무음으로 트랙 구분이 들립니다.</p>
+
+  <aside style="max-width: 1100px; margin: 0.5rem auto 1.25rem; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+    <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+    매시 발행되는 개별 회차를 시간대·일별로 묶어 듣기 좋은 합본으로 만든 페이지입니다. 대본 생성은 <strong>GB10 로컬 vLLM Gemma 4 26B-A4B</strong>, 음성은 Supertonic on-device TTS, 합치기 단계에서 기사 사이 1.5초 무음(ffmpeg silence padding)을 끼워 한 트랙 안에서도 기사 경계가 들리게 했습니다. 출퇴근·운동·취침 같은 긴 청취 슬롯에서 매시 회차를 하나씩 클릭하지 않고 한 번에 듣는 용도로 설계했습니다.
+  </aside>
+
+  <div class="date-picker" id="datePicker"></div>
+  <div class="grid" id="grid"><div class="empty">로딩 중…</div></div>
+</main>
+<script>
+let selectedDate = null;
+
+function fmtDuration(sec) {
+  if (!sec) return '–';
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return s ? `${m}분 ${s}초` : `${m}분`;
+}
+function fmtSize(b) { return b ? `${(b/1024/1024).toFixed(1)}MB` : '–'; }
+function todayKST() {
+  const d = new Date(Date.now() + 9*3600*1000);
+  return d.toISOString().slice(0, 10);
+}
+function isAnyAudioPlaying() {
+  return Array.from(document.querySelectorAll('audio')).some(a => !a.paused && !a.ended && a.readyState > 2);
+}
+
+function renderDatePicker() {
+  const today = todayKST();
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setUTCDate(d.getUTCDate() - i);
+    dates.push(d.toISOString().slice(0, 10));
+  }
+  document.getElementById('datePicker').innerHTML = dates.map(d => {
+    const lab = (d === today) ? '오늘' : (d === dates[1]) ? '어제' : d.slice(5);
+    return `<button class="date-btn ${d === selectedDate ? 'active' : ''}" onclick="pickDate('${d}')">${lab}</button>`;
+  }).join('');
+}
+
+function pickDate(d) {
+  selectedDate = d;
+  renderDatePicker();
+  load();
+}
+
+async function load() {
+  if (isAnyAudioPlaying()) return;
+  try {
+    const r = await fetch(`/api/compilation/index/${selectedDate}`);
+    const d = await r.json();
+    renderGrid(d);
+  } catch (e) {
+    document.getElementById('grid').innerHTML = `<div class="empty">로드 실패: ${e.message}</div>`;
+  }
+}
+
+function renderGrid(d) {
+  const periods = d.periods || [];
+  const daily = d.daily;
+  const cards = [];
+  for (const p of periods) {
+    const cls = p.exists ? '' : 'missing';
+    const audio = p.exists
+      ? `<audio controls preload="none" src="${p.audio_url}"></audio>
+         <div class="meta">${p.episode_count}개 기사 · ${fmtDuration(p.duration_sec)} · ${fmtSize(p.size)}</div>`
+      : `<div class="no-audio">아직 생성되지 않음 (${p.episode_count || 0}개 기사 대기)</div>`;
+    cards.push(`
+      <div class="compile-card ${cls}">
+        <h3>${esc(p.label || p.key)} <span class="badge">${p.key}</span></h3>
+        ${audio}
+      </div>`);
+  }
+  if (daily) {
+    const audio = daily.exists
+      ? `<audio controls preload="none" src="${daily.audio_url}"></audio>
+         <div class="meta">${daily.episode_count}개 기사 · ${fmtDuration(daily.duration_sec)} · ${fmtSize(daily.size)}</div>`
+      : `<div class="no-audio">아직 생성되지 않음 (${daily.episode_count || 0}개 기사 대기)</div>`;
+    cards.push(`
+      <div class="compile-card daily ${daily.exists ? '' : 'missing'}">
+        <h3>📅 일별 전체 모음 <span class="badge">daily</span></h3>
+        ${audio}
+      </div>`);
+  }
+  document.getElementById('grid').innerHTML = cards.join('') || '<div class="empty">데이터 없음</div>';
+}
+
+function esc(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.addEventListener('play', function(e) {
+  if (!(e.target instanceof HTMLAudioElement)) return;
+  document.querySelectorAll('audio').forEach(a => {
+    if (a !== e.target && !a.paused) a.pause();
+  });
+}, true);
+
+selectedDate = todayKST();
+renderDatePicker();
+load();
+</script>
+</body>
+</html>

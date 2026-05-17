@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>운영 상태 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: #e6edf3; }
+
+    .status-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; font-size: 0.85rem; color: #8b949e; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .reload-btn { background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; font-family: inherit; }
+    .reload-btn:hover { color: #e6edf3; border-color: #58a6ff; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1rem; max-width: 1200px; margin: 1.25rem auto; padding: 0 2rem 3rem; }
+
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.25rem; transition: border-color 0.2s; }
+    .card:hover { border-color: #58a6ff; }
+    .card h3 { font-size: 0.92rem; margin-bottom: 0.6rem; color: #8b949e; display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 6px rgba(63,185,80,0.5); }
+    .status-dot.warn { background: #d29922; box-shadow: 0 0 6px rgba(210,153,34,0.5); }
+    .status-dot.error { background: #f85149; box-shadow: 0 0 6px rgba(248,81,73,0.5); }
+    .stat { font-size: 1.7rem; font-weight: 700; color: #58a6ff; margin: 0.4rem 0 0.6rem; line-height: 1.1; }
+    .stat-unit { font-size: 0.95rem; color: #8b949e; font-weight: 400; margin-left: 0.2rem; }
+    .meta { font-size: 0.78rem; color: #8b949e; margin-top: 0.35rem; display: flex; justify-content: space-between; gap: 0.5rem; }
+    .meta .v { color: #e6edf3; font-variant-numeric: tabular-nums; }
+
+    .card-link { display: inline-block; margin-top: 0.6rem; padding: 4px 10px; font-size: 0.74rem; background: #21262d; border: 1px solid #30363d; border-radius: 6px; color: #58a6ff; text-decoration: none; }
+    .card-link:hover { background: #2d333b; }
+
+    .placeholder { color: #484f58; font-style: italic; }
+
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+      .status-bar { padding: 0 1rem; }
+    }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+  <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+
+<header>
+  <a href="/">← sosig.shop</a>
+  <h1>🖥️ 운영 상태</h1>
+</header>
+
+<div class="status-bar">
+  <span id="last-update">로딩 중...</span>
+  <span>
+    60초마다 자동 갱신
+    <button class="reload-btn" onclick="loadStatus()">↻ 즉시</button>
+  </span>
+</div>
+
+<div class="grid" id="grid">
+  <div class="card"><h3>로딩 중...</h3></div>
+</div>
+
+<script>
+const fmtNum = (n) => (n ?? 0).toLocaleString();
+const safe = (v, ph='없음') => v ?? `<span class="placeholder">${ph}</span>`;
+
+async function loadStatus() {
+  try {
+    const r = await fetch('/api/status.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    renderGrid(d);
+    document.getElementById('last-update').textContent = `업데이트: ${d._now}`;
+  } catch (e) {
+    document.getElementById('last-update').textContent = `로드 실패: ${e.message}`;
+  }
+}
+
+function renderCard({ title, statHtml, meta, ok = true, link = null, linkText = '바로가기' }) {
+  const dotCls = ok ? '' : ' warn';
+  const linkHtml = link ? `<a class="card-link" href="${link}">${linkText} →</a>` : '';
+  return `
+    <div class="card">
+      <h3>${title} <span class="status-dot${dotCls}"></span></h3>
+      <div class="stat">${statHtml}</div>
+      ${meta.map(([k, v]) => `<div class="meta"><span>${k}</span><span class="v">${v ?? '<span class=\"placeholder\">없음</span>'}</span></div>`).join('')}
+      ${linkHtml}
+    </div>
+  `;
+}
+
+function renderGrid(d) {
+  const cards = [];
+
+  // 1. AI 뉴스 영상
+  cards.push(renderCard({
+    title: 'AI 뉴스 영상',
+    statHtml: `${fmtNum(d.news_videos?.today)}<span class="stat-unit">개 / 오늘</span>`,
+    meta: [
+      ['마지막 발행', d.news_videos?.last],
+    ],
+    ok: d.news_videos !== undefined,
+    link: '/news/videos', linkText: '영상 목록',
+  }));
+
+  // 2. 뉴스 팟캐스트
+  cards.push(renderCard({
+    title: '뉴스 팟캐스트',
+    statHtml: `${fmtNum(d.podcast?.today)}<span class="stat-unit">개 / 오늘</span>`,
+    meta: [
+      ['마지막 발행', d.podcast?.last],
+    ],
+    ok: d.podcast !== undefined,
+    link: '/podcast', linkText: '팟캐스트',
+  }));
+
+  // 3. CVE 모니터
+  if (d.vuln) {
+    const pending = d.vuln.pending || 0;
+    cards.push(renderCard({
+      title: 'CVE 모니터',
+      statHtml: `${fmtNum(d.vuln.analyzed)}<span class="stat-unit">건 분석</span>`,
+      meta: [
+        ['대기', `${fmtNum(pending)}건`],
+        ['마지막 cron', d.vuln.last],
+      ],
+      ok: pending < 100,
+      link: '/vuln', linkText: 'CVE 보기',
+    }));
+  } else {
+    cards.push(renderCard({
+      title: 'CVE 모니터',
+      statHtml: '<span class="placeholder">N/A</span>',
+      meta: [['상태', 'DB 연결 실패']],
+      ok: false,
+    }));
+  }
+
+  // 3.5 KISA 보안 권고
+  if (d.kisa) {
+    const k = d.kisa;
+    const levelColors = { '관심': '#3fb950', '주의': '#d29922', '경계': '#f0883e', '심각': '#f85149' };
+    const lc = levelColors[k.cyber_level] || '#8b949e';
+    cards.push(renderCard({
+      title: 'KISA 보안 권고',
+      statHtml: `<span style="color:${lc}">${k.cyber_level || '?'}</span><span class="stat-unit">사이버 위기</span>`,
+      meta: [
+        ['7일 내 신규', `${fmtNum(k.recent_7d)}건`],
+        ['긴급 (priority≥4, 30일)', `${fmtNum(k.urgent_30d)}건`],
+        ['전체 권고', `${fmtNum(k.total)}건`],
+        ['🎙️ 팟캐스트 (7일/누적)', `${fmtNum(k.audio_7d)}건 / ${fmtNum(k.audio_total)}건`],
+        ['발행 대기', `${fmtNum(k.audio_pending)}건`],
+        ['단계 확인', k.last_check],
+      ],
+      ok: ['관심','주의'].includes(k.cyber_level),
+      link: '/kisa', linkText: 'KISA 상세',
+    }));
+  }
+
+  // 4. GB10 시스템 (push 데이터)
+  if (d.gb10_system) {
+    const g = d.gb10_system;
+    cards.push(renderCard({
+      title: 'GB10 시스템',
+      statHtml: `${safe(g.uptime, '대기')}`,
+      meta: [
+        ['Load avg', g.load],
+        ['GPU temp', g.gpu_temp ? `${g.gpu_temp}℃` : null],
+        ['ollama 모델', g.ollama_models],
+        ['업데이트', g.updated_at],
+      ],
+      ok: g.uptime !== undefined,
+    }));
+  } else {
+    cards.push(renderCard({
+      title: 'GB10 시스템',
+      statHtml: '<span class="placeholder">대기</span>',
+      meta: [['상태', '아직 push 데이터 없음']],
+      ok: false,
+    }));
+  }
+
+  // 5. OpenClaw 크론 (있으면)
+  if (d.openclaw_cron) {
+    const c = d.openclaw_cron;
+    cards.push(renderCard({
+      title: 'OpenClaw 크론',
+      statHtml: `${fmtNum(c.jobs)}<span class="stat-unit">개 작업</span>`,
+      meta: [
+        ['마지막 성공', c.last_success],
+        ['최근 실패', c.last_failure ? `${c.last_failure}` : '없음'],
+        ['업데이트', c.updated_at],
+      ],
+      ok: !c.last_failure,
+    }));
+  }
+
+  // 6. Supertonic TTS 안정성 (있으면, 2026-05-17 Edge → Supertonic 전환 후 on-device 운영)
+  if (d.edge_tts) {
+    const t = d.edge_tts;
+    cards.push(renderCard({
+      title: 'TTS 안정성 (24h)',
+      statHtml: `${fmtNum(t.success_24h)}<span class="stat-unit">성공</span>`,
+      meta: [
+        ['합성 실패', `${fmtNum(t.errors_24h)}회`],
+        ['엔진', 'Supertonic (on-device 44.1kHz)'],
+        ['업데이트', t.updated_at],
+      ],
+      ok: (t.errors_24h || 0) < 10,
+    }));
+  }
+
+  // 7. Malware Analyzer (있으면)
+  if (d.malware) {
+    const m = d.malware;
+    cards.push(renderCard({
+      title: '악성코드 분석기',
+      statHtml: `${fmtNum(m.analyzed_24h)}<span class="stat-unit">건 / 24h</span>`,
+      meta: [
+        ['API 상태', m.api_active ? '활성' : 'idle (정상)'],
+        ['업데이트', m.updated_at],
+      ],
+      ok: true,
+      link: '/malware', linkText: '분석기',
+    }));
+  }
+
+  document.getElementById('grid').innerHTML = cards.join('');
+}
+
+loadStatus();
+setInterval(loadStatus, 60000);
+</script>
+
+</body>
+</html>

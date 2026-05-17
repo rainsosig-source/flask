@@ -4,19 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI 뉴스 플랫폼의 아키텍처와 개발 스토리를 확인해보세요.">
+    <meta name="description" content="sosig.shop의 아키텍처와 기능 소개 — AI 뉴스 자동화, 외신이 본 한국, 보안 분석(KISA·CVE·악성코드), 번역 선집, 네트워크 트래픽 분석, 지하철 실시간.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="서비스 소개 - AI 뉴스 플랫폼">
-    <meta property="og:description" content="AI 뉴스 플랫폼의 아키텍처와 개발 스토리를 확인해보세요.">
+    <meta property="og:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
+    <meta property="og:title" content="서비스 소개 - sosig.shop">
+    <meta property="og:description" content="AI 뉴스·외신 큐레이션·보안 분석·번역 선집·네트워크 가시화·지하철 실시간을 한 플랫폼에서.">
     <meta property="og:url" content="https://sosig.shop/about">
-    <meta property="og:site_name" content="AI 뉴스 플랫폼">
+    <meta property="og:site_name" content="sosig.shop">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="서비스 소개 - AI 뉴스 플랫폼">
-    <meta name="twitter:description" content="AI 뉴스 플랫폼의 아키텍처와 개발 스토리를 확인해보세요.">
-    <title>프로젝트 소개 - AI 뉴스 플랫폼</title>
+    <meta name="twitter:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
+    <meta name="twitter:title" content="서비스 소개 - sosig.shop">
+    <meta name="twitter:description" content="AI 뉴스·외신 큐레이션·보안 분석·번역 선집·네트워크 가시화·지하철 실시간을 한 플랫폼에서.">
+    <title>프로젝트 소개 - sosig.shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-    <link rel="stylesheet" href="/static/css/about.css">
+    <link rel="stylesheet" href="{{ static_v('css/about.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 
 <body>
@@ -37,18 +42,81 @@
         <div class="section-card">
             <h2>1. 프로젝트 개요</h2>
             <ul>
-                <li><strong>프로젝트명</strong>: AI News Platform (Sosig Shop)</li>
-                <li><strong>목표</strong>: 매일 엄선된 AI/경제 뉴스를 크롤링하여 자동 요약 후 팟캐스트로 제공</li>
-                <li><strong>기술</strong>: Python (Flask + Gunicorn), Nginx, MariaDB, Google Gemini API, Microsoft Edge TTS, Windows Task
-                    Scheduler</li>
-                <li><strong>인프라</strong>: Windows PC (자동 실행), Remote Server (Web/DB)</li>
-                <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중</li>
+                <li><strong>프로젝트명</strong>: sosig.shop — AI News &amp; Security Platform</li>
+                <li><strong>목표</strong>: AI 기반 뉴스 자동화, 외신 큐레이션, 보안 분석(악성코드·CVE·KISA), 네트워크 트래픽 가시화, 공공 도메인 문학 번역 선집, 실시간 도시 데이터(지하철)를 한 플랫폼에 통합</li>
+                <li><strong>핵심 기술</strong>: Python (Flask + Gunicorn), MariaDB, vLLM Gemma 4 26B-A4B FP8 + MTP drafter (GB10 로컬, 메인 LLM), Ollama qwen3.6:35b (트리거·보조), Claude CLI (인터랙티브·OpenClaw cron 일부), Supertonic TTS, Zeek, Suricata, YARA, LIEF, Capstone, BBC·Nikkei Asia RSS</li>
+                <li><strong>인프라</strong>: Web Server (Gabia, Flask/Nginx) ↔ GPU Server (NVIDIA DGX Spark GB10, Tailscale + Cloudflare Tunnel) — 모든 AI 워크로드·크롤러·cron 워커는 GB10에서 실행</li>
+                <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중 (2026-05 기준 9권 번역, KISA 보안 권고 자동 팟캐스트 발행, BBC/Nikkei Asia 외신 큐레이션, 매일 자동 뉴스 팟캐스트·CVE·악성코드 분석)</li>
             </ul>
         </div>
 
         <div class="section-card">
             <h2>2. 시스템 아키텍처</h2>
-            <h3>2.1. 논리적 아키텍처 (Logical)</h3>
+            <h3>2.1. 전체 플랫폼 아키텍처</h3>
+            <p>3개의 서버가 Cloudflare Tunnel을 통해 연결된 분산 아키텍처입니다.</p>
+            <div class="mermaid">
+                graph TD
+                classDef blue fill:#e1f5fe,stroke:#039be5,stroke-width:2px,color:#01579b;
+                classDef green fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#004d40;
+                classDef orange fill:#fff3e0,stroke:#ff6f00,stroke-width:2px,color:#e65100;
+                classDef purple fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c;
+
+                User((👤 사용자)) <-->|HTTPS| CF[☁️ Cloudflare]:::blue
+
+                subgraph Gabia [🏢 Web Server - Gabia]
+                    CF <-->|sosig.shop| Flask[🐍 Flask + Gunicorn]:::green
+                    Flask <--> DB[(🗄️ MariaDB)]:::green
+                    Flask <--> Static[📂 Static Files]:::green
+                end
+
+                subgraph GB10 [🖥️ GPU Server - NVIDIA GB10 (ARM64)]
+                    CF <-->|malware-api.sosig.shop| MalwareAPI[🔬 Malware API]:::purple
+                    MalwareAPI --> ClaudeM[💬 Claude Sonnet]:::purple
+                    MalwareAPI --> YARA[🛡️ YARA]:::purple
+                    MalwareAPI --> LIEF[📊 LIEF]:::purple
+
+                    Cron[⏰ Cron 워커]:::orange --> NewsCrawler[🐍 뉴스/외신/KISA/CVE 크롤러]:::orange
+                    NewsCrawler --> VLLM[⚡ vLLM Gemma 4 26B-A4B + MTP]:::purple
+                    NewsCrawler --> Ollama[🦙 Ollama qwen3.6:35b<br>트리거·보조]:::purple
+                    NewsCrawler --> TTS[🎙️ Supertonic TTS]:::orange
+                    NewsCrawler -->|SFTP| Flask
+                    NewsCrawler -->|MySQL via Tailscale| DB
+
+                    NetCap[📡 TL-SG105E mirror → USB-LAN] --> Zeek[🔍 Zeek + Suricata]:::purple
+                    Zeek --> VLLM
+                end
+            </div>
+
+            <h3>2.2. 악성코드 분석 파이프라인</h3>
+            <p>파일 업로드부터 AI 판단, 디스어셈블리, 디컴파일까지의 전체 분석 흐름입니다.</p>
+            <div class="mermaid">
+                graph LR
+                Upload[📁 파일 업로드] --> Parse[📊 바이너리 파싱]
+                Parse --> |PE/ELF| Static[정적 분석]
+                Parse --> |시그니처| YARA[YARA 스캔]
+                Parse --> |엔트리포인트| Disasm[⚙️ 디스어셈블리]
+
+                Static --> |API, 문자열, 엔트로피| AI1[💬 Claude Sonnet<br>AI 분석]
+                YARA --> |매칭 결과| AI1
+                AI1 --> |영어 리포트| AI2[💬 Claude Sonnet<br>한국어 번역]
+
+                Disasm --> |어셈블리| AI3[💬 Claude Sonnet<br>의심 코드 분석]
+                Disasm --> |어셈블리| AI4[💬 Claude Sonnet<br>C 코드 디컴파일]
+
+                AI2 --> Final[📋 최종 결과]
+                AI3 --> Final
+                AI4 --> Final
+
+                style Upload fill:#4cc9f0,stroke:#039be5,color:#fff
+                style AI1 fill:#7b1fa2,stroke:#4a148c,color:#fff
+                style AI2 fill:#7b1fa2,stroke:#4a148c,color:#fff
+                style AI3 fill:#7b1fa2,stroke:#4a148c,color:#fff
+                style AI4 fill:#7b1fa2,stroke:#4a148c,color:#fff
+                style Disasm fill:#ff9e00,stroke:#ff6f00,color:#fff
+                style Final fill:#00c853,stroke:#00695c,color:#fff
+            </div>
+
+            <h3>2.3. 뉴스 파이프라인</h3>
             <p>데이터의 흐름과 처리 과정을 중심으로 표현했습니다.</p>
             <div class="mermaid">
                 graph LR
@@ -63,72 +131,123 @@
 
                 subgraph Serving [서비스 단계]
                 TTS -->|MP3| FileServer[📂 파일 서버]
-                AI -->|메타데이터| DB[(🗄️ DB)]
+                AI -->|메타데이터| DB[(����️ DB)]
                 FileServer -->|스트리밍| User((👤 청취자))
                 DB -->|정보 제공| User
                 end
-            </div>
-
-            <h3>2.2. 물리적 아키텍처 (Physical)</h3>
-            <p>실제 서버 구성과 인프라 배치를 나타냅니다.</p>
-            <div class="mermaid">
-                graph TD
-                %% Node Styling
-                classDef blue fill:#e1f5fe,stroke:#039be5,stroke-width:2px,color:#01579b;
-                classDef windows fill:#fff3e0,stroke:#ff6f00,stroke-width:2px,color:#e65100;
-                classDef server fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#004d40;
-
-                subgraph Windows [🖥️ Windows PC]
-                Scheduler[⏰ Task Scheduler]:::windows --> |매시 정각| Crawler[🐍 Python Crawler]:::blue
-                end
-
-                subgraph External [🌐 External APIs]
-                Crawler <--> |크롤링| Naver[네이버 뉴스]:::blue
-                    Crawler <--> |대본 생성| Gemini[Google Gemini]:::blue
-                        Crawler <--> |음성 합성| Edge_TTS[Edge TTS]:::blue
-                            end
-
-                            subgraph RemoteServer [🏢 Remote Server 139.150.x.x]
-                            Crawler --> |SQL| MariaDB[(🗄️ MariaDB)]:::server
-                            Crawler --> |SFTP| FileServer[📂 Nginx / SFTP]:::server
-                            User((👤 Client)) <--> |HTTPS| FileServer
-                                end
             </div>
         </div>
 
         <div class="section-card">
             <h2>3. 주요 기능</h2>
+            <p style="color: var(--text-muted, #8b949e); margin: 0.5rem 0 1rem;">메인 페이지 카드 분류와 동일한 4·4·4 그룹 + 운영 페이지 별도.</p>
 
-            <h3>📰 자동 뉴스 크롤링</h3>
-            <p>Windows Task Scheduler가 매시 정각 Python 크롤러를 실행하여 최신 AI/경제 뉴스를 수집.</p>
+            <h3 style="font-size: 1.5rem; margin-top: 1.5rem; padding: 0.6rem 0 0.3rem; border-top: 2px solid var(--accent-cyan, #4cc9f0); color: var(--accent-cyan, #4cc9f0);">🎧 콘텐츠</h3>
+            <p style="color: var(--text-muted, #8b949e); margin-bottom: 1rem;">공통 인프라: GB10 cron이 매시 RSS·웹 크롤러를 실행해 AI/경제/사회 뉴스를 수집·필터링(중복·연예성 제거) → Claude Sonnet 4.6이 상현(진행자)·지민(분석가) 2인 대화체 대본으로 재구성 → Microsoft Edge TTS(ko-KR InJoon/SunHi/Hyunsu)로 자연스러운 오디오 생성.</p>
 
-            <h3>🤖 AI 요약 & 대본 (Gemini)</h3>
-            <p>Google Gemini 2.5 Flash 모델이 '상현(선배)'과 '지민(후배)'의 티키타카 대본으로 재구성.</p>
+            <h3>🎙️ 팟캐스트 캘린더 (/podcast)</h3>
+            <p>날짜별·주제별 일일 AI 뉴스 브리핑. 시간대별 그룹과 검색·필터 제공.</p>
 
-            <h3>🎙️ 고품질 팟캐스트 (Edge TTS)</h3>
-            <p>Microsoft Edge TTS의 Neural 음성(InJoon, SunHi)을 사용하여 실제 라디오 방송 같은 자연스러운 오디오 생성.</p>
+            <h3>🎧 시간대별 모음 (/briefing)</h3>
+            <p>새벽/아침/낮/저녁/밤 5개 시간대 + 일별 전체 모음. ffmpeg concat으로 자동 생성하며 기사 사이 1.5초 무음으로 트랙 구분.</p>
+
+            <h3>📹 AI 뉴스 영상 (/news/videos)</h3>
+            <p>실제 기사 본문을 기반으로 AI가 영상 클립과 한국어 내레이션을 자동 생성. 날짜별 영상 모음.</p>
+
+            <h3>🗞️ 외신이 본 한국 (/foreign)</h3>
+            <p>BBC News(Business / Asia / World / Technology 4피드) + Nikkei Asia RSS를 4시간마다 수집, Claude Haiku가 한국 관련성(경제·정치·외교·안보) 판별 + 네이버 검색으로 국내 매체 미커버 여부 확인. 통과한 기사만 Claude Sonnet 대화체 대본(TTS용) + 한국어 번역본(UI 표시용)을 함께 생성하여 팟캐스트로 발행.</p>
+
+            <h3 style="font-size: 1.5rem; margin-top: 1.5rem; padding: 0.6rem 0 0.3rem; border-top: 2px solid var(--accent-amber, #ff9e00); color: var(--accent-amber, #ff9e00);">🛡️ 보안</h3>
+
+            <h3>🇰🇷 KISA 보안 권고 (/kisa)</h3>
+            <p>한국인터넷진흥원 보호나라(boho.or.kr) 보안공지·취약점·공지를 매시 스크래핑하여 Claude Haiku로 한국어 요약·우선순위·CVE/제품 추출. priority≥4 권고는 자동으로 12~16줄 보안 안내 팟캐스트로 발행(인트로 + chime + 대화). 사이버 위기 단계도 함께 표시.</p>
+
+            <h3>🛡️ CVE 취약점 모니터링 (/vuln)</h3>
+            <p>NVD에서 주요 소프트웨어 CVE를 2시간마다 수집, Claude Haiku로 한국어 요약·심각도·악용 가능성 평가. OpenVAS 자기 인프라 스캔 결과와 cross-link하여 노출된 자산만 강조.</p>
+
+            <h3>🔬 악성코드 분석기 (/malware)</h3>
+            <p>PE(Windows) 및 ELF(Linux) 실행 파일 업로드 → 다단계 정적 분석 + AI 분석.</p>
+            <ul>
+                <li><strong>바이너리 파싱</strong>: LIEF로 PE/ELF 헤더·임포트 테이블·섹션 정보 추출</li>
+                <li><strong>API 분석</strong>: 12개 카테고리의 위험 API 탐지 (프로세스 인젝션, 안티디버깅, 키로깅, 권한 상승 등)</li>
+                <li><strong>엔트로피·문자열 분석</strong>: 패킹/난독화 탐지, 의심 문자열 위험도별 색상 분류</li>
+                <li><strong>YARA 시그니처</strong>: 1,200+ 커뮤니티 룰 + 커스텀 룰 (매일 자동 업데이트)</li>
+                <li><strong>디스어셈블리 + AI 디컴파일</strong>: Capstone(x86/x64/ARM/AArch64) → Claude Sonnet이 C 의사코드 변환, 의심 코드 자동 하이라이트</li>
+                <li><strong>AI 판단</strong>: Claude Sonnet이 MITRE ATT&amp;CK 기반 종합 위협 분석 + 한국어 번역, SSE 실시간 스트리밍</li>
+            </ul>
+
+            <h3>🏢 인프라 스캔 (/vuln/infra)</h3>
+            <p>OpenVAS로 자기 인프라(웹·DB·SSH 등) 정기 풀스캔. 발견된 취약점과 호스트별 위험도를 한눈에 보고 CVE 페이지와 cross-link.</p>
+
+            <h3 style="font-size: 1.5rem; margin-top: 1.5rem; padding: 0.6rem 0 0.3rem; border-top: 2px solid var(--accent-cyan, #4cc9f0); color: var(--accent-cyan, #4cc9f0);">🛠️ 도구·자료</h3>
+
+            <h3>🌐 네트워크 경로 추적 (/route)</h3>
+            <p>TCP/UDP traceroute (scapy 기반, 3-way 폴백) 결과를 방사형 hop 다이어그램으로 시각화 — 내 LAN 중심에서 동심원(TTL 단계)으로 외부 경로를 펼친다.</p>
+
+            <h3>🚇 지하철 실시간 (/subway)</h3>
+            <p>서울 지하철 노선의 실시간 열차 위치(서울교통공사·국토교통부 OpenAPI)를 노선도 위에 시각화. 신분당선부터 시작하여 점진 확장 중.</p>
+
+            <h3>🔒 네트워크 트래픽 분석 (/network, 본인 전용)</h3>
+            <p>TL-SG105E port mirror로 LAN 전체 트래픽을 GB10의 USB-LAN으로 미러링 → Zeek + Suricata 24시간 캡처 → vLLM Gemma 4 26B-A4B로 1차 triage + 의심 호스트 deep dive → 시간대별/호스트별 통계와 지구본 시각화. 본인 전용 텔레그램 OTP 인증.</p>
+
+            <h3>📚 AI 번역 선집 (/book)</h3>
+            <p>퍼블릭 도메인 문학을 vLLM Gemma 4 26B-A4B로 2-pass 번역하여 책 형태 PDF로 발행. 니체 『위버멘쉬』, 장자 내편, 하워드 파일 『아서왕』, 잰그윌 『보우의 미스터리』, 에드거 앨런 포 단편·시 등 <strong>총 9권</strong>. A5 판형, Noto Serif CJK KR 본문.</p>
+
+            <h3 style="font-size: 1.5rem; margin-top: 1.5rem; padding: 0.6rem 0 0.3rem; border-top: 2px solid var(--text-muted, #8b949e); color: var(--text-muted, #8b949e);">⚙️ 운영·메타 (메인 푸터에서 진입)</h3>
 
             <h3>📅 캘린더 UI</h3>
-            <p>날짜별, 키워드별로 뉴스를 탐색 가능.</p>
+            <p>날짜별·토픽별로 팟캐스트와 영상을 탐색. 전체 검색·필터 제공.</p>
 
-            <h3>⚙️ 관리자 대시보드</h3>
-            <p>키워드 관리, 우선순위 설정, 통계 확인.</p>
+            <h3>📋 방명록 (/broadcast)</h3>
+            <p>방문자가 소감과 메시지를 남길 수 있는 페이지.</p>
 
-            <h3>🔒 보안 게이트</h3>
-            <p>3D 지구본 인터랙션 챌린지로 관리자 페이지 보안 강화.</p>
-
-            <h3>🌐 네트워크 경로 추적</h3>
-            <p>TCP/UDP traceroute 결과를 Three.js 기반 3D 지구본 위에 실시간 시각화.</p>
-
-            <h3>🛡️ CVE 취약점 모니터링</h3>
-            <p>주요 소프트웨어별 보안 취약점 현황과 최신 CVE를 자동 수집하여 대시보드로 제공.</p>
-
-            <h3>📋 방명록</h3>
-            <p>방문자가 소감과 메시지를 남길 수 있는 방명록 페이지.</p>
+            <h3>⚙️ 운영 대시보드 (/status)</h3>
+            <p>플랫폼 각 서비스의 카드형 실시간 상태: 영상·팟캐스트·KISA·vuln·악성코드·OpenClaw·GB10 시스템 등.</p>
         </div>
 
         <div class="section-card">
-            <h2>4. 개발 스토리</h2>
+            <h2>4. 기술 스택</h2>
+
+            <h3>Backend</h3>
+            <ul>
+                <li><strong>Flask + Gunicorn</strong>: Blueprint 기반 모듈형 웹 서버</li>
+                <li><strong>Nginx</strong>: 리버스 프록시, SSL 터미네이션, 정적 파일 캐싱</li>
+                <li><strong>MariaDB</strong>: 뉴스 메타데이터, 사용자 데이터 저장</li>
+            </ul>
+
+            <h3>AI / ML</h3>
+            <ul>
+                <li><strong>vLLM Gemma 4 26B-A4B FP8 + MTP drafter (GB10 로컬, 메인 LLM)</strong>: 뉴스/외신/KISA 대본, 책 번역, 네트워크 트래픽 분석, 악성코드 보조 분석 — Ollama 56s → 7s (8배 가속), Claude Sonnet 비등 품질, 비용 0</li>
+                <li><strong>Ollama qwen3.6:35b (로컬)</strong>: 악성코드 분석기(특화 추론), OpenClaw cron 트리거</li>
+                <li><strong>qwen2.5-coder (로컬)</strong>: 디컴파일·디스어셈블리 코드 해석</li>
+                <li><strong>Claude CLI (Opus 4.7 / Sonnet 4.6 / Haiku 4.5)</strong>: 인터랙티브 개발 세션, OpenClaw 잔존 cron(claude update·gx10 update·OpenClaw update-check)</li>
+                <li><strong>Supertonic TTS (on-device 44.1kHz)</strong>: 한국어 음성 합성 (M1/F1/M2 페르소나)</li>
+            </ul>
+
+            <h3>보안 분석</h3>
+            <ul>
+                <li><strong>LIEF</strong>: PE/ELF 바이너리 파싱</li>
+                <li><strong>Capstone</strong>: 멀티 아키텍처 디스어셈블리 엔진 (x86/x64/ARM/AArch64)</li>
+                <li><strong>YARA</strong>: 시그니처 기반 악성코드 탐지 (Signature-Base, YARA-Rules 커뮤니티)</li>
+                <li><strong>Suricata 8 + ET Open</strong>: IDS 룰 50,000+ 으로 LAN mirror 트래픽 실시간 탐지</li>
+                <li><strong>Zeek (Docker)</strong>: 프로토콜 분석 — conn/dns/ssl/http/files 로그를 일별 회전·압축</li>
+                <li><strong>OpenVAS</strong>: 자기 인프라 풀스캔 결과를 vuln 페이지와 cross-link</li>
+                <li><strong>커스텀 위험 API DB</strong>: 12개 카테고리, 60+ API 매핑</li>
+            </ul>
+
+            <h3>인프라</h3>
+            <ul>
+                <li><strong>NVIDIA DGX Spark GB10</strong>: ARM64 + Grace Blackwell. ollama·악성코드 API·뉴스/KISA 워커·네트워크 분석을 모두 호스트</li>
+                <li><strong>Tailscale</strong>: Gabia ↔ GB10 mesh VPN (MySQL/HTTP 직통, 외부 노출 0)</li>
+                <li><strong>Cloudflare Tunnel</strong>: malware-api.sosig.shop만 외부 노출 (Bearer Token + WAF)</li>
+                <li><strong>Telegram Bots</strong>: @sosig_taeng_bot (OTP/알림) + @sosig_video_bot (영상 등록)</li>
+                <li><strong>TL-SG105E port mirror</strong>: LAN port 1 → port 5 미러 (Ingress+Egress) → GB10 USB-LAN 캡처</li>
+                <li><strong>Cron 자동화</strong>: 뉴스/KISA/vuln/네트워크 분석/팟캐스트 발행 (KST 기준 매시·매 2시간·매일)</li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h2>5. 개발 스토리</h2>
             <p><strong>Google Antigravity AI</strong>를 활용하여 전체 프로젝트를 개발했습니다.</p>
 
             <h3>개발 과정</h3>
@@ -140,20 +259,64 @@
                 <li><strong>Phase 5</strong>: UI/UX 개선 (다크 모드, 애니메이션)</li>
                 <li><strong>Phase 6</strong>: Google Cloud Run 마이그레이션 및 완전 자동화</li>
                 <li><strong>Phase 7</strong>: Topic/Keyword 분리 시스템 및 Cloud Run 메모리 최적화 (2025.12)</li>
-                <li><strong>Phase 8</strong>: Windows로컬 PC 마이그레이션 - API Rate Limit 최적화 및 네이버 뉴스 우선 추출 (2025.12)</li>
+                <li><strong>Phase 8</strong>: Windows 로컬 PC 마이그레이션 - API Rate Limit 최적화 (2025.12)</li>
+                <li><strong>Phase 9</strong>: 악성코드 분석기 구축 - NVIDIA GB10 GPU 서버 연동, Cloudflare Tunnel 기반 분산 아키텍처 (2026.04)</li>
+                <li><strong>Phase 10</strong>: AI 디스어셈블리/디컴파일 파이프라인 - Capstone + Claude Sonnet 기반 어셈블리 분석 및 C 코드 변환, 의심 코드 자동 하이라이트 (2026.04)</li>
+                <li><strong>Phase 11</strong>: KISA 보안 권고 자동 팟캐스트 - priority≥4 권고를 12~16줄 안내 대본으로 자동 변환, 인트로 멘트+chime+대화로 발행 (2026.05)</li>
+                <li><strong>Phase 12</strong>: 내부 네트워크 트래픽 분석 (/network) - TL-SG105E 포트 미러 + USB-LAN 캡처 → Zeek/Suricata 24시간 분석 → Ollama qwen3:35b 1차 triage + Claude Haiku 의심 호스트 deep dive. 텔레그램 OTP 인증, 본인 전용 (2026.05)</li>
+                <li><strong>Phase 13</strong>: 외신이 본 한국 (/foreign) - BBC + Nikkei Asia RSS를 4시간 주기로 수집, Claude로 한국 관련성·국내 미커버 판별 후 대화 대본 + 기사 번역을 함께 생성. 합본 팟캐스트에는 기사 사이 1.5초 무음 구분 추가 (2026.05)</li>
+                <li><strong>Phase 14</strong>: 지하철 실시간 (/subway) - 서울교통공사·국토교통부 OpenAPI 기반 노선도 위 실시간 열차 위치 시각화, 신분당선부터 시작 (2026.05)</li>
+                <li><strong>Phase 15</strong>: vLLM Gemma 4 26B-A4B FP8 + MTP drafter 마이그레이션 (2026.05) - GB10 sm_121 + CUDA 13 + ARM aarch64에서 vLLM nightly prebuilt wheel로 Gemma 4 MoE(active 3.8B) 정상 동작. Ollama 56s → 7s (8배 가속), Claude Sonnet 비등 품질 + 비용 0. 뉴스/외신/KISA/책번역/네트워크 분석 23 파일 일괄 전환, OpenClaw agentic cron 4건 정리, Gemini API 폴백 제거</li>
             </ul>
 
             <h3>기술적 도전</h3>
             <ul>
+                <li><strong>분산 AI 파이프라인</strong>: Cloudflare Tunnel로 GPU 서버(GB10)와 웹 서버(Gabia)를 안전하게 연결, Claude CLI를 통한 원격 AI 분석 처리</li>
+                <li><strong>AI 디컴파일 파이프라인</strong>: Capstone 디스어셈블리 → Claude Sonnet C 변환 → 의심 코드 자동 마킹, 스트리밍 UI와 최종 렌더링 분리</li>
+                <li><strong>AI 의심 코드 탐지</strong>: Claude가 어셈블리/C 코드에서 악성 패턴을 분석하고, 프론트엔드에서 해당 행을 붉은색 하이라이트로 시각화</li>
+                <li><strong>실시간 스트리밍</strong>: SSE(Server-Sent Events)로 AI 분석, 번역, 디컴파일 결과를 실시간 스트리밍, Nginx proxy_buffering 최적화</li>
+                <li><strong>YARA 룰 자동화</strong>: Signature-Base, YARA-Rules 등 커뮤니티 룰셋을 일일 자동 다운로드, 유효성 검증 후 적용</li>
                 <li><strong>로컬 실행 최적화</strong>: Windows Task Scheduler 기반 자동화로 Cloud Run의 SFTP 제약 및 네트워크 제한 문제 해결</li>
-                <li><strong>IP 차단 해결</strong>: 무료 TTS 서비스의 IP 차단 문제를 Microsoft Edge TTS로 전환하여 해결</li>
                 <li><strong>프롬프트 엔지니어링</strong>: 단순 요약을 넘어선 '페르소나(상현/지민)' 기반의 몰입감 있는 대본 생성</li>
-                <li><strong>자동화 파이프라인</strong>: Windows Task Scheduler와 연동하여 사람의 개입 없는 24/7 뉴스 생성 시스템 구축</li>
-                <li><strong>Topic/Keyword 분리</strong>: 검색어(Keyword)와 표시명(Topic)을 분리하여 유연한 카테고리 관리</li>
                 <li><strong>API Rate Limit 보호</strong>: Gemini API 호출 후 7초 대기 및 실패 시 30초 재시도로 429 오류 방지</li>
-                <li><strong>콘텐츠 추출 개선</strong>: 네이버 뉴스 링크 우선 사용으로 본문 추출 성공률 향상</li>
             </ul>
         </div>
+
+        <div class="section-card" id="copyright">
+            <h2>6. 저작권 정책 · 삭제 요청 안내</h2>
+            <p>본 사이트는 공개된 뉴스 기사와 취약점 정보(CVE), 악성코드 샘플 분석 결과를 기반으로 <strong>비영리·학습·교육 목적</strong>으로 운영됩니다. 저작권자의 권리를 존중하며, 문제 제기가 들어오면 즉시 대응합니다.</p>
+
+            <h3>콘텐츠별 처리 원칙</h3>
+            <ul>
+                <li><strong>뉴스 팟캐스트</strong>: 기사의 사실·수치·맥락을 AI가 완전히 재구성한 2인 대화(상현/지민) 대본으로 제작합니다. 원문 표현의 직접 인용은 최소화하며, 원문 링크와 언론사 출처를 에피소드마다 명시합니다. 자동 생성 후 바로 공개되며 원본 대본은 DB에 보관하지 않습니다.</li>
+                <li><strong>CVE 모니터링</strong>: NIST NVD · MITRE · KISA 등 공개 소스의 취약점 정보를 집계·요약합니다.</li>
+                <li><strong>악성코드 분석기</strong>: 사용자가 직접 업로드한 파일을 분석하며, 검체·결과를 외부에 배포하지 않습니다.</li>
+                <li><strong>번역 선집(/book)</strong>: 퍼블릭 도메인(원작자 사후 70년 경과) 원전만 사용합니다. 번역은 AI 생성본으로 학술 번역본이 아닙니다.</li>
+            </ul>
+
+            <h3>삭제 요청 (Takedown)</h3>
+            <p>본 사이트에 게시된 콘텐츠가 귀하의 저작권·상표권·인격권을 침해한다고 판단되시면 아래로 연락 주십시오.</p>
+            <ul>
+                <li><strong>연락처</strong>: <a href="mailto:sddari@gmail.com?subject=[sosig.shop]%20삭제요청" class="footer-link">sddari@gmail.com</a></li>
+                <li><strong>요청 시 포함해 주실 내용</strong>:
+                    <ul>
+                        <li>해당 URL (예: https://sosig.shop/podcast/…, 에피소드 ID 등)</li>
+                        <li>권리 주체임을 확인할 수 있는 정보 (소속 언론사·매체명, 담당자 성함)</li>
+                        <li>침해 사유 간단 설명</li>
+                    </ul>
+                </li>
+                <li><strong>대응 시간</strong>: 요청 수신 후 <strong>24시간 이내</strong> 해당 콘텐츠 비공개 또는 삭제 처리합니다.</li>
+                <li><strong>후속 조치</strong>: 반복 이슈가 발생한 언론사·출처는 크롤러의 블랙리스트에 추가하여 이후 수집을 중단합니다.</li>
+            </ul>
+
+            <h3>이용에 관한 안내</h3>
+            <ul>
+                <li>본 사이트의 모든 콘텐츠는 <strong>상업적 재배포를 금지</strong>합니다.</li>
+                <li>번역 선집 PDF 등 AI 생성 콘텐츠를 인용하실 때는 출처(sosig.shop) 표기를 부탁드립니다.</li>
+                <li>본 사이트는 언론사·저작권자와의 공식 제휴 관계가 아닙니다. 공식 인용·사용 시에는 원 저작권자와 직접 협의하십시오.</li>
+            </ul>
+        </div>
+
     </main>
 
     <footer>
@@ -163,7 +326,7 @@
                 Antigravity</span></p>
     </footer>
 
-    <script src="/static/js/about.js"></script>
+    <script src="{{ static_v('js/about.js') }}"></script>
 </body>
 
 </html>

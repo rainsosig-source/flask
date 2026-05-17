@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외신이 본 한국 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: #e6edf3; }
+
+    .top-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+
+    .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #30363d; background: #161b22; color: #8b949e; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .filter-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+    .filter-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .filter-btn .count { color: rgba(255,255,255,0.7); font-size: 0.78rem; margin-left: 0.3rem; }
+
+    .notice { max-width: 1200px; margin: 1rem auto 0; padding: 0 2rem; font-size: 0.82rem; color: #8b949e; }
+
+    .grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; max-width: 1200px; margin: 1.25rem auto; padding: 0 2rem 3rem; }
+
+    .art-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.25rem; transition: border-color 0.15s; border-left: 4px solid #388bfd; }
+    .art-card:hover { border-color: #58a6ff; }
+    .art-card .row1 { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .art-card .source-badge { padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 600; background: #1a2744; color: #58a6ff; border: 1px solid #388bfd; }
+    .art-card .date { font-size: 0.78rem; color: #8b949e; }
+    .art-card .unique-badge { font-size: 0.74rem; color: #3fb950; background: #1a3d2a; border-radius: 10px; padding: 2px 8px; }
+    .art-card h3 { font-size: 1rem; color: #e6edf3; line-height: 1.45; margin-bottom: 0.5rem; }
+    .art-card .summary { font-size: 0.85rem; color: #8b949e; line-height: 1.5; }
+    .art-card .audio-row { margin-top: 0.6rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .art-card .audio-row audio { flex: 1 1 280px; max-width: 380px; height: 36px; filter: invert(0.85) hue-rotate(180deg) brightness(1.1); }
+    .art-card .audio-meta { font-size: 0.74rem; color: #8b949e; white-space: nowrap; }
+    .art-card .audio-meta strong { color: #3fb950; font-weight: 600; }
+    .art-card .footer { display: flex; gap: 0.75rem; margin-top: 0.6rem; font-size: 0.78rem; align-items: center; flex-wrap: wrap; }
+    .art-card .footer a { color: #58a6ff; text-decoration: none; }
+    .art-card .footer a:hover { text-decoration: underline; }
+
+    /* 펼치기 버튼 */
+    .toggle-btn { background: none; border: 1px solid #30363d; color: #8b949e; font-size: 0.78rem; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .toggle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+    .toggle-btn.open { border-color: #388bfd; color: #58a6ff; }
+
+    /* 원문 / 번역 패널 */
+    .detail-panel { display: none; margin-top: 0.9rem; border-top: 1px solid #21262d; padding-top: 0.9rem; }
+    .detail-panel.visible { display: block; }
+    .detail-panel .panel-loading { color: #484f58; font-size: 0.82rem; }
+
+    .detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 680px) { .detail-cols { grid-template-columns: 1fr; } }
+
+    .detail-block { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 0.75rem 1rem; }
+    .detail-block .block-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .detail-block.original .block-label { color: #d29922; }
+    .detail-block.translated .block-label { color: #3fb950; }
+    .detail-block .block-body { font-size: 0.83rem; line-height: 1.7; color: #c9d1d9; white-space: pre-wrap; word-break: break-word; }
+
+    .empty { text-align: center; padding: 4rem 0; color: #484f58; }
+
+    @media (max-width: 500px) {
+      .top-bar, .grid, .notice { padding: 0 1rem; }
+    }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+  <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+  {% if foreign_jsonld %}<script type="application/ld+json">{{ foreign_jsonld | safe }}</script>{% endif %}
+</head>
+<body>
+
+<header>
+  <a href="/">← sosig.shop</a>
+  <h1>🌐 외신이 본 한국</h1>
+</header>
+
+<div class="top-bar">
+  <div class="filters" id="filters"></div>
+</div>
+
+<p class="notice">BBC, Nikkei Asia 등 해외 매체가 보도한 한국 관련 기사 중 국내 언론이 거의 다루지 않은 것을 골라 한국어 팟캐스트로 발행합니다.</p>
+
+<aside style="max-width: 1100px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+  <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+  <strong>GB10 로컬 vLLM Gemma 4 26B-A4B</strong>가 매 4시간 BBC·Nikkei Asia 피드를 훑어 한국 관련성을 1차 판별하고, 네이버 검색으로 국내 매체에 이미 알려진 기사는 거른 뒤 남은 것만 한국어 대화 대본 + 번역으로 발행합니다(2026-05 Claude API에서 전환, 외부 의존 0). 매체 선택과 필터 기준은 자동이지만, <strong>외신은 흔히 글로벌 공급망·환율·지정학 같은 macro 관점에서 한국을 다루고, 국내 매체는 개별 기업·정책 micro에 머무는 경우가 많다</strong>는 운영자의 관찰을 바탕으로 두 시각의 갭을 메우려는 의도로 만든 페이지입니다. 환각 방지를 위해 원문에 없는 수치·인용은 절대 추가하지 않도록 프롬프트에 강제했고, "직역"보다는 "외신 시각을 한국 청취자에게 풀이"하는 톤을 택했습니다.
+</aside>
+
+<div class="grid" id="grid">
+  <div class="empty">로딩 중...</div>
+</div>
+
+<script>
+let currentSource = 'all';
+
+function isAnyAudioPlaying() {
+  return Array.from(document.querySelectorAll('audio')).some(a => !a.paused && !a.ended && a.readyState > 2);
+}
+
+async function load() {
+  if (isAnyAudioPlaying()) return;
+  try {
+    const r = await fetch(`/api/foreign.json?source=${currentSource}&limit=80`);
+    const d = await r.json();
+    renderFilters(d);
+    renderGrid(d.articles || []);
+  } catch (e) {
+    document.getElementById('grid').innerHTML = `<div class="empty">로드 실패: ${e.message}</div>`;
+  }
+}
+
+function renderFilters(d) {
+  const counts = d.counts || {};
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const sources = [
+    ['all', '전체', total],
+    ['bbc', 'BBC News', counts.bbc || 0],
+    ['nikkei', 'Nikkei Asia', counts.nikkei || 0],
+  ];
+  document.getElementById('filters').innerHTML = sources.map(([k, label, n]) =>
+    `<button class="filter-btn ${currentSource === k ? 'active' : ''}" onclick="setSrc('${k}')">${esc(label)}<span class="count">${n}</span></button>`
+  ).join('');
+}
+
+function setSrc(k) {
+  currentSource = k;
+  load();
+}
+
+function renderGrid(articles) {
+  if (!articles.length) {
+    document.getElementById('grid').innerHTML = '<div class="empty">발행된 외신 팟캐스트가 없습니다.</div>';
+    return;
+  }
+  const html = articles.map(a => {
+    const audioHtml = a.audio_url
+      ? `<div class="audio-row"><audio controls preload="none" src="${esc(a.audio_url)}"></audio><span class="audio-meta"><strong>🎙️ 팟캐스트</strong> ${esc(a.audio_published_at || '')}</span></div>`
+      : '';
+    return `
+    <div class="art-card" id="card-${a.id}">
+      <div class="row1">
+        <span class="source-badge">${esc(a.source_label)}</span>
+        <span class="date">${esc(a.audio_published_at || '')}</span>
+        <span class="unique-badge">국내 미보도</span>
+      </div>
+      <h3>${esc(a.original_title)}</h3>
+      ${a.original_summary ? `<div class="summary">${esc(a.original_summary)}</div>` : ''}
+      ${audioHtml}
+      <div class="footer">
+        <a href="${esc(a.original_url)}" target="_blank" rel="noopener">원문 보기 →</a>
+        <button class="toggle-btn" onclick="toggleDetail(${a.id}, this)">원문·번역 보기 ▾</button>
+      </div>
+      <div class="detail-panel" id="detail-${a.id}">
+        <div class="panel-loading">로딩 중...</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('grid').innerHTML = html;
+}
+
+async function toggleDetail(id, btn) {
+  const panel = document.getElementById(`detail-${id}`);
+  const isOpen = panel.classList.contains('visible');
+
+  if (isOpen) {
+    panel.classList.remove('visible');
+    btn.classList.remove('open');
+    btn.textContent = '원문·번역 보기 ▾';
+    return;
+  }
+
+  panel.classList.add('visible');
+  btn.classList.add('open');
+  btn.textContent = '닫기 ▴';
+
+  // 이미 로드된 경우 스킵
+  if (panel.dataset.loaded) return;
+
+  try {
+    const r = await fetch(`/api/foreign/${id}`);
+    const d = await r.json();
+    if (d.error) { panel.innerHTML = `<div class="panel-loading">${esc(d.error)}</div>`; return; }
+
+    const origText = (d.original_content || d.original_summary || '(본문 없음)').slice(0, 1500);
+    const articleText = d.ai_translated_article || d.ai_translated_dialogue || '(번역 없음)';
+
+    panel.innerHTML = `
+      <div class="detail-cols">
+        <div class="detail-block original">
+          <div class="block-label">📰 원문 (${esc(d.source_label)})</div>
+          <div class="block-body">${esc(origText)}${(d.original_content || '').length > 1500 ? '\n…(이하 생략)' : ''}</div>
+        </div>
+        <div class="detail-block translated">
+          <div class="block-label">🇰🇷 한국어 번역</div>
+          <div class="block-body">${esc(articleText)}</div>
+        </div>
+      </div>`;
+    panel.dataset.loaded = '1';
+  } catch (e) {
+    panel.innerHTML = `<div class="panel-loading">로드 실패: ${esc(e.message)}</div>`;
+  }
+}
+
+function esc(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+load();
+setInterval(load, 60000);
+
+document.addEventListener('play', function(e) {
+  if (!(e.target instanceof HTMLAudioElement)) return;
+  document.querySelectorAll('audio').forEach(a => {
+    if (a !== e.target && !a.paused) a.pause();
+  });
+}, true);
+</script>
+
+</body>
+</html>
