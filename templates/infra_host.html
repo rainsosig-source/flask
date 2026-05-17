@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ host.label }} - 내 인프라 - sosig.shop</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',sans-serif; background: linear-gradient(135deg,#0f0f23,#1a1a2e,#16213e); min-height:100vh; color:#e0e0e0; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+header { text-align:center; padding:25px 0; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:25px; }
+header h1 { font-size:1.6em; color:#00d4ff; }
+.sub { color:#888; margin-top:6px; font-size:0.9em; }
+nav { margin-bottom:18px; }
+nav a { color:#00d4ff; text-decoration:none; padding:6px 12px; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:0.9em; }
+table { width:100%; border-collapse:collapse; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden; }
+th,td { padding:11px 13px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.06); font-size:0.9em; }
+th { background: rgba(0,212,255,0.08); color:#00d4ff; }
+tr:hover td { background: rgba(0,212,255,0.03); }
+td a { color:#00d4ff; text-decoration:none; }
+.badge { display:inline-block; padding:3px 8px; border-radius:10px; font-size:0.8em; font-weight:600; }
+.badge.c { background:rgba(255,71,87,0.2); color:#ff4757; }
+.badge.h { background:rgba(255,159,64,0.2); color:#ff9f40; }
+.badge.m { background:rgba(255,209,102,0.2); color:#ffd166; }
+.badge.l { background:rgba(100,200,100,0.15); color:#7cd67c; }
+.ai-pending { color:#888; }
+.ai-done { color:#7cd67c; }
+.badge.fp { background:rgba(150,150,150,0.15); color:#888; text-decoration:line-through; }
+</style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>🖥️ {{ host.label }}{% if host.display_ip %} ({{ host.display_ip }}){% endif %}</h1>
+    <div class="sub">
+      {% if host.masked %}<span style="color:#666;">사설망 · IP 비공개</span> · {% endif %}
+      {% if host.os_detected %}OS: {{ host.os_detected }} · {% endif %}
+      마지막 스캔: {{ host.last_seen.strftime('%Y-%m-%d %H:%M') if host.last_seen else '-' }}
+    </div>
+  </div>
+</header>
+<div class="container">
+  <nav>
+    <a href="/vuln">📊 대시보드</a>
+    <a href="/vuln/list">📋 CVE 취약점 목록</a>
+    <a href="/vuln/search">🔍 검색</a>
+    <a href="/vuln/infra" class="active">🛰️ 내 인프라 취약점</a>
+    <a href="/vuln/infra/map">🗺️ 네트워크 지도</a>
+  </nav>
+
+  <table>
+    <thead>
+      <tr><th>severity</th><th>threat</th><th>NVT</th><th>port</th><th>CVE</th><th>AI</th><th>우선순위</th><th>발견 시각</th><th>FP</th></tr>
+    </thead>
+    <tbody>
+      {% for f in findings %}
+      <tr{% if f.false_positive %} style="opacity:0.5"{% endif %}>
+        <td>
+          {% if f.false_positive %}<span class="badge fp">{{ f.severity }}</span>
+          {% elif f.severity >= 9 %}<span class="badge c">{{ f.severity }}</span>
+          {% elif f.severity >= 7 %}<span class="badge h">{{ f.severity }}</span>
+          {% elif f.severity >= 4 %}<span class="badge m">{{ f.severity }}</span>
+          {% else %}<span class="badge l">{{ f.severity }}</span>{% endif %}
+        </td>
+        <td>{{ f.threat or '-' }}</td>
+        <td><a href="/vuln/infra/finding/{{ f.id }}">{{ (f.nvt_name or '(이름 없음)')[:70] }}</a></td>
+        <td>{{ f.port or '-' }}</td>
+        <td style="font-size:0.8em;">{{ (f.cve_ids or '')[:40] }}</td>
+        <td>{% if f.ai_status == 'done' %}<span class="ai-done">✓</span>{% else %}<span class="ai-pending">{{ f.ai_status }}</span>{% endif %}</td>
+        <td>{{ f.ai_priority or '-' }}</td>
+        <td>{{ f.ingested_at.strftime('%m-%d %H:%M') if f.ingested_at else '-' }}</td>
+        <td>{% if f.false_positive %}<span title="{{ f.false_positive_reason or '' }}">⚪ FP</span>{% endif %}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="9" style="text-align:center; color:#888; padding:30px;">이 호스트에서 finding이 없습니다.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

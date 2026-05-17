@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>네트워크 지도 - 내 인프라 - sosig.shop</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: 100vh; color: #e0e0e0;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+header { text-align: center; padding: 25px 0;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+}
+header h1 {
+  font-size: 1.7em;
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sub { color: #888; margin-top: 6px; font-size: 0.9em; }
+nav { display:flex; justify-content:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+nav a { color:#00d4ff; text-decoration:none; padding:8px 14px;
+  border:1px solid rgba(0,212,255,0.3); border-radius:8px;
+  transition: all 0.25s ease; font-size: 0.9em; }
+nav a:hover, nav a.active { background: rgba(0,212,255,0.1); border-color:#00d4ff; }
+
+.legend { display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
+  margin-bottom:14px; font-size:0.85em; color:#aaa; }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend .dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+.dot.crit { background:#ff4757; }
+.dot.high { background:#ff9f40; }
+.dot.med { background:#ffd166; }
+.dot.low { background:#7cd67c; }
+.dot.none { background:#555; }
+
+#map { background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; overflow: hidden; }
+svg { display: block; width: 100%; height: 640px; cursor: grab; }
+svg:active { cursor: grabbing; }
+
+.node circle { stroke: rgba(255,255,255,0.25); stroke-width: 1.5px;
+  transition: stroke-width 0.15s ease; }
+.node:hover circle { stroke: #fff; stroke-width: 2.5px; }
+.node text { fill: #e0e0e0; font-size: 11px; text-anchor: middle;
+  pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+.node.scanner circle { stroke: #00d4ff; stroke-width: 2.5px; }
+.node.gateway circle { stroke: #7c3aed; stroke-width: 2px; stroke-dasharray: 3,2; }
+
+.link { stroke-opacity: 0.4; }
+.link.lan { stroke: #00d4ff; stroke-width: 1.2px; }
+.link.uplink { stroke: #7c3aed; stroke-width: 2px; stroke-dasharray: 4,3; }
+
+#tooltip {
+  position: absolute; pointer-events: none;
+  background: rgba(10,10,20,0.95); color: #e0e0e0;
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 0.85em; line-height: 1.45;
+  max-width: 320px; opacity: 0; transition: opacity 0.12s ease;
+  z-index: 100;
+}
+#tooltip .name { color: #00d4ff; font-weight: 600; font-size: 1em; margin-bottom: 4px; }
+#tooltip .meta { color: #888; font-size: 0.8em; margin-bottom: 6px; }
+#tooltip .k { color: #888; display: inline-block; min-width: 70px; }
+#tooltip a { color: #00d4ff; text-decoration: none; }
+#tooltip .ports { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+#tooltip .port { background: rgba(0,212,255,0.12); padding: 1px 6px;
+  border-radius: 8px; font-size: 0.75em; font-family: monospace; }
+</style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>🗺️ 네트워크 지도</h1>
+    <div class="sub">OpenVAS 스캔 결과 기반 — 호스트 크기 = finding 수, 색 = 최고 severity</div>
+  </div>
+</header>
+<div class="container">
+  <nav>
+    <a href="/vuln">📊 대시보드</a>
+    <a href="/vuln/list">📋 CVE 취약점 목록</a>
+    <a href="/vuln/search">🔍 검색</a>
+    <a href="/vuln/infra">🛰️ 내 인프라 취약점</a>
+    <a href="/vuln/infra/map" class="active">🗺️ 네트워크 지도</a>
+  </nav>
+
+  <div class="legend">
+    <span><span class="dot crit"></span>Critical (≥9)</span>
+    <span><span class="dot high"></span>High (7-9)</span>
+    <span><span class="dot med"></span>Medium (4-7)</span>
+    <span><span class="dot low"></span>Low (&lt;4)</span>
+    <span><span class="dot none"></span>finding 없음</span>
+    <span style="color:#00d4ff;">◯ 스캐너(GB10)</span>
+    <span style="color:#7c3aed;">◌ 게이트웨이</span>
+  </div>
+
+  <div id="map"><svg></svg></div>
+  <div id="tooltip"></div>
+</div>
+
+<script>
+const color = s => s >= 9 ? '#ff4757' : s >= 7 ? '#ff9f40' : s >= 4 ? '#ffd166' : s > 0 ? '#7cd67c' : '#555';
+const radius = f => 12 + Math.min(28, Math.sqrt(f + 1) * 3.2);
+
+fetch('/vuln/infra/api/map').then(r => r.json()).then(data => {
+  const svg = d3.select('svg');
+  const w = svg.node().clientWidth;
+  const h = svg.node().clientHeight;
+  const g = svg.append('g');
+
+  svg.call(d3.zoom().scaleExtent([0.4, 3]).on('zoom', e => g.attr('transform', e.transform)));
+
+  const sim = d3.forceSimulation(data.nodes)
+    .force('link', d3.forceLink(data.links).id(d => d.id).distance(130).strength(0.5))
+    .force('charge', d3.forceManyBody().strength(-420))
+    .force('center', d3.forceCenter(w/2, h/2))
+    .force('collide', d3.forceCollide().radius(d => radius(d.findings) + 8));
+
+  const link = g.append('g').selectAll('line')
+    .data(data.links).join('line')
+    .attr('class', d => 'link ' + (d.kind || ''));
+
+  const node = g.append('g').selectAll('g')
+    .data(data.nodes).join('g')
+    .attr('class', d => 'node ' + d.role)
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+  node.append('circle')
+    .attr('r', d => radius(d.findings))
+    .attr('fill', d => color(d.severity));
+
+  node.append('text').attr('dy', d => radius(d.findings) + 14).text(d => d.label);
+
+  const tip = d3.select('#tooltip');
+  node.on('mouseover', (e, d) => {
+    const ports = (d.ports || []).map(p => `<span class="port">${p}</span>`).join('');
+    const roleLbl = d.role === 'scanner' ? '스캐너' : d.role === 'gateway' ? '게이트웨이' : (d.public ? '공개 자원' : '사설망');
+    tip.html(`
+      <div class="name">${d.label}</div>
+      <div class="meta">${roleLbl}${d.public ? '' : ' · IP 비공개'}</div>
+      ${d.os ? `<div><span class="k">OS:</span> ${d.os}</div>` : ''}
+      <div><span class="k">findings:</span> ${d.findings}</div>
+      <div><span class="k">severity:</span> ${d.severity}${d.high_count ? ` (High+ ${d.high_count}개)` : ''}</div>
+      ${ports ? `<div class="ports">${ports}</div>` : ''}
+      <div style="margin-top:8px;"><a href="/vuln/infra/host/${d.id}">→ 호스트 상세</a></div>
+    `).style('opacity', 1);
+  })
+  .on('mousemove', e => tip.style('left', (e.pageX + 14) + 'px').style('top', (e.pageY + 14) + 'px'))
+  .on('mouseout', () => tip.style('opacity', 0))
+  .on('click', (e, d) => location.href = `/vuln/infra/host/${d.id}`);
+
+  sim.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+}).catch(err => {
+  d3.select('#map').html('<div style="padding:40px; text-align:center; color:#888;">데이터 로드 실패: ' + err + '</div>');
+});
+</script>
+</body>
+</html>

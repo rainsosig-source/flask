@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ line.label }} — 준비 중</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0d1117; color: #e6edf3;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .emoji { font-size: 5rem; margin-bottom: 1rem; }
+    h1 { font-size: 2rem; margin-bottom: 1rem; color: {{ line.color }}; }
+    p { color: #8b949e; line-height: 1.6; max-width: 500px; text-align: center; margin-bottom: 1rem; }
+    a { color: #58a6ff; text-decoration: none; }
+  </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+  <div class="emoji">{{ line.emoji }}</div>
+  <h1>{{ line.label }}</h1>
+  <p>{{ line.description }}</p>
+  <p>API 호출 한도(1일 1,000건) 증액 후 활성화됩니다.</p>
+  <a href="/subway">← 다른 노선 보기</a>
+</body>
+</html>

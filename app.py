@@ -7,6 +7,17 @@ from flask import Flask, render_template, Response
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
 
+# === Static asset cache-bust — 파일 mtime을 ?v= 쿼리로 자동 부착 ===
+@app.context_processor
+def _inject_static_v():
+    def static_v(filename: str) -> str:
+        try:
+            mtime = int(os.path.getmtime(os.path.join(app.static_folder, filename)))
+        except OSError:
+            mtime = 0
+        return f'/static/{filename}?v={mtime}'
+    return dict(static_v=static_v)
+
 # === Logging Setup ===
 if not os.path.exists('/var/log/flask-app'):
     os.makedirs('/var/log/flask-app')
@@ -25,16 +36,34 @@ app.logger.setLevel(logging.INFO)
 
 # === Blueprints ===
 from podcast_blueprint import podcast_bp
+from subway_blueprint import subway_bp
 from auth_blueprint import auth_bp
 from route_blueprint import route_bp, limiter as route_limiter
 from vuln_blueprint import vuln_bp
-from client_api import client_bp
+from malware_blueprint import malware_bp
+from openvas_blueprint import openvas_bp
+from security_blueprint import security_bp
+from book_blueprint import book_bp
+from video_blueprint import video_bp
+from status_blueprint import status_bp
+from kisa_blueprint import kisa_bp
+from foreign_blueprint import foreign_bp
 
 app.register_blueprint(podcast_bp)
+app.register_blueprint(subway_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(route_bp)
 app.register_blueprint(vuln_bp)
-app.register_blueprint(client_bp, url_prefix="/api/client")
+app.register_blueprint(malware_bp)
+app.register_blueprint(openvas_bp, url_prefix="/vuln")
+app.register_blueprint(security_bp)
+app.register_blueprint(book_bp)
+from network_blueprint import network_bp
+app.register_blueprint(network_bp)
+app.register_blueprint(video_bp)
+app.register_blueprint(status_bp)
+app.register_blueprint(kisa_bp)
+app.register_blueprint(foreign_bp)
 
 # /route/trace에 IP당 rate-limit (분 5건, 시간 30건)
 route_limiter.init_app(app)
@@ -63,6 +92,28 @@ def internal_server_error(e):
     return render_template('error.html', code=500, message='Internal Server Error'), 500
 
 
+# === /api/v1/* 별칭 자동 등록 — 기존 /api/* 는 유지 ===
+def _register_v1_aliases():
+    seen = set()
+    rules_snapshot = list(app.url_map.iter_rules())
+    for rule in rules_snapshot:
+        if not rule.rule.startswith('/api/') or rule.rule.startswith('/api/v1/'):
+            continue
+        alias = '/api/v1/' + rule.rule[len('/api/'):]
+        if alias in seen or any(r.rule == alias for r in app.url_map.iter_rules()):
+            continue
+        seen.add(alias)
+        methods = set(rule.methods or []) - {'HEAD', 'OPTIONS'}
+        app.add_url_rule(
+            alias,
+            endpoint=rule.endpoint + '__v1',
+            view_func=app.view_functions[rule.endpoint],
+            methods=methods or None,
+        )
+
+_register_v1_aliases()
+
+
 # === SEO Routes ===
 
 @app.route('/robots.txt')
@@ -72,11 +123,36 @@ def robots_txt():
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
-    pages = ['/', '/podcast', '/broadcast', '/about', '/route', '/vuln']
+    # (path, changefreq, priority)
+    pages = [
+        ('/',              'daily',   '1.0'),
+        # 콘텐츠
+        ('/podcast',       'hourly',  '0.9'),
+        ('/briefing',      'daily',   '0.8'),
+        ('/news/videos',   'daily',   '0.8'),
+        ('/foreign',       'daily',   '0.8'),
+        ('/book',          'monthly', '0.7'),
+        # 보안
+        ('/kisa',          'daily',   '0.8'),
+        ('/vuln',          'daily',   '0.8'),
+        ('/malware',       'monthly', '0.7'),
+        ('/vuln/infra',    'weekly',  '0.6'),
+        # 도구
+        ('/route',         'monthly', '0.6'),
+        ('/subway',        'weekly',  '0.6'),
+        # 운영·메타
+        ('/broadcast',     'weekly',  '0.5'),
+        ('/about',         'monthly', '0.5'),
+        ('/status',        'daily',   '0.4'),
+    ]
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for page in pages:
-        xml += f'  <url><loc>https://sosig.shop{page}</loc></url>\n'
+    for path, changefreq, priority in pages:
+        xml += (
+            f'  <url><loc>https://sosig.shop{path}</loc>'
+            f'<changefreq>{changefreq}</changefreq>'
+            f'<priority>{priority}</priority></url>\n'
+        )
     xml += '</urlset>'
     return Response(xml, mimetype='application/xml')
 

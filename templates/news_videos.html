@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 뉴스 영상 — sosig.shop</title>
+  <link rel="stylesheet" href="{{ static_v('flatpickr.min.css') }}">
+  <link rel="stylesheet" href="{{ static_v('flatpickr-dark.css') }}">
+  <style>
+    /* flatpickr 깨짐 방지: margin/padding은 specific element에만 reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, figure, fieldset, form {
+      margin: 0; padding: 0;
+    }
+    ul, ol { list-style: none; }
+
+    body {
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: #e6edf3; }
+
+    .notice {
+      max-width: 1400px;
+      margin: 1.5rem auto 0;
+      padding: 0.75rem 1.25rem;
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-left: 3px solid #f0883e;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: #8b949e;
+      line-height: 1.6;
+    }
+
+    /* ── 달력 필터 ── */
+    .filter-wrap {
+      max-width: 1400px;
+      margin: 1.25rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .calendar-box {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 0.75rem;
+      flex-shrink: 0;
+    }
+    .filter-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+      min-width: 200px;
+      padding-top: 0.4rem;
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .filter-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #161b22;
+      color: #8b949e;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+    .filter-btn.active {
+      background: #1f6feb;
+      border-color: #1f6feb;
+      color: #fff;
+    }
+    .selected-info {
+      font-size: 0.82rem;
+      color: #8b949e;
+      padding: 4px 0;
+    }
+    .selected-info .date-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      background: #1f6feb22;
+      border: 1px solid #1f6feb;
+      border-radius: 12px;
+      color: #58a6ff;
+      margin-left: 0.4rem;
+      font-size: 0.78rem;
+    }
+    .video-count {
+      font-size: 0.85rem;
+      color: #58a6ff;
+      font-weight: 600;
+    }
+
+    /* flatpickr dark 커스터마이즈 */
+    /* universal reset(* {margin:0; padding:0})이 flatpickr 내부 layout을 깨뜨리므로 안에서만 reset 해제 */
+    .flatpickr-calendar, .flatpickr-calendar * {
+      margin: revert;
+      padding: revert;
+      box-sizing: revert;
+    }
+    .flatpickr-calendar.inline {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    .flatpickr-day.flatpickr-disabled,
+    .flatpickr-day.flatpickr-disabled:hover {
+      color: #30363d !important;
+    }
+    .flatpickr-day:not(.flatpickr-disabled):not(.selected) {
+      color: #58a6ff !important;
+      font-weight: 600;
+    }
+    /* flatpickr 화살표 SVG 사이즈 강제 (특정 환경에서 base CSS 무시되는 문제 회피) */
+    .flatpickr-calendar .flatpickr-prev-month,
+    .flatpickr-calendar .flatpickr-next-month {
+      width: 34px !important;
+      height: 34px !important;
+      padding: 10px !important;
+    }
+    .flatpickr-calendar .flatpickr-prev-month svg,
+    .flatpickr-calendar .flatpickr-next-month svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+    .flatpickr-calendar svg {
+      max-width: 14px;
+      max-height: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 1.5rem auto;
+      padding: 0 2rem 3rem;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: #58a6ff; }
+    .card.hidden { display: none; }
+
+    .embed-wrap {
+      position: relative;
+      padding-top: 56.25%;
+      background: #0d1117;
+    }
+    .embed-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .no-video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #484f58;
+    }
+
+    .card-body {
+      padding: 1rem 1.25rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e6edf3;
+      line-height: 1.45;
+    }
+    .card-meta {
+      font-size: 0.78rem;
+      color: #8b949e;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .source-badge {
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 2px 8px;
+      font-size: 0.74rem;
+    }
+    .card-reason {
+      font-size: 0.78rem;
+      color: #8b949e;
+      line-height: 1.5;
+      border-top: 1px solid #21262d;
+      padding-top: 0.5rem;
+      margin-top: auto;
+    }
+    .yt-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      padding: 5px 12px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #ff4e45;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: background 0.15s;
+      align-self: flex-start;
+    }
+    .yt-link:hover { background: #2d333b; }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 4rem 0;
+      color: #484f58;
+    }
+
+    @media (max-width: 720px) {
+      .filter-wrap { padding: 0 1rem; }
+      .calendar-box { width: 100%; }
+      .filter-controls { width: 100%; }
+    }
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+      .notice { margin: 1rem; }
+    }
+  </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+
+<header>
+  <a href="/">← sosig.shop</a>
+  <h1>AI 뉴스 영상</h1>
+</header>
+
+<div class="notice">
+  ⚠️ 이 영상들은 AI가 생성한 콘텐츠입니다. 모든 영상은 실제 뉴스 기사 기반이지만,
+  음성·이미지는 AI 합성물입니다. YouTube 업로드 시 '변형 또는 합성 콘텐츠' 표시가 적용되어 있습니다.
+</div>
+
+{% if videos %}
+<div class="filter-wrap">
+  <div class="calendar-box">
+    <div id="calendar"></div>
+  </div>
+  <div class="filter-controls">
+    <div class="filter-row">
+      <button class="filter-btn active" id="btnAll" onclick="showAll()">전체 보기</button>
+    </div>
+    <div class="selected-info">
+      <span class="video-count" id="videoCount">{{ videos|length }}개</span>
+      <span id="selectedDateLabel"></span>
+    </div>
+    <div class="selected-info" style="font-size:0.74rem; color:#484f58;">
+      파란 글씨 날짜 = 영상 있는 날 · 클릭하면 그 날짜 영상만 표시
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="grid" id="grid">
+  {% if videos %}
+    {% for v in videos %}
+    <div class="card" data-date="{{ v.created_at_iso }}">
+      <div class="embed-wrap">
+        {% if v.yt_id %}
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/{{ v.yt_id }}?rel=0&modestbranding=1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        {% else %}
+          <div class="no-video">영상 준비 중</div>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <div class="card-title">{{ v.ko_title }}</div>
+        <div class="card-meta">
+          {% if v.article_source %}
+            <span class="source-badge">{{ v.article_source }}</span>
+          {% endif %}
+          <span>{{ v.created_at }}</span>
+        </div>
+        {% if v.reason and v.reason != '수동 등록' %}
+          <div class="card-reason">{{ v.reason }}</div>
+        {% endif %}
+        {% if v.youtube_url %}
+          <a class="yt-link" href="{{ v.youtube_url }}" target="_blank" rel="noopener">
+            ▶ YouTube에서 보기
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">아직 등록된 영상이 없습니다.</div>
+  {% endif %}
+</div>
+
+{% if videos %}
+<script src="{{ static_v('flatpickr.min.js') }}"></script>
+<script src="{{ static_v('flatpickr-ko.js') }}"></script>
+<script>
+const videoDates = {{ videos | map(attribute='created_at_iso') | list | unique | list | tojson }};
+const totalCount = {{ videos|length }};
+
+const fp = flatpickr("#calendar", {
+  inline: true,
+  locale: "ko",
+  dateFormat: "Y-m-d",
+  enable: videoDates,
+  maxDate: "today",
+  onChange: function(selectedDates, dateStr) {
+    if (dateStr) filterByDate(dateStr);
+  }
+});
+
+function filterByDate(iso) {
+  document.getElementById('btnAll').classList.remove('active');
+  const cards = document.querySelectorAll('.card');
+  let count = 0;
+  cards.forEach(card => {
+    const show = card.dataset.date === iso;
+    card.classList.toggle('hidden', !show);
+    if (show) count++;
+  });
+  document.getElementById('videoCount').textContent = count + '개';
+  // 한국어 표시: ISO를 YYYY년 MM월 DD일로 변환
+  const [y, m, d] = iso.split('-');
+  document.getElementById('selectedDateLabel').innerHTML =
+    '<span class="date-pill">' + parseInt(y) + '년 ' + parseInt(m) + '월 ' + parseInt(d) + '일</span>';
+}
+
+function showAll() {
+  document.getElementById('btnAll').classList.add('active');
+  fp.clear();
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+  document.getElementById('videoCount').textContent = totalCount + '개';
+  document.getElementById('selectedDateLabel').innerHTML = '';
+}
+</script>
+{% endif %}
+
+</body>
+</html>

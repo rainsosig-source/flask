@@ -85,7 +85,57 @@ function log(msg) {
                 updateTimeFilterUI();
 
                 filterEpisodes();
+
+                // 모음 버튼 렌더링 (날짜 선택 시에만)
+                if (dateStr) await fetchCompilations(dateStr);
             } catch (err) { log('Err episodes: ' + err); }
+        }
+
+        async function fetchCompilations(dateStr) {
+            try {
+                const res = await fetch(`/api/compilation/index/${dateStr}`);
+                const data = await res.json();
+                renderCompilationButtons(data);
+            } catch (err) { log('Err compilation: ' + err); }
+        }
+
+        function _mins(sec) {
+            return sec ? Math.max(1, Math.round(sec / 60)) : '?';
+        }
+
+        function renderCompilationButtons(data) {
+            const header = document.getElementById('listHeader');
+            const dateLabel = data.date;
+            let html = `<span>Episodes for ${dateLabel}</span>`;
+            const has_any = (data.daily && data.daily.exists) || (data.periods || []).some(p => p.exists);
+            if (!has_any) {
+                header.innerHTML = html;
+                return;
+            }
+            html += ' <span class="compile-divider">·</span>';
+            if (data.daily && data.daily.exists) {
+                const m = _mins(data.daily.duration_sec);
+                const url = data.daily.audio_url;
+                html += ` <button class="compile-btn compile-daily" onclick="playCompilation('${url}', '${dateLabel} 전체 듣기', '${m}분 모음')">📅 전체 (${m}분)</button>`;
+            }
+            (data.periods || []).forEach(p => {
+                if (!p.exists) return;
+                const m = _mins(p.duration_sec);
+                html += ` <button class="compile-btn" onclick="playCompilation('${p.audio_url}', '${dateLabel} ${p.label} 모음', '${m}분 · ${p.label}')">${p.label} (${m}분)</button>`;
+            });
+            header.innerHTML = html;
+        }
+
+        function playCompilation(url, title, meta) {
+            document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('playing'));
+            audio.src = url;
+            audio.play().then(() => {
+                audio.playbackRate = speeds[speedIndex];
+            }).catch(() => {});
+            playerTitle.innerText = title;
+            playerMeta.innerText = meta;
+            playerBar.classList.add('active');
+            updatePlayBtn(true);
         }
 
         function updateTimeFilterUI() {

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 인프라 - sosig.shop</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: 100vh; color: #e0e0e0;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+header {
+  text-align: center; padding: 25px 0;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 25px;
+}
+header h1 {
+  font-size: 1.8em;
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sub { color: #888; margin-top: 6px; font-size: 0.9em; }
+nav { display:flex; justify-content:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+nav a {
+  color: #00d4ff; text-decoration: none; padding: 8px 14px;
+  border: 1px solid rgba(0,212,255,0.3); border-radius: 8px;
+  transition: all 0.3s ease; font-size: 0.9em;
+}
+nav a:hover, nav a.active { background: rgba(0,212,255,0.1); border-color: #00d4ff; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 18px; text-align: center;
+}
+.stat .n { font-size: 2em; font-weight: 600; color: #00d4ff; }
+.stat .label { color: #888; font-size: 0.9em; margin-top: 4px; }
+.stat.crit .n { color: #ff4757; }
+.stat.high .n { color: #ff9f40; }
+.stat.med .n { color: #ffd166; }
+h2 { color: #00d4ff; margin-bottom: 14px; font-size: 1.3em; }
+table { width: 100%; border-collapse: collapse;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+th { background: rgba(0,212,255,0.08); color: #00d4ff; font-weight: 600; font-size: 0.9em; }
+tr:hover td { background: rgba(0,212,255,0.03); }
+td a { color: #00d4ff; text-decoration: none; }
+td a:hover { text-decoration: underline; }
+.badge { display:inline-block; padding: 3px 9px; border-radius: 10px; font-size: 0.8em; font-weight:600; }
+.badge.c { background: rgba(255,71,87,0.2); color:#ff4757; }
+.badge.h { background: rgba(255,159,64,0.2); color:#ff9f40; }
+.badge.m { background: rgba(255,209,102,0.2); color:#ffd166; }
+.badge.l { background: rgba(100,200,100,0.15); color:#7cd67c; }
+.scan-info { color:#888; font-size:0.85em; margin-bottom: 16px; }
+.alert-banner { margin-bottom: 20px; padding: 16px 20px; border-radius: 12px;
+  background: linear-gradient(90deg, rgba(255,71,87,0.15), rgba(255,159,64,0.1));
+  border: 1px solid rgba(255,71,87,0.4); display: flex; align-items: center; gap: 16px; }
+.alert-banner.high-only { background: linear-gradient(90deg, rgba(255,159,64,0.15), rgba(255,209,102,0.08));
+  border-color: rgba(255,159,64,0.4); }
+.alert-banner .icon { font-size: 2em; }
+.alert-banner .text { flex: 1; }
+.alert-banner .text strong { color: #ff4757; font-size: 1.1em; }
+.alert-banner.high-only .text strong { color: #ff9f40; }
+.alert-banner .counts { color: #ccc; margin-top: 3px; font-size: 0.9em; }
+.alert-banner a.cta { color:#fff; background: rgba(255,71,87,0.35); padding: 8px 14px;
+  border-radius: 8px; text-decoration: none; font-size: 0.9em; font-weight: 600;
+  border: 1px solid rgba(255,71,87,0.5); white-space: nowrap; }
+.alert-banner.high-only a.cta { background: rgba(255,159,64,0.3); border-color: rgba(255,159,64,0.5); }
+.alert-banner a.cta:hover { filter: brightness(1.2); }
+</style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>🛰️  내 인프라 취약점</h1>
+    <div class="sub">OpenVAS 스캔 결과 · 내부 LAN + sosig.shop</div>
+  </div>
+</header>
+<div class="container">
+          <nav>
+            <a href="/">🏠 홈</a>
+            <a href="/book">📚 선집</a>
+            <a href="/vuln">📊 CVE 뉴스</a>
+            <a href="/vuln/list">📋 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/infra" class="active">🏗️ 내 인프라</a>
+            <a href="/vuln/about">ℹ️ 소개</a>
+            <a href="/security">🛡️ 보안</a>
+        </nav>
+
+  {% set crit_total = hosts|sum(attribute='critical') or 0 %}
+  {% set high_total = hosts|sum(attribute='high') or 0 %}
+  {% if crit_total > 0 %}
+  <div class="alert-banner">
+    <div class="icon">🚨</div>
+    <div class="text">
+      <strong>즉시 조치 필요 — Critical {{ crit_total }}건{% if high_total %} · High {{ high_total }}건{% endif %}</strong>
+      <div class="counts">CVSS ≥ 9 인 finding 이 있습니다. 우선순위 높은 호스트부터 확인하세요.</div>
+    </div>
+    <a class="cta" href="#host-table">↓ 호스트 목록으로</a>
+  </div>
+  {% elif high_total > 0 %}
+  <div class="alert-banner high-only">
+    <div class="icon">⚠️</div>
+    <div class="text">
+      <strong>주의 — High {{ high_total }}건</strong>
+      <div class="counts">CVSS 7 이상 finding 이 있습니다. 조치 일정 잡아두세요.</div>
+    </div>
+    <a class="cta" href="#host-table">↓ 호스트 목록으로</a>
+  </div>
+  {% endif %}
+
+  {% if last_scan %}
+  <div class="scan-info">
+    마지막 스캔: {{ last_scan.scan_ended or '진행 중' }} · findings {{ last_scan.finding_count }} · hosts {{ last_scan.host_count }} · 최고 severity {{ last_scan.severity_max }}
+  </div>
+  {% endif %}
+
+  <div class="stats">
+    <div class="stat"><div class="n">{{ hosts|length }}</div><div class="label">발견된 호스트</div></div>
+    <div class="stat crit"><div class="n">{{ hosts|sum(attribute='critical') or 0 }}</div><div class="label">Critical (≥9)</div></div>
+    <div class="stat high"><div class="n">{{ hosts|sum(attribute='high') or 0 }}</div><div class="label">High (7-9)</div></div>
+    <div class="stat med"><div class="n">{{ hosts|sum(attribute='medium') or 0 }}</div><div class="label">Medium (4-7)</div></div>
+    <div class="stat"><div class="n">{{ cross_count }}</div><div class="label">NVD 교차 CVE</div></div>
+  </div>
+
+  <h2 id="host-table">호스트별 심각도</h2>
+  <table>
+    <thead>
+      <tr><th>호스트</th><th>OS</th>
+          <th>Critical</th><th>High</th><th>Medium</th><th>Low</th>
+          <th>최고 severity</th><th>마지막 발견</th></tr>
+    </thead>
+    <tbody>
+      {% for h in hosts %}
+      <tr>
+        <td><a href="/vuln/infra/host/{{ h.slug }}">{{ h.label }}</a>{% if h.masked %} <span style="color:#666; font-size:0.8em;">(사설)</span>{% endif %}</td>
+        <td>{{ h.os_detected or '-' }}</td>
+        <td>{% if h.critical %}<span class="badge c">{{ h.critical }}</span>{% else %}-{% endif %}</td>
+        <td>{% if h.high %}<span class="badge h">{{ h.high }}</span>{% else %}-{% endif %}</td>
+        <td>{% if h.medium %}<span class="badge m">{{ h.medium }}</span>{% else %}-{% endif %}</td>
+        <td>{% if h.low %}<span class="badge l">{{ h.low }}</span>{% else %}-{% endif %}</td>
+        <td>{{ h.worst or 0 }}</td>
+        <td>{{ h.last_seen.strftime('%Y-%m-%d %H:%M') if h.last_seen else '-' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8" style="text-align:center; color:#888; padding:30px;">아직 스캔된 호스트가 없습니다.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p style="color:#666; font-size:0.8em; margin-top:10px;">
+    * 사설망 호스트의 실제 IP·호스트명은 공개하지 않습니다.
+  </p>
+</div>
+</body>
+</html>

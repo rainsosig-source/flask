@@ -1,0 +1,987 @@
+[
+  {
+    "slug": "uebermensch",
+    "title": "위버멘쉬",
+    "subtitle": "차라투스트라에서 읽는 인간 극복의 길",
+    "author": "Friedrich Nietzsche",
+    "author_years": "1844–1900",
+    "original_title": "Also sprach Zarathustra: Ein Buch für Alle und Keinen",
+    "original_year": "1883–1885",
+    "source": "Project Gutenberg eBook #7205",
+    "source_url": "https://www.gutenberg.org/ebooks/7205",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Sonnet 4.6",
+    "pdf_file": "uebermensch.pdf",
+    "published_at": "2026-04-23",
+    "tags": [
+      "철학",
+      "니체",
+      "실존"
+    ],
+    "cover_emoji": "🌄",
+    "summary": "『차라투스트라는 이렇게 말했다』에서 '위버멘쉬(Übermensch)' 개념이 중심으로 나오는 16장을 선별·편집한 AI 번역 선집.",
+    "description_paragraphs": [
+      "니체의 『차라투스트라는 이렇게 말했다』는 위버멘쉬(Übermensch) 개념을 중심에 놓은 산문시적 철학서다. 원전 전체는 방대하여(500쪽 이상) 초심자가 통독하기 쉽지 않다.",
+      "본 선집은 방대한 원전 중 <strong>위버멘쉬 테마가 집중적으로 전개되는 16장</strong>을 다섯 부로 재구성했다. 서문의 선언에서 시작해, 자기극복·가치창조·영원회귀로 이어지는 사유의 흐름을 따라간다.",
+      "위버멘쉬는 예전에 <strong>초인(超人)</strong> 혹은 <strong>초월자(超越者)</strong>로 번역되기도 했다. 그러나 이는 슈퍼맨처럼 초능력을 쓰는 존재가 아니며, 더더욱 나치가 오용한 '우월 인종'도 아니다. 니체가 말한 위버멘쉬는 <strong>자기를 끊임없이 극복하며 자기만의 가치를 창조해 나가는 인간상</strong>이다."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "위버멘쉬의 선언",
+        "ko_title": "차라투스트라의 서문 — 하산과 첫 가르침"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "세 단계의 변신에 관하여"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "저편 세계를 믿는 자들에 관하여"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "육체를 경멸하는 자들에 관하여"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "창조하는 자의 길에 관하여"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "자유로운 죽음에 관하여"
+      },
+      {
+        "part": 2,
+        "part_title": "인간의 자기극복",
+        "ko_title": "베푸는 덕에 관하여"
+      },
+      {
+        "part": 3,
+        "part_title": "창조와 의지",
+        "ko_title": "지복의 섬들 위에서"
+      },
+      {
+        "part": 3,
+        "part_title": "창조와 의지",
+        "ko_title": "사제들에 관하여"
+      },
+      {
+        "part": 3,
+        "part_title": "창조와 의지",
+        "ko_title": "자기 극복에 관하여"
+      },
+      {
+        "part": 4,
+        "part_title": "영원회귀와 몰락",
+        "ko_title": "환영과 수수께끼에 관하여"
+      },
+      {
+        "part": 4,
+        "part_title": "영원회귀와 몰락",
+        "ko_title": "회복하는 자"
+      },
+      {
+        "part": 4,
+        "part_title": "영원회귀와 몰락",
+        "ko_title": "일곱 개의 봉인 — 긍정과 아멘의 노래"
+      },
+      {
+        "part": 5,
+        "part_title": "더 높은 인간",
+        "ko_title": "가장 추한 인간"
+      },
+      {
+        "part": 5,
+        "part_title": "더 높은 인간",
+        "ko_title": "더 높은 인간에 관하여"
+      },
+      {
+        "part": 5,
+        "part_title": "더 높은 인간",
+        "ko_title": "표시 — 종결"
+      }
+    ]
+  },
+  {
+    "slug": "zhuangzi",
+    "title": "장자 내편",
+    "subtitle": "소요로 가는 일곱 걸음",
+    "author": "莊周(장주)",
+    "author_years": "기원전 4세기경",
+    "original_title": "莊子 · 內篇",
+    "original_year": "기원전 4세기",
+    "source": "Chinese Text Project",
+    "source_url": "https://ctext.org/zhuangzi/inner-chapters",
+    "license": "Public Domain",
+    "editor": "Claude Opus",
+    "translator": "Claude Sonnet → Claude Opus 검토",
+    "pdf_file": "zhuangzi.pdf",
+    "published_at": "2026-04-24",
+    "tags": [
+      "동양 고전",
+      "도가",
+      "우화",
+      "철학"
+    ],
+    "cover_emoji": "🦋",
+    "summary": "장자가 쓴 내편 7편의 전체 번역. 곤과 붕의 우화, 포정의 소 잡기, 나비의 꿈 — 2천 년 넘도록 사람들이 곱씹어 온 이야기들.",
+    "description_paragraphs": [
+      "장자는 기원전 4세기 중국의 사상가다. 내편 7편은 장자 본인의 글로 간주되는 가장 정통한 부분으로, 노자의 도가 사상을 우화와 대화 형식으로 풀어낸다.",
+      "소요유(逍遙遊)는 얽매이지 않는 자유에 대해, 제물론(齊物論)은 모든 대립이 하나로 통한다는 시각에 대해, 양생주(養生主)는 삶을 기르는 법에 대해 말한다. 인간세(人間世)에서는 세상에서 살아남는 지혜를, 덕충부(德充符)에서는 겉모습과 본질의 관계를, 대종사(大宗師)에서는 궁극의 스승인 도(道)를, 응제왕(應帝王)에서는 다스림의 본질을 이야기한다.",
+      "이 번역본은 Claude Sonnet이 한문 정본을 1차 번역하고 Claude Opus가 검토·수정한 결과다. 각 편의 시작에는 중학생도 이해할 수 있는 도입 해설이 있어 철학서 특유의 진입 장벽을 낮추었다."
+    ],
+    "chapters": [
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제1편 소요유",
+        "original_title": "逍遙遊",
+        "subtitle": "끝없는 자유로움 — 곤(鯤)과 붕(鵬)의 이야기"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제2편 제물론",
+        "original_title": "齊物論",
+        "subtitle": "모든 논쟁은 같다 — 나비 꿈과 실상"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제3편 양생주",
+        "original_title": "養生主",
+        "subtitle": "삶을 기르는 핵심 — 포정의 소 잡기"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제4편 인간세",
+        "original_title": "人間世",
+        "subtitle": "사람 사이에서 사는 법"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제5편 덕충부",
+        "original_title": "德充符",
+        "subtitle": "덕이 가득한 표식 — 외모가 아닌 본질"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제6편 대종사",
+        "original_title": "大宗師",
+        "subtitle": "위대한 스승 — 도(道)를 따르는 자"
+      },
+      {
+        "part": "내편",
+        "part_title": "內篇",
+        "ko_title": "제7편 응제왕",
+        "original_title": "應帝王",
+        "subtitle": "제왕의 올바른 길 — 다스림의 근원"
+      }
+    ]
+  },
+  {
+    "slug": "king_arthur",
+    "title": "아서왕과 그의 기사들",
+    "subtitle": "원탁의 시작 — Howard Pyle 4부작 첫 번째 책",
+    "author": "Howard Pyle",
+    "author_years": "1853–1911",
+    "original_title": "The Story of King Arthur and his Knights",
+    "original_year": "1903",
+    "source": "Project Gutenberg eBook #60184",
+    "source_url": "https://www.gutenberg.org/ebooks/60184",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Sonnet 4.6",
+    "pdf_file": "king_arthur.pdf",
+    "published_at": "2026-05-08",
+    "tags": [
+      "문학",
+      "아서왕",
+      "기사도",
+      "중세"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "1903년 미국의 일러스트레이터·작가 하워드 파일이 토머스 말러리 등 중세 아서왕 자료를 산문체로 재구성한 4부작의 첫 번째 책. 아서가 검을 뽑아 왕이 되는 이야기에서 시작해, 멀린·펠리아스·가웨인 세 영웅의 모험까지 담는다.",
+    "description_paragraphs": [
+      "<strong>『아서왕과 그의 기사들』</strong>은 미국의 화가이자 작가 하워드 파일(Howard Pyle, 1853–1911)이 1903년에 펴낸 아서왕 산문 재구성의 첫 번째 책이다. 파일은 토머스 말러리의 『아서왕의 죽음』과 중세 기사도 로맨스를 의도적으로 고풍스러운 영어로 다시 풀어 당시 미국·영국 도서관의 표준 아서왕 텍스트로 자리 잡았다.",
+      "본 책은 두 권으로 구성되어 있다. <strong>『아서왕의 책』</strong>은 검과 모루, 엑스칼리버 획득, 구이니비어 왕비와의 결혼까지 — 아서가 왕좌에 오르는 과정을 다룬다. <strong>『세 영웅의 책』</strong>은 마법사 멀린, 펠리아스 경, 가웨인 경 세 인물 각각의 모험담을 풀어낸다.",
+      "한국어 완역본이 거의 없는 작품이다. <strong>1차 번역은 Claude Sonnet 4.6, 편집·교정은 Claude Opus 4.7</strong>이 수행했다. 원문의 흠정역 성경(KJV) 풍 고풍스러운 어조를 한국어 옛 어투로 살리려 노력했다.",
+      "총 25개 챕터, 원문 약 11만 단어 분량."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "아서왕의 책 — 왕위를 얻기까지",
+        "ko_title": "1장"
+      },
+      {
+        "part": 1,
+        "part_title": "아서왕의 책 — 왕위를 얻기까지",
+        "ko_title": "2장"
+      },
+      {
+        "part": 1,
+        "part_title": "아서왕의 책 — 왕위를 얻기까지",
+        "ko_title": "3장"
+      },
+      {
+        "part": 2,
+        "part_title": "아서왕의 책 — 검을 얻기까지",
+        "ko_title": "1장"
+      },
+      {
+        "part": 2,
+        "part_title": "아서왕의 책 — 검을 얻기까지",
+        "ko_title": "2장"
+      },
+      {
+        "part": 2,
+        "part_title": "아서왕의 책 — 검을 얻기까지",
+        "ko_title": "3장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "1장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "2장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "3장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "4장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "5장"
+      },
+      {
+        "part": 3,
+        "part_title": "아서왕의 책 — 왕비를 얻기까지",
+        "ko_title": "6장"
+      },
+      {
+        "part": 4,
+        "part_title": "세 영웅의 책 — 멀린의 이야기",
+        "ko_title": "1장"
+      },
+      {
+        "part": 4,
+        "part_title": "세 영웅의 책 — 멀린의 이야기",
+        "ko_title": "2장"
+      },
+      {
+        "part": 4,
+        "part_title": "세 영웅의 책 — 멀린의 이야기",
+        "ko_title": "3장"
+      },
+      {
+        "part": 4,
+        "part_title": "세 영웅의 책 — 멀린의 이야기",
+        "ko_title": "4장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "1장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "2장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "3장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "4장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "5장"
+      },
+      {
+        "part": 5,
+        "part_title": "세 영웅의 책 — 펠리아스 경의 이야기",
+        "ko_title": "6장"
+      },
+      {
+        "part": 6,
+        "part_title": "세 영웅의 책 — 가웨인 경의 이야기",
+        "ko_title": "1장"
+      },
+      {
+        "part": 6,
+        "part_title": "세 영웅의 책 — 가웨인 경의 이야기",
+        "ko_title": "2장"
+      },
+      {
+        "part": 6,
+        "part_title": "세 영웅의 책 — 가웨인 경의 이야기",
+        "ko_title": "3장"
+      }
+    ]
+  },
+  {
+    "slug": "big_bow",
+    "title": "보우의 미스터리",
+    "subtitle": "본격 밀실 추리의 효시 — 1892년 런던",
+    "author": "Israel Zangwill",
+    "author_years": "1864–1926",
+    "original_title": "The Big Bow Mystery",
+    "original_year": "1892",
+    "source": "Project Gutenberg eBook #28164",
+    "source_url": "https://www.gutenberg.org/ebooks/28164",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Sonnet 4.6",
+    "pdf_file": "big_bow.pdf",
+    "published_at": "2026-05-08",
+    "tags": [
+      "문학",
+      "추리",
+      "밀실",
+      "빅토리아"
+    ],
+    "cover_emoji": "🔍",
+    "summary": "1892년 영국 작가 이즈리얼 잰그윌이 발표한 본격 밀실 추리의 효시작. 이후 모든 밀실 트릭의 원형이 된 작품이며, 동시에 빅토리아 후기 영국 사회·정치·언론·사법체계에 대한 신랄한 풍자 소설.",
+    "description_paragraphs": [
+      "<strong>『보우의 미스터리』</strong>(The Big Bow Mystery, 1892)는 영국의 유대계 작가 이즈리얼 잰그윌이 런던 동부 보우(Bow) 지역의 한 하숙집을 무대로 발표한 추리소설이다. <strong>본격 밀실 추리 장편의 효시작</strong>으로, 이후 존 딕슨 카·체스터턴 등 모든 밀실 미스터리 작가들이 이 작품의 트릭을 변주했다.",
+      "줄거리는 단순하다. 어느 겨울 아침, 하숙집 주인 드랩덤프 부인이 비명을 지른다. 잠긴 방 안에서 청년 노동운동가 아서 콘스턴트가 침대 위에서 목이 베인 채 발견된 것. 방문은 안에서 잠겨 있고, 창문은 모두 닫혀 있었다. 전직 명탐정 조지 그로드먼과 현직 형사 에드워드 윔프, 두 라이벌이 사건을 추적한다.",
+      "그러나 이 책의 진정한 가치는 트릭 그 자체보다 <strong>잰그윌의 풍자</strong>에 있다. 당대 영국의 신문 선정주의, 사형제 논쟁, 의회 정치, 노동운동, 계급 갈등을 냉소적이고 위트 있는 어조로 풀어낸다. 추리물이면서 동시에 빅토리아 사회 비평이다.",
+      "한국어 완역본이 거의 없는 작품이다. <strong>1차 번역은 Claude Sonnet 4.6, 편집·교정은 Claude Opus 4.7</strong>이 수행했다.",
+      "총 12장, 원문 약 4만 2천 단어 분량."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "1장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "2장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "3장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "4장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "5장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "6장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "7장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "8장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "9장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "10장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "11장"
+      },
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "12장"
+      }
+    ]
+  },
+  {
+    "slug": "tell_tale_heart",
+    "title": "고자질하는 심장",
+    "subtitle": "광인의 자백 — 1843년 보스턴",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Tell-Tale Heart",
+    "original_year": "1843",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "tell_tale_heart.pdf",
+    "published_at": "2026-05-12",
+    "tags": [
+      "문학",
+      "단편",
+      "호러",
+      "고딕"
+    ],
+    "cover_emoji": "🫀",
+    "summary": "에드거 앨런 포 단편. 한 노인의 \"독수리 같은 눈\"에 사로잡힌 1인칭 화자가 살해를 자백하면서, 자기 통제력이 무너져가는 과정을 그린다. 19세기 심리 호러의 정수.",
+    "description_paragraphs": [
+      "<strong>『고자질하는 심장』</strong>(The Tell-Tale Heart, 1843)은 에드거 앨런 포의 가장 유명한 단편 중 하나다. 한 무명의 1인칭 화자가 자신은 미치지 않았다고 끈질기게 주장하면서, 실은 한 노인을 살해한 과정을 자랑스럽게 늘어놓는다.",
+      "화자는 노인의 \"독수리 같은 푸른 눈\"이 자신을 견딜 수 없게 만든다고 말한다. 동기는 그것뿐이다. 일주일 동안 매일 자정마다 노인의 침실 문틈으로 등(燈)을 들이밀고 그 눈을 지켜본 끝에, 여덟 번째 밤 그는 행동에 나선다. 시체를 마룻널 아래 묻고 경찰을 응대하는 그의 차분한 자신감은, 그러나 자신의 귓속에서 점점 커져 가는 한 가지 소리에 의해 무너진다.",
+      "포는 이 짧은 글에서 <strong>광기·죄책감·정상성에 대한 확신</strong>이라는 19세기 심리 호러의 핵심 주제를 모두 다룬다. 화자의 끊임없는 자기 변호(그런데 어찌 내가 미쳤단 말인가?)가 곧 그의 광기를 증명하는 아이러니가 핵심 장치다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>를 거쳤다. 원문 약 2천 단어, 한국어 약 1만 5천 자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "고자질하는 심장"
+      }
+    ]
+  },
+  {
+    "slug": "cask_of_amontillado",
+    "title": "아몬틸라도의 술통",
+    "subtitle": "복수의 카타콤 — 1846년 필라델피아",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Cask of Amontillado",
+    "original_year": "1846",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "cask_of_amontillado.pdf",
+    "published_at": "2026-05-12",
+    "tags": [
+      "문학",
+      "단편",
+      "복수극",
+      "고딕"
+    ],
+    "cover_emoji": "🍷",
+    "summary": "에드거 앨런 포의 단편. 모욕당한 화자 몬트레소가 카니발 밤을 빌어 포르투나토를 카타콤(지하 묘소)으로 유인해 산 채로 벽 안에 묻는 이야기. 19세기 복수극의 정점이자 아이러니의 걸작.",
+    "description_paragraphs": [
+      "<strong>『아몬틸라도의 술통』</strong>(The Cask of Amontillado, 1846)은 포의 가장 유명한 복수 단편이다. 1인칭 화자 몬트레소가 50년 전 자신이 어떻게 포르투나토에게 \"수천 번의 상처\" 끝에 받은 \"모욕\"을 갚았는지 차분하게 회상한다.",
+      "카니발이 한창이던 어느 저녁, 몬트레소는 술꾼이자 와인 감정가인 포르투나토에게 \"아몬틸라도\"라는 희귀한 셰리주를 의심하고 있다고 부추긴다. 술에 취한 포르투나토는 광대 옷을 입은 채 몬트레소를 따라 그 가문의 와인 저장고로 향한다. 저장고는 깊이 내려가면 가문의 카타콤으로 이어진다.",
+      "이 작품의 핵심은 트릭이 아니라 <strong>화자의 차가운 자신감과 이중 의미로 가득한 대화</strong>다. \"나는 그대의 건강을 위해 마시오\"라고 포르투나토가 외치면, 몬트레소는 \"나는 그대의 긴 삶을 위해\"라고 답한다. 가문의 문장(\"누구도 나를 해치고 무사할 수 없다\")이 곧 작품의 모토다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>를 거쳤다. 원문 약 2천 4백 단어, 한국어 약 1만 6천 자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "아몬틸라도의 술통"
+      }
+    ]
+  },
+  {
+    "slug": "black_cat",
+    "title": "검은 고양이",
+    "subtitle": "플루토와 그의 후계자 — 1843년 필라델피아",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Black Cat",
+    "original_year": "1843",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "black_cat.pdf",
+    "published_at": "2026-05-12",
+    "tags": [
+      "문학",
+      "단편",
+      "호러",
+      "고딕"
+    ],
+    "cover_emoji": "🐈‍⬛",
+    "summary": "한때 동물을 사랑했던 화자가 알코올 중독에 빠지면서 자신의 검은 고양이 플루토를 학대하다 살해하고, 그 후 나타난 또 다른 검은 고양이로 인해 결국 아내를 죽이고 시체를 벽 안에 묻는 이야기. 자기 합리화와 죄책감의 심연을 그린 포의 대표적 심리 호러.",
+    "description_paragraphs": [
+      "<strong>『검은 고양이』</strong>(The Black Cat, 1843)는 『고자질하는 심장』과 같은 해에 발표된 포의 또 다른 1인칭 심리 호러 단편이다. 화자는 \"내일 죽을\" 자신이 평생 친절한 성품으로 동물을 사랑해 왔다고 자기소개로 시작한다. 그러나 알코올 중독이 그의 성격을 황폐화시키면서 이야기는 점점 어두워진다.",
+      "화자는 자신이 가장 아끼던 검은 고양이 플루토(Pluto)의 한쪽 눈을 도려내고, 결국 나무에 목매달아 죽인다. 같은 날 밤 그의 집은 불타고, 화재 현장에 남은 단 하나의 벽에는 \"목에 밧줄을 두른 거대한 고양이의 형상\"이 떠올라 있다. 얼마 후 그는 술집에서 플루토와 똑 닮은, 다만 가슴에 흰 얼룩이 있는 또 다른 검은 고양이를 발견한다.",
+      "이 두 번째 고양이는 화자에게 점점 견딜 수 없는 존재가 된다. 가슴의 흰 얼룩은 차츰 \"교수대\"의 형상으로 변해 간다. 화자가 도끼를 들어 그 고양이를 내리치려는 순간, 그를 말리려 든 아내를 그가 대신 내리치고 만다. 시체를 벽 안에 묻은 그는 경찰의 수색을 자신 만만하게 응대하지만…",
+      "<strong>죄책감을 끝까지 외부(\"알코올\", \"고양이의 마법\", \"우연\")로 떠넘기려는 화자의 자기 합리화</strong>가 핵심 주제다. 그러면서도 마지막 순간, 그 자신의 손이 만든 증거가 그를 무너뜨린다. 본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 4천 단어, 한국어 약 1만 6천 자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "검은 고양이"
+      }
+    ]
+  },
+  {
+    "slug": "house_of_usher",
+    "title": "어셔가의 몰락",
+    "subtitle": "한 가문의 끝 — 1839년 필라델피아",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Fall of the House of Usher",
+    "original_year": "1839",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "house_of_usher.pdf",
+    "published_at": "2026-05-12",
+    "tags": [
+      "문학",
+      "고딕",
+      "호러",
+      "단편"
+    ],
+    "cover_emoji": "🏚️",
+    "summary": "오랜 친구 로데릭 어셔의 편지를 받고 그의 음울한 저택을 찾은 화자가, 신경증과 죽음의 그림자 속에서 어셔가의 마지막 후손이 사라지는 과정을 목격한다. 19세기 고딕 호러의 정점이자 포의 가장 정교한 단편.",
+    "description_paragraphs": [
+      "<strong>『어셔가의 몰락』</strong>(The Fall of the House of Usher, 1839)은 포의 단편 중 가장 정교한 분위기 호러로 평가받는 작품이다. 1인칭 화자가 오랜 친구 로데릭 어셔의 \"이상하게 절박한 편지\"를 받고 그의 저택을 방문한다. 저택은 \"음울하게 무미건조한 가을\" 풍경 속에서 한 줄기 균열이 지붕에서 토대까지 이어져 있다.",
+      "어셔는 신경 과민증과 미신적 공포에 시달리고 있다. 그의 쌍둥이 누이 마들렌은 강경증(catalepsy) 진단을 받고 사실상 시체처럼 살아간다. 화자는 일주일간 어셔와 함께 음악을 듣고 그의 시(\"유령의 궁전\")를 읽고 알 수 없는 그림을 본다. 곧 마들렌이 \"죽고\", 어셔는 그녀를 가문 지하 납골소의 봉인된 묘 안에 안치한다.",
+      "그러나 일주일 후 폭풍이 몰아치는 밤, 화자가 어셔의 광기를 달래려 옛 기사 로맨스를 낭독하는 동안, 책 속의 소리(문 부수는 소리, 방패 떨어지는 소리)가 저택 어딘가에서 실제로 들려오기 시작한다. 마침내 봉인된 묘에서 마들렌이 깨어 나오고…",
+      "저택의 균열, 호수에 비친 검은 그림자, 등장인물의 정신 상태가 모두 하나로 얽혀 동시에 무너진다. 본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 7천 5백 단어, 한국어 약 6만 자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "어셔가의 몰락"
+      }
+    ]
+  },
+  {
+    "slug": "the_raven",
+    "title": "까마귀",
+    "subtitle": "이제 다시는 — 1845년 뉴욕",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Raven",
+    "original_year": "1845",
+    "source": "Project Gutenberg eBook #1065",
+    "source_url": "https://www.gutenberg.org/ebooks/1065",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "the_raven.pdf",
+    "published_at": "2026-05-12",
+    "tags": [
+      "문학",
+      "시",
+      "고딕",
+      "서사시"
+    ],
+    "cover_emoji": "🪶",
+    "summary": "에드거 앨런 포가 1845년 발표한 서사시. 사라진 연인 레노어를 잃고 슬픔에 잠긴 화자의 방에 한밤중 까마귀가 날아들고, 그 까마귀가 모든 질문에 \"이제 다시는\"이라고만 답하며 화자의 광기를 완성시킨다.",
+    "description_paragraphs": [
+      "<strong>『까마귀』</strong>(The Raven, 1845)는 포가 발표한 가장 유명한 시이자, 영문 서사시의 표준으로 여겨지는 작품이다. 화자는 잃어버린 연인 \"레노어\"의 기억에 잠겨 한밤중 잊혀진 옛 책을 뒤적이고 있다. 누군가 문을 두드리는 소리가 들리고, 결국 그가 창문을 열자 \"고대 신성한 시절의\" 까마귀 한 마리가 날아 들어와 방 문 위 팔라스 흉상에 내려앉는다.",
+      "화자가 까마귀에게 이름을 묻자 까마귀는 단 한 마디로 답한다. <strong>\"Nevermore\"</strong>(이제 다시는). 이후 화자가 무엇을 묻든 — 위로의 약속을, 천국에서 레노어와 다시 만날 가능성을 — 까마귀는 같은 한 마디로만 답한다. 이 반복이 시 전체의 운율을 지배하며, 화자의 정신은 서서히 무너진다.",
+      "포 자신은 이 시의 후속 에세이 \"창작의 원리\"에서, 슬픔·아름다움·\"Nevermore\"라는 반복구를 의도적으로 설계한 결과물이라고 밝혔다. 단일 음절 \"more\"가 만드는 깊은 반향, 까마귀가 단 한 마디만 안다는 설정, 모든 질문이 그 답으로 귀결된다는 구조 — 이 모든 것이 19세기 시론의 정점이다.",
+      "본 번역은 <strong>원문의 18 stanza(연) 구조를 그대로 유지</strong>하고, 핵심 반복구는 \"이제 다시는\"으로 일관 번역했다. <strong>Claude Opus 4.7로 1차 번역 + 같은 모델로 검수</strong>. 원문 약 1천 단어, 한국어 약 8천 자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "까마귀"
+      }
+    ]
+  },
+  {
+    "slug": "ms_bottle",
+    "title": "병 속에서 발견된 원고",
+    "subtitle": "MS. Found in a Bottle · 1833",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "MS. Found in a Bottle",
+    "original_year": "1833",
+    "source": "Project Gutenberg eBook #2147",
+    "source_url": "https://www.gutenberg.org/ebooks/2147",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "ms_bottle.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "바다"
+    ],
+    "cover_emoji": "🍾",
+    "summary": "익명의 항해자가 자바해에서 신비한 폭풍을 만나 침몰한 배에서 벗어나 환상적인 여정을 시작하는 이야기. 이성과 광기, 현실과 초현실의 경계를 넘나드는 포의 대표작.",
+    "description_paragraphs": [
+      "<strong>『병 속에서 발견된 원고』</strong>(<em>MS. Found in a Bottle</em>, 1833)는 미국 문학의 거장 에드거 앨런 포가 발표한 단편으로, 그의 초기 걸작이자 초자연적 공포문학의 전형을 보여주는 작품이다. 18세기 해양 모험담의 틀을 차용하되, 나침반도 작동하지 않는 괴이한 바다 위에서 펼쳐지는 심리적·형이상학적 여정으로 변모시킨다. 본 번역은 포의 복잡하고 정교한 문체를 한국어로 충실히 재현하며, 주인공의 이성적 회의주의와 체험 속 초자연성의 충돌을 극대화했다.",
+      "차분하고 합리적인 태도로 세상을 바라보던 항해자는 자바 해역에서 갑작스런 폭풍을 만난다. <strong>배는 침몰하고 난파선에서 깨어난 주인공은 가까스로 정체 모를 거대한 배에 옮겨 탄다.</strong> 그곳은 낡고 황폐한 유령선 같은 배로, 승무원들은 형체도 흐릿하고 그들의 일상도 불가해하다. 주인공은 이 신비로운 배의 비밀을 풀기 위해 일지를 작성하기 시작하고, 그 기록을 병에 담아 대양에 던진다. <strong>현실과 환상의 경계가 점점 허물어지며, 이성적 설명을 거부하는 초월적 경험이 펼쳐진다.</strong>",
+      "본 작품은 포의 특징적인 테마—불가해한 우주 속에서 인간의 이성이 직면하는 한계—를 강력하게 드러낸다. 주인공이 끊임없이 '이는 논리로 설명할 수 있다'고 자위하려 하지만, 현실은 인과관계를 초월한다. 문체는 침착하고 고전적이면서도, 불안감과 신비감을 점진적으로 축적하는 섬세함이 돋보인다. 19세기 초 문학 속에서 과학주의와 신비주의의 충돌을 다룬 희귀한 사례로, 현대의 판타지와 우주공포 소설에 깊은 영향을 미쳤다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 3,200단어, 한국어 약 4,800자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "병 속에서 발견된 원고"
+      }
+    ]
+  },
+  {
+    "slug": "ligeia",
+    "title": "리지아",
+    "subtitle": "Ligeia · 1838",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "Ligeia",
+    "original_year": "1838",
+    "source": "Project Gutenberg eBook #2149",
+    "source_url": "https://www.gutenberg.org/ebooks/2149",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "ligeia.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "신비"
+    ],
+    "cover_emoji": "👻",
+    "summary": "신비로운 아름다움과 강한 의지를 지닌 여성 리지아와의 운명적 만남부터 초자연적 사랑까지, 포가 그린 고딕 로맨스의 극치.",
+    "description_paragraphs": [
+      "<strong>『리지아』</strong>(Ligeia, 1838)는 미국 문학의 거장 에드거 앨런 포가 창조한 신비로운 단편이다. 라인 강 근처의 오래된 도시에서 만난 학식 깊고 초자연적 아름다움을 지닌 여성 리지아와의 만남, 그리고 그녀의 강한 의지와 사랑을 주제로 한다. 이 작품은 포의 특징적인 고딕 로맨티시즘과 심리적 깊이를 대표하며, 의지의 신비로운 힘과 죽음 너머의 영혼의 존재라는 철학적 질문을 탐구한다. 수백 년이 지난 지금도 독자들의 마음을 사로잡는 초월적 매력을 지닌 고전이다.",
+      "화자는 신비로운 여성 리지아 부인과의 만남의 정확한 시간과 장소를 기억하지 못한다. 그녀의 뛰어난 학식, 평온하면서도 기이한 미모, 음악 같은 음성이 점진적으로 화자의 마음을 사로잡았기 때문이다. 라인 강 근처의 오래된 도시에서 여러 번 만난 그녀는 먼 역사를 가진 고귀한 가문 출신이었지만, 화자는 <strong>그녀의 성씨를 끝내 알지 못했다</strong>. 리지아와의 결혼은 거의 꿈 같은 로맨스였으며, <strong>\"리지아\"라는 이름 하나만으로도 그녀의 환상을 생생하게 떠올릴 수 있을 정도</strong>로 화자의 영혼에 깊숙이 각인되어 있다.",
+      "본 작품은 인간 의지의 신비로운 힘과 초월적 사랑을 탐구하는 철학적 단편이다. 포는 화려하고 상징적인 문체로 리지아의 초자연적 아름다움을 섬세하게 묘사하며, 고전적 비례를 벗어난 기이한 아름다움의 본질을 탐색한다. 신비로움, 로맨틱 집착, 그리고 죽음 너머의 영혼의 지속성이라는 주제들이 정교하게 짜여 있으며, 신뢰할 수 없는 화자의 심리 상태를 깊이 있게 드러낸다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>되었다. 원문 약 2,900단어, 한국어 약 12,000자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "리지아"
+      }
+    ]
+  },
+  {
+    "slug": "william_wilson",
+    "title": "윌리엄 윌슨",
+    "subtitle": "William Wilson · 1839",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "William Wilson",
+    "original_year": "1839",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "william_wilson.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "도플갱어"
+    ],
+    "cover_emoji": "🪞",
+    "summary": "죄책감으로 죽음을 앞둔 화자가 자신의 도덕적 타락의 원인이 된 어린 시절 사건을 고백하는 심리 단편. 인간의 이중성과 양심의 무게를 깊이 있게 탐구하는 포의 대표작이다.",
+    "description_paragraphs": [
+      "<strong>『윌리엄 윌슨』</strong>(William Wilson, 1839)은 미국의 문학 거장 에드거 알란 포가 발표한 심리 고백 단편소설이다. 죄책감으로 죽음을 앞둔 화자가 자신의 진정한 이름 대신 윌리엄 윌슨이라는 가명으로, 평생을 추적해온 미스터리한 대사(對邪)적 힘에 대한 이야기를 풀어낸다. 포의 대표작 중 하나로 꼽히는 본 작은 도덕적 타락과 양심의 지독한 고통을 날카로운 심리 묘사로 그려낸다. 영국의 한 학교에서 비롯된 이 신비로운 대결은 인간의 이중성과 도덕적 약함이라는 보편적 주제를 성찰하게 한다.",
+      "화자는 이제 자신의 진정한 정체성을 밝힐 수 없는 비참한 죄인이다. 어린 시절에는 상상력이 풍부하고 의지가 강한 아이였지만, 약한 부모로부터 거의 제약 없이 자라나며 자신의 욕망을 따르는 주인공이 되었다. 그러나 어느 순간 <strong>한순간에 모든 미덕이 망토처럼 떨어져 나가고</strong>, 거인의 보폭으로 악행의 나락에 빠지게 된다. 영국의 한 학교에서의 기억은 이후 그의 삶을 완전히 바꿀 <strong>불가피한 운명의 시작</strong>을 암시하며, 지금 죽음 앞에서 화자는 자신의 비극적 생을 증언하고자 한다.",
+      "본 작은 인간의 이중성과 도덕적 나약함이라는 보편적 주제를 다루되, 화자의 절박한 내적 독백과 후회의 목소리로 깊이 있는 심리 묘사를 이루어낸다. 에드거 알란 포의 특징적인 고딕 문학적 분위기—안개에 잠긴 낡은 마을, 어스름진 가로수길, 종소리 등의 의상적 표현—이 인간 내부의 어둠과 타락을 상징적으로 표현한다. 죽음을 앞둔 화자의 절박한 고백은 독자에게 도덕적 책임과 양심의 무게에 대한 근본적인 질문을 던진다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 6,500단어, 한국어 약 12,800자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "윌리엄 윌슨"
+      }
+    ]
+  },
+  {
+    "slug": "man_of_crowd",
+    "title": "군중 속의 사람",
+    "subtitle": "The Man of the Crowd · 1840",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Man of the Crowd",
+    "original_year": "1840",
+    "source": "Project Gutenberg eBook #2151",
+    "source_url": "https://www.gutenberg.org/ebooks/2151",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "man_of_crowd.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "관찰"
+    ],
+    "cover_emoji": "👥",
+    "summary": "병에서 회복된 화자가 런던의 커피하우스에서 창 밖의 군중을 관찰하며, 도시의 익명적 인물들 속에 숨겨진 개인의 심리와 사회적 정체성을 추적하는 심리 탐사 소설입니다.",
+    "description_paragraphs": [
+      "<strong>『군중 속의 사람』</strong>(The Man of the Crowd, 1840)은 에드거 앨런 포의 대표작으로, 도시의 군중 속에서 드러나는 인간의 내면심리를 예리하게 관찰하고 분석하는 단편 소설이다. 런던의 커피하우스에 앉은 화자가 창 너머 거리를 지나다니는 사람들을 세밀하게 관찰하며, 각기 다른 사회적 지위와 심리 상태를 가진 인물들의 유형을 분류해나간다. 포의 특징적인 심리 분석과 도시 사회 관찰이 근대 소설의 새로운 기법을 개척한 작품으로 평가받으며, 현대 도시 소설의 선구자적 위치를 차지하고 있다. 작품은 개인의 본성과 집단 속에서의 정체성이라는 영원한 인간학적 주제를 다룬다.",
+      "저녁 무렵 런던의 커피하우스에 앉은 화자는 <strong>병에서 회복되며 예민해진 감각</strong>으로 창 밖의 거리를 관찰한다. 처음에는 지나가는 행인들을 군중으로서 일반적으로 바라보지만, 점차 <strong>개별 인물들의 외모, 옷차림, 걸음걸이, 표정의 세부</strong>에 주목하게 된다. 화자는 사무적인 태도의 시민들, 안절부절못하는 사람들, 다양한 계층의 사무원들 등 도시 거리의 인물들을 세분화된 유형으로 분류하며 분석한다. 각 유형의 사람들은 고유한 의복과 행동 양식을 통해 자신의 사회적 지위와 심리 상태를 드러내며, 도시 사회의 다층적 구조를 반영한다.",
+      "이 작품은 <strong>도시의 익명성 속에서 드러나는 개인 심리의 깊이</strong>와 사회적 역할 간의 긴장 관계를 탐구한다. 포는 외부 관찰을 통해 인간의 내면세계를 추론하는 방식으로, 현대 심리소설의 기법을 선구적으로 제시한다. 문체는 정밀하고 해부학적이며, 세밀한 묘사와 분류를 통해 도시를 거울처럼 분석한다. 에피그래프들은 <strong>고독, 비밀, 인간의 양심</strong> 같은 작품의 중심 주제를 심화시키며 철학적 깊이를 더한다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 3,200단어, 한국어 약 4,800자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "군중 속의 사람"
+      }
+    ]
+  },
+  {
+    "slug": "maelstrom",
+    "title": "소용돌이 속으로의 추락",
+    "subtitle": "A Descent into the Maelström · 1841",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "A Descent into the Maelström",
+    "original_year": "1841",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "maelstrom.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "바다"
+    ],
+    "cover_emoji": "🌊",
+    "summary": "노르웨이 해안의 소용돌이에서 겪은 극한의 공포를 회상하는 노인 안내인의 이야기. 죽음의 순간에서 본 자연의 위대함과 인간 정신의 경이로운 능력을 그린 수작.",
+    "description_paragraphs": [
+      "<strong>『소용돌이 속으로의 추락』</strong>(<em>A Descent into the Maelström</em>, 1841)은 에드거 앨런 포의 고전 단편으로, 노르웨이 로포텐 지방의 높은 산 정상에서 한 노인 안내인이 자신의 극적인 경험을 회상하는 이야기다. 화자가 노인과 함께 헬세겐('구름 산')의 정상에 올라 그 3년 전 대소용돌이 사건의 현장을 보며 들려받는 프레임 구조로 전개된다. 포 특유의 심리적 긴장감과 정교한 관찰력이 돋보이는 이 작품은 극한의 공포와 인간의 극복이라는 보편적 주제를 탁월하게 다룬다.",
+      "화자는 로포텐 해안의 산 정상에서 노인 안내인을 만난다. 노인은 채 삼 년 전 인간으로서는 도무지 겪을 수 없을 일을 경험했다고 말한다. 그 여섯 시간의 죽음 같은 공포는 그의 온 존재를 완전히 파괴해 버렸다. 검던 머리가 하룻밤 만에 새하얗게 세었고, 신경이 풀려 작은 움직임에도 몸이 떨린다. <strong>노인은 화자를 산 정상으로 이끌어 그 사건이 일어난 바다의 현장을 가장 잘 볼 수 있게 해주려고 한다.</strong> 깎아지른 절벽 아래로 일천오백 척 이상 떨어진 검은 바다, 그 위로 끝없이 치솟는 파도, 섬들과 암초들이 보인다.",
+      "이 작품은 인간이 자연의 위대함 앞에서 얼마나 무력한지, 그리고 동시에 극한의 순간에서 얼마나 경이로운 능력을 발휘할 수 있는지를 탐구한다. 포의 특징적인 심리적 서술 기법으로 공포와 경외감이 혼합된 분위기를 조성하며, 죽음과 마주한 순간의 인간 정신의 반응을 깊이 있게 그려낸다. 단순한 모험담을 넘어 존재론적 물음들을 제기하는 철학적 깊이가 있다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 2,200단어, 한국어 약 3,100자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "소용돌이 속으로의 추락"
+      }
+    ]
+  },
+  {
+    "slug": "oval_portrait",
+    "title": "타원형 초상화",
+    "subtitle": "The Oval Portrait · 1842",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Oval Portrait",
+    "original_year": "1842",
+    "source": "Project Gutenberg eBook #2147",
+    "source_url": "https://www.gutenberg.org/ebooks/2147",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "oval_portrait.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "예술"
+    ],
+    "cover_emoji": "🖼️",
+    "summary": "총상을 입은 화자가 이탈리아의 낡은 성에서 우연히 발견한 초상화에 매혹된다. 그 그림의 초자연적인 생생함은 예술 창작의 어두운 대가를 암시하는 비극적 진실을 감춘다.",
+    "description_paragraphs": [
+      "<strong>『타원형 초상화』</strong>(The Oval Portrait, 1842)는 미국 고딕 문학의 거장 에드거 앨런 포가 창작한 단편으로, 과거의 비극적 순간을 영원히 보존한 예술 작품의 본질을 탐구하는 작품이다. 총상을 입고 낡은 이탈리아 성에 피신한 화자가 우연히 발견한 한 점의 초상화를 통해, <strong>아름다움과 죽음</strong>, 그리고 <strong>예술 창작의 대가</strong>라는 어두운 주제를 섬세하게 드러낸다. 이 작품은 짧지만 강렬한 서사 구조로 독자의 심리를 점진적으로 추적하며, 마지막 반전이 가져오는 충격을 극대화한다. 영문학사에서 호러 단편의 고전으로 널리 인정받고 있다.",
+      "화자는 중상을 입은 채 종복 페드로와 함께 아펜니노 산맥의 한 낡은 성으로 들어간다. 방을 정리한 후 침대에 누워 벽에 걸린 여러 회화들을 감상하며 관련 서적을 읽다가, 촛불을 옮기다 우연히 침대 기둥에 가려 있던 벽감의 그림을 발견한다. 그것은 어린 소녀의 <strong>비네트 양식 초상화</strong>로, 타원형의 화려한 액자에 담겨 있으며, 무엇보다 화면 속의 얼굴이 마치 생명이 있는 듯이 <strong>생생했다</strong>. 화자는 시간을 들여 이 그림에 대해 깊이 생각한 후, 서적에서 이 <strong>초상화의 내력</strong>을 찾아본다. 거기서 펼쳐지는 것은, 아름다운 소녀의 생명력이 화가의 열정 속에서 어떻게 영원한 화면 위로 옮겨지는지 보여주는 비극의 기록이다.",
+      "이 작품은 <strong>예술 창작의 본질적 모순</strong>을 깊이 있게 탐색한다. 아름다움을 영속화하려는 예술가의 열정이 결국 그 대상의 생명력을 빼앗는다는 역설적 주제를 통해, 포는 미(美)와 죽음이 얼마나 가깝게 맞닿아 있는지를 보여준다. 문체는 고딕 로맨스의 전형적 분위기—음울함, 신비성, 심리적 긴장—를 능숙하게 조성하며, 서술자의 점진적인 깨어남과 깊어지는 불안감을 독자와 함께 체험하게 한다. 짧은 분량 속에 담긴 강렬한 심리 묘사와 정교한 구성은 이 작품을 단편문학의 걸작으로 만든다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>되었다. 원문 약 1,600단어, 한국어 약 3,500자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "타원형 초상화"
+      }
+    ]
+  },
+  {
+    "slug": "masque_red_death",
+    "title": "붉은 죽음의 가면극",
+    "subtitle": "The Masque of the Red Death · 1842",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Masque of the Red Death",
+    "original_year": "1842",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "masque_red_death.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "역병"
+    ],
+    "cover_emoji": "🎭",
+    "summary": "붉은 죽음의 역병이 창궐하는 가운데 프로스페로 공이 귀족들과 함께 견고한 성채로 숨어들어 화려한 가면무도회를 벌이는 가운데, 죽음 앞의 인간의 무력함과 피할 수 없는 운명을 상징적으로 그려낸 고딕 걸작.",
+    "description_paragraphs": [
+      "<strong>『붉은 죽음의 가면극』</strong>(The Masque of the Red Death, 1842)은 미국 문학의 거장 에드거 앨런 포의 대표 단편으로, 인류의 보편적 조건인 <strong>죽음 앞의 인간의 무력함</strong>을 강렬하게 탐구한 작품이다. 전염병이 창궐하는 중세 유럽을 배경으로 죽음을 피하려는 절망적 노력의 무의미함을 보여준다. 고딕 소설의 요소들—성채, 공포, 신비로운 분위기—을 활용하면서도 극도로 정교한 상징 체계를 통해 철학적 깊이를 전달한다. 출간된 지 180년 이상이 지난 지금도 문학계에서 가장 완벽한 단편의 하나로 평가받고 있다.",
+      "붉은 죽음이라는 끔찍한 역병이 나라를 휩쓸며 수많은 사람들의 목숨을 앗아가고 있다. 영지의 인구가 반으로 줄어든 상황에서, <strong>프로스페로 공은 건강하고 쾌활한 귀족 1,000명을 데리고 견고한 성채의 수도원으로 은신한다.</strong> 높다란 성벽과 쇠로 녹여 붙인 철문으로 외부와의 모든 연결을 끊고 안에서는 음식과 락이 넉넉하며, 광대한 방들 속에서 쾌락의 극치를 누리며 죽음을 외면하려 한다. 은둔 생활 5~6개월째, 프로스페로 공은 결코 볼 수 없는 화려한 가면무도회를 개최하며, 사람들은 일곱 개의 색상으로 꾸며진 신비로운 방들을 헤매며 축제의 황홀경에 빠진다.",
+      "포는 <strong>죽음의 상징</strong>을 시각적 이미지로 강력하게 구현해낸다. 특히 일곱 번째 검은 방의 진홍색 창과 그 속의 시계는 피의 죽음과 불가항력의 시간의 흐름을 동시에 표현하며, 축제의 화려함과 죽음의 현실 사이의 심오한 대비를 만든다. 상징과 대비를 통해 추상적 공포를 극도로 구체적으로 표현한 이 작품은, 짧은 분량 속에 장편소설에 버금가는 밀도 높은 메시지와 분위기를 담아낸 포의 문학적 특기를 잘 보여준다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 2,200단어, 한국어 약 2,500자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "붉은 죽음의 가면극"
+      }
+    ]
+  },
+  {
+    "slug": "pit_pendulum",
+    "title": "구덩이와 추",
+    "subtitle": "The Pit and the Pendulum · 1842",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Pit and the Pendulum",
+    "original_year": "1842",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "pit_pendulum.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "종교재판"
+    ],
+    "cover_emoji": "🪒",
+    "summary": "종교재판소에서 사형 선고를 받은 주인공이 의식의 경계에서 겪는 극한의 공포와 심리적 고통을 탐구한 포우의 대표작으로, 죽음 앞에서 인간의 정신이 어떻게 붕괴되고 초월되는지를 섬세하게 그려낸다.",
+    "description_paragraphs": [
+      "<strong>『구덩이와 추』</strong>(The Pit and the Pendulum, 1842)는 미국 문학의 거장 에드거 앨런 포가 종교재판소의 고문 제도를 배경으로 창작한 심리 공포 단편이다. 16세기 스페인 종교재판의 비극 속에서 한 명의 죄수가 마주한 극한의 죽음 공포와 육체적·정신적 고통이 주요 소재다. 이 작품은 외적인 공포보다 내적 심리 묘사에 초점을 맞추며, 의식과 무의식의 경계에서 인간이 경험할 수 있는 최악의 정신적 고통을 탐구한다. 포우의 독특한 예술 철학과 공포의 미학을 가장 완벽하게 구현한 작품으로 평가받는다.",
+      "주인공은 종교재판관들로부터 사형 선고를 받는 순간의 충격으로 <strong>의식을 잃고 기절</strong>한다. 의식 속에서 깨어나는 그 사이사이 영역에서 주인공은 <strong>현실과 꿈, 죽음과 삶의 경계</strong>에 떠돌게 된다. 판관들의 입술 움직임, 초들의 불꽃, 검은 휘장 등 실재하는 것인지 환각인지 모를 이미지들이 주인공의 영혼을 짓누른다. 무덤의 안식을 간절히 바라던 주인공의 의식이 어떻게 그 경계를 헤맬 수밖에 없는지, 생과 사 사이의 심연이 얼마나 깊은지를 섬세하게 포착한다.",
+      "이 작품의 핵심은 <strong>공포 자체보다 공포에 직면한 인간의 정신</strong>에 있다. 포우는 신체적 고문보다는 심리적 공포에 초점을 맞추며, 의식이 사라져가는 과정에서 남겨지는 모호한 기억과 환각의 조각들을 통해 인간의 근원적 공포를 드러낸다. 문체는 <strong>1인칭 고백과 철학적 성찰</strong>을 결합하여, 극한 상황 속에서 자신의 경험을 이성적으로 분석하려는 주인공의 노력을 표현한다. 이는 단순한 공포 이야기를 넘어 인간 존재의 본질과 의식의 신비로움을 탐구하는 철학적 성찰이기도 하다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>되었다. 원문 약 2,500단어, 한국어 약 6,500자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "구덩이와 추"
+      }
+    ]
+  },
+  {
+    "slug": "purloined_letter",
+    "title": "도둑맞은 편지",
+    "subtitle": "The Purloined Letter · 1844",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "The Purloined Letter",
+    "original_year": "1844",
+    "source": "Project Gutenberg eBook #2148",
+    "source_url": "https://www.gutenberg.org/ebooks/2148",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "purloined_letter.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "추리"
+    ],
+    "cover_emoji": "✉️",
+    "summary": "도둑맞은 편지 사건으로 펼쳐지는 지적 추적 게임. 경찰의 정규적 수사로는 풀 수 없는 미스터리를 지능과 심리 분석으로 해결하는 뛰어난 추리가 뒤팽의 활약이 돋보이는 추리 문학의 명작.",
+    "description_paragraphs": [
+      "<strong>『도둑맞은 편지』</strong>(The Purloined Letter, 1844)는 에드거 알렌 포가 창작한 탐정 추리 단편으로, 탁월한 추리 능력으로 빅토리아 시대 추리 소설의 원형을 제시한 작품이다. 19세기 파리를 배경으로 평범해 보이는 사건 속에서 진정한 미스터리의 본질을 파헤치는 추리가 C. 오귀스트 뒤팽의 활약을 중심으로 한다. 경찰의 정규적 수사로는 풀 수 없는 사건을 지능과 심리 분석만으로 해결하는 뒤팽의 모습은 이후 셜록 홈스 같은 명탐정의 원형이 되었다. 이 작품은 추리 소설의 역사에서 가장 중요한 기념비적 작품 중 하나로 평가받고 있다.",
+      "파리 경찰청장 G가 뛰어난 추리가 C. 오귀스트 뒤팽을 찾아와 <strong>한 통의 도둑맞은 편지</strong>에 관해 상담한다. 왕실의 사적 거처에서 도둑맞은 이 편지는 고위 인물을 협박할 수 있는 강력한 무기가 되어, 장관 D의 손에서 엄청난 권력을 발휘하고 있다. 경찰청은 D 장관의 거처를 샅샅이 뒤졌지만 편지를 찾지 못했고, 뒤팽은 <strong>명백한 것 속에 숨겨진 진실</strong>을 발견하고자 한다. 뛰어난 심리 분석과 역발상적 추리를 통해 뒤팽은 결국 편지의 진정한 위치를 밝혀낸다.",
+      "이 작품은 단순한 추리 소설을 넘어 인간 심리와 지성에 대한 깊은 통찰을 담고 있다. <strong>너무 명백한 것은 보이지 않는다</strong>는 철학적 명제 속에서 포가 제시하는 것은 논리적 추리의 본질이자 진정한 지혜의 의미다. 문체는 정교하고 세련되었으며, 추리 과정 자체가 문학적 긴장감과 함께 전개된다. 19세기 단편 문학의 가장 완성된 형태를 보여주는 작품이다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>. 원문 약 4,200단어, 한국어 약 6,900자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "도둑맞은 편지"
+      }
+    ]
+  },
+  {
+    "slug": "hop_frog",
+    "title": "껑충 개구리",
+    "subtitle": "Hop-Frog · 1849",
+    "author": "Edgar Allan Poe",
+    "author_years": "1809–1849",
+    "original_title": "Hop-Frog",
+    "original_year": "1849",
+    "source": "Project Gutenberg eBook #2151",
+    "source_url": "https://www.gutenberg.org/ebooks/2151",
+    "license": "Public Domain (원전)",
+    "editor": "Claude Opus 4.7",
+    "translator": "Claude Opus 4.7",
+    "pdf_file": "hop_frog.pdf",
+    "published_at": "2026-05-13",
+    "tags": [
+      "문학",
+      "단편",
+      "복수"
+    ],
+    "cover_emoji": "🃏",
+    "summary": "농담에 집착하는 왕의 궁정에서 난쟁이이면서 절름발이인 광대 껑충 개구리와 아름다운 난쟁이 소녀 트리페타의 우정이 왕과 대신들의 모욕을 계기로 극적인 복수로 변모하는 풍자적 단편.",
+    "description_paragraphs": [
+      "<strong>『껑충 개구리』</strong>(<em>Hop-Frog</em>, 1849)는 미국의 거장 에드거 앨런 포우가 웃음의 본질과 권력의 무능함을 신랄하게 풍자한 단편이다. 농담에 집착하는 왕과 그의 일곱 대신들이 벌이는 저급하고 천박한 희롱의 세계를 배경으로, 육체적 약점을 가진 포로 출신의 약자들이 어떻게 지배자들을 극적으로 응징하는지를 보여준다. 이 작품은 표면적으로는 궁정 광대의 재치 넘친 복수담으로 읽히지만, 깊숙한 곳에는 인간의 취향, 권력 구조, 그리고 소수자의 존엄성에 대한 포우의 냉소적 성찰이 녹아 있다.",
+      "왕은 오직 농담만을 위해 사는 인물로, 자신의 일곱 대신들도 모두 농담꾼으로 주변에 두고 있다. 궁정의 광대 껑충 개구리는 절름발이이면서 난쟁이인 포로 출신으로, 극도의 신체적 약점에도 불구하고 무한한 팔의 근력을 타고난다. 그는 우아하고 영향력 있는 난쟁이 소녀 트리페타와 깊은 우정을 나누며 궁정의 외로움 속에서 유일한 위로를 얻는다. 왕과 대신들의 거듭되는 모욕과 <strong>가면무도회라는 극적 무대</strong>를 계기로, 이 두 약자는 자신들을 향한 무한한 학대를 극적인 응징으로 변환하기로 결단한다.",
+      "포우는 이 작품에서 이성적 풍자의 정점을 보여준다. 농담을 좋아하는 왕이 실은 가장 우둔한 인물이며, 웃음을 지으면서도 그를 지배하는 약자들이 진정한 기지를 소유하고 있음을 역설적으로 드러낸다. 문체는 19세기 낭만주의의 감정적 과장과 고전적 풍자의 냉정함을 절묘하게 혼합하고 있으며, 극적 긴장감과 도덕적 정의에 대한 포우 특유의 신앙이 곳곳에 밴 역작이다.",
+      "본 번역은 <strong>Claude Opus 4.7로 1차 번역 후 같은 모델로 검수</strong>되었다. 원문 약 2,300단어, 한국어 약 2,700자."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "본문",
+        "ko_title": "껑충 개구리"
+      }
+    ]
+  }
+]

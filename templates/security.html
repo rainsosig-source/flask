@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보안 대시보드 - sosig.shop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh; color: #e0e0e0; line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px 18px; }
+        h1 { font-size: 26px; margin-bottom: 4px; color: #fff; }
+        h2 { font-size: 18px; margin: 0 0 12px; color: #a0c8ff;
+             border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
+        .subtitle { color: #8aa4c8; margin-bottom: 20px; font-size: 14px; }
+
+        nav {
+            background: rgba(255,255,255,0.04);
+            padding: 10px 14px; border-radius: 10px; margin-bottom: 20px;
+            display: flex; gap: 6px; flex-wrap: wrap;
+        }
+        nav a {
+            color: #c5e1ff; text-decoration: none;
+            padding: 6px 12px; border-radius: 6px; font-size: 14px;
+        }
+        nav a:hover { background: rgba(255,255,255,0.08); }
+        nav a.active { background: rgba(100,180,255,0.2); color: #fff; }
+
+        section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px; margin-top: 10px;
+        }
+        .card {
+            background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; text-align: center;
+        }
+        .card .num { font-size: 22px; font-weight: 700; color: #fff; }
+        .card .label { font-size: 11px; color: #8aa4c8; margin-top: 3px;
+                       text-transform: uppercase; letter-spacing: 0.5px; }
+        .sev-critical .num { color: #ff5c5c; }
+        .sev-high     .num { color: #ffae52; }
+        .sev-medium   .num { color: #ffd666; }
+        .sev-low      .num { color: #7fd996; }
+        .sev-ok       .num { color: #7fd996; }
+        .sev-warn     .num { color: #ffd666; }
+        .sev-danger   .num { color: #ff5c5c; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+        th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        th { color: #a0c8ff; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        .mono { font-family: 'SF Mono', 'Monaco', monospace; font-size: 12px; }
+        .country-tag {
+            display: inline-block; padding: 2px 6px; border-radius: 3px;
+            font-size: 11px; background: rgba(255,255,255,0.08); color: #c5e1ff;
+        }
+        .status-4xx { color: #ffae52; }
+        .status-5xx { color: #ff5c5c; }
+        .status-2xx { color: #7fd996; }
+        .status-3xx { color: #8aa4c8; }
+        .warn-row { background: rgba(255,92,92,0.05); }
+
+        .two-col {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+        }
+        @media (max-width: 800px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+        .muted { color: #8aa4c8; font-size: 12px; margin-top: 6px; }
+        .pill {
+            display: inline-block; padding: 3px 9px; border-radius: 12px;
+            font-size: 11px; font-weight: 600;
+        }
+        .pill-red { background: rgba(255,92,92,0.15); color: #ff7272; }
+        .pill-ok  { background: rgba(127,217,150,0.15); color: #7fd996; }
+    </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+    <div class="container">
+                <nav>
+            <a href="/">🏠 홈</a>
+            <a href="/book">📚 선집</a>
+            <a href="/vuln">📊 CVE 뉴스</a>
+            <a href="/vuln/list">📋 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/infra">🏗️ 내 인프라</a>
+            <a href="/vuln/about">ℹ️ 소개</a>
+            <a href="/security" class="active">🛡️ 보안</a>
+        </nav>
+
+        <h1>🛡️ 보안 대시보드</h1>
+        <p class="subtitle">최근 24시간 활동 요약 · 생성 {{ generated }}</p>
+
+        <!-- 상단 통합 지표 -->
+        <section>
+            <h2>지표 요약 (최근 24시간)</h2>
+            <div class="card-grid">
+                <div class="card sev-ok"><div class="num">{{ "{:,}".format(web.total) }}</div><div class="label">웹 요청</div></div>
+                <div class="card sev-{% if web.errors_4xx > 100 %}warn{% else %}ok{% endif %}"><div class="num">{{ web.errors_4xx }}</div><div class="label">4xx 오류</div></div>
+                <div class="card sev-{% if web.errors_5xx > 10 %}danger{% else %}ok{% endif %}"><div class="num">{{ web.errors_5xx }}</div><div class="label">5xx 오류</div></div>
+                <div class="card sev-{% if web.sensitive_count > 0 %}warn{% else %}ok{% endif %}"><div class="num">{{ web.sensitive_count }}</div><div class="label">민감 경로 히트</div></div>
+                <div class="card sev-{% if ssh.total_fail > 0 %}warn{% else %}ok{% endif %}"><div class="num">{{ ssh.total_fail }}</div><div class="label">SSH 실패</div></div>
+                <div class="card sev-ok"><div class="num">{{ ssh.total_accept }}</div><div class="label">SSH 성공</div></div>
+                <div class="card sev-{% if f2b.currently_banned > 0 %}warn{% else %}ok{% endif %}"><div class="num">{{ f2b.currently_banned }}</div><div class="label">fail2ban 차단</div></div>
+                <div class="card"><div class="num">{{ openvas.hosts }}</div><div class="label">스캔 호스트</div></div>
+            </div>
+        </section>
+
+        <!-- OpenVAS findings -->
+        <section>
+            <h2>OpenVAS 취약점</h2>
+            <div class="card-grid">
+                <div class="card sev-critical"><div class="num">{{ openvas.critical }}</div><div class="label">Critical</div></div>
+                <div class="card sev-high"><div class="num">{{ openvas.high }}</div><div class="label">High</div></div>
+                <div class="card sev-medium"><div class="num">{{ openvas.medium }}</div><div class="label">Medium</div></div>
+                <div class="card sev-low"><div class="num">{{ openvas.low }}</div><div class="label">Low</div></div>
+            </div>
+            {% if openvas.last_scan %}
+            <p class="muted">마지막 스캔 {{ openvas.last_scan }} · <a href="/vuln/infra" style="color:#7cb9ff">상세 보기</a></p>
+            {% endif %}
+        </section>
+
+        <!-- 두 컬럼 레이아웃: SSH / 웹 -->
+        <div class="two-col">
+            <!-- SSH -->
+            <section>
+                <h2>SSH 활동</h2>
+                <div class="card-grid">
+                    <div class="card"><div class="num">{{ ssh.total_fail }}</div><div class="label">실패 시도</div></div>
+                    <div class="card"><div class="num">{{ ssh.total_accept }}</div><div class="label">성공 로그인</div></div>
+                    <div class="card"><div class="num">{{ ssh.unique_fail_ips }}</div><div class="label">고유 공격 IP</div></div>
+                </div>
+
+                {% if ssh.top_attackers %}
+                <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">Top 공격자</h3>
+                <table>
+                    <thead><tr><th>IP</th><th>국가</th><th style="text-align:right">시도</th></tr></thead>
+                    <tbody>
+                        {% for a in ssh.top_attackers %}
+                        <tr class="warn-row">
+                            <td class="mono">{{ a.ip }}</td>
+                            <td>{% if a.country %}<span class="country-tag">{{ a.country }}</span>{% endif %}</td>
+                            <td style="text-align:right"><b>{{ a.count }}</b></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                {% if ssh.recent_accepted %}
+                <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">최근 로그인 성공</h3>
+                <table>
+                    <thead><tr><th>시각</th><th>IP</th><th>국가</th></tr></thead>
+                    <tbody>
+                        {% for a in ssh.recent_accepted %}
+                        <tr>
+                            <td class="mono">{{ a.time }}</td>
+                            <td class="mono">{{ a.ip }}</td>
+                            <td>{% if a.country %}<span class="country-tag">{{ a.country }}</span>{% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </section>
+
+            <!-- 웹 -->
+            <section>
+                <h2>웹 트래픽</h2>
+                <div class="card-grid">
+                    <div class="card"><div class="num">{{ "{:,}".format(web.total) }}</div><div class="label">요청</div></div>
+                    <div class="card"><div class="num">{{ web.unique_ips }}</div><div class="label">고유 IP</div></div>
+                    <div class="card sev-{% if web.errors_4xx > 100 %}warn{% else %}ok{% endif %}"><div class="num">{{ web.errors_4xx }}</div><div class="label">4xx</div></div>
+                    <div class="card sev-{% if web.errors_5xx > 0 %}danger{% else %}ok{% endif %}"><div class="num">{{ web.errors_5xx }}</div><div class="label">5xx</div></div>
+                </div>
+
+                {% if web.by_country %}
+                <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">상위 국가</h3>
+                <table>
+                    <thead><tr><th>국가</th><th style="text-align:right">요청</th></tr></thead>
+                    <tbody>
+                        {% for country, count in web.by_country.items() %}
+                        <tr><td>{{ country }}</td><td style="text-align:right"><b>{{ count }}</b></td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                {% if web.top_ips %}
+                <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">Top IP</h3>
+                <table>
+                    <thead><tr><th>IP</th><th>국가</th><th style="text-align:right">요청</th></tr></thead>
+                    <tbody>
+                        {% for ip in web.top_ips[:10] %}
+                        <tr>
+                            <td class="mono">{{ ip.ip }}</td>
+                            <td>{% if ip.country %}<span class="country-tag">{{ ip.country }}</span>{% elif ip.is_private %}<span class="country-tag">LAN</span>{% endif %}</td>
+                            <td style="text-align:right"><b>{{ ip.count }}</b></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </section>
+        </div>
+
+        <!-- 민감 경로 히트 (스캐너 시그널) -->
+        {% if web.sensitive_hits %}
+        <section>
+            <h2>⚠️ 민감 경로 접근 시도 ({{ web.sensitive_count }}건)</h2>
+            <table>
+                <thead>
+                    <tr><th>시각</th><th>IP</th><th>국가</th><th>경로</th><th>상태</th></tr>
+                </thead>
+                <tbody>
+                    {% for hit in web.sensitive_hits %}
+                    <tr>
+                        <td class="mono">{{ hit.time }}</td>
+                        <td class="mono">{{ hit.ip }}</td>
+                        <td>{% if hit.country %}<span class="country-tag">{{ hit.country }}</span>{% endif %}</td>
+                        <td class="mono">{{ hit.path }}</td>
+                        <td class="mono status-{{ hit.status // 100 }}xx">{{ hit.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="muted">정찰 스캐너 또는 봇의 일반적 경로 탐색. 대부분 4xx로 차단됨.</p>
+        </section>
+        {% endif %}
+
+        <!-- fail2ban 차단 -->
+        <section>
+            <h2>🚫 fail2ban 현황</h2>
+            <div class="card-grid">
+                <div class="card"><div class="num">{{ f2b.currently_banned }}</div><div class="label">현재 차단 중</div></div>
+                <div class="card"><div class="num">{{ f2b.total_banned }}</div><div class="label">누적 차단</div></div>
+                <div class="card"><div class="num">{{ f2b.total_failed }}</div><div class="label">누적 실패</div></div>
+            </div>
+
+            {% if f2b.banned %}
+            <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">현재 차단 IP</h3>
+            <table>
+                <thead><tr><th>IP</th><th>국가</th></tr></thead>
+                <tbody>
+                    {% for b in f2b.banned %}
+                    <tr>
+                        <td class="mono">{{ b.ip }}</td>
+                        <td>{% if b.country %}<span class="country-tag">{{ b.country }}</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </section>
+
+        <p class="muted" style="text-align:center; margin-top:20px">
+            데이터는 매 요청 시 실시간 파싱 · 최근 24시간 로그만 반영
+        </p>
+    </div>
+</body>
+</html>

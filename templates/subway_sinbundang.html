@@ -1,0 +1,326 @@
+{% set page_title = "신분당선 실시간" %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신분당선 실시간 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: #e6edf3; flex: 1; }
+    .status {
+      font-size: 0.85rem; color: #8b949e;
+    }
+    .status .dot {
+      display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; background: #3fb950; margin-right: 6px;
+    }
+    .status.stale .dot { background: #f85149; }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: #8b949e;
+      flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    .map-wrap {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      overflow-x: auto;
+    }
+    svg { display: block; margin: 0 auto; }
+
+    .station-name {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 12px;
+      fill: #c9d1d9;
+    }
+    .station-name.major {
+      font-weight: 700; fill: #fff; font-size: 13px;
+    }
+
+    .train-info {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.6rem;
+    }
+    .train-card {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      font-size: 0.85rem;
+    }
+    .train-card .no { color: #58a6ff; font-weight: 700; }
+    .train-card .dest { color: #d31145; margin-left: 0.5rem; font-size: 0.8rem; }
+    .train-card .statn { font-size: 1rem; margin: 0.3rem 0; color: #fff; }
+    .train-card .sttus { color: #8b949e; font-size: 0.75rem; }
+
+    footer {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      color: #8b949e;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+  </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+  <header>
+    <a href="/">← 홈</a>
+    <h1>🚇 신분당선 실시간</h1>
+    <div class="status" id="status"><span class="dot"></span><span id="status-text">연결 중...</span></div>
+  </header>
+
+  <main>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#d31145"></span>광교행 (하행)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ff8c5a"></span>신사행 (상행)</div>
+      <div class="legend-item">● 정차 중 · ◯ 주행 중</div>
+    </div>
+
+    <div class="map-wrap">
+      <svg id="map" viewBox="0 0 200 1100" width="200" height="1100" aria-label="신분당선 노선도">
+        <!-- 노선 본선 -->
+        <line x1="100" y1="40" x2="100" y2="1060" stroke="#d31145" stroke-width="6" stroke-linecap="round"/>
+        <!-- 역들은 JS에서 동적 생성 -->
+        <g id="stations"></g>
+        <!-- 열차 점은 별도 g에 -->
+        <g id="trains"></g>
+      </svg>
+    </div>
+
+    <div class="train-info" id="train-info"></div>
+  </main>
+
+  <footer>
+    데이터: 서울 열린데이터광장 (서울교통공사 실시간위치) · 폴링 주기 60~90초 ·
+    <span id="fetched-display">대기 중</span>
+  </footer>
+
+  <script>
+    const STATIONS = {{ stations | tojson }};
+    const N = STATIONS.length;
+
+    const TOP = 50, BOTTOM = 1050;
+    const X_MAIN = 100;
+
+    // 역 좌표 계산
+    const stationY = STATIONS.map((_, i) => TOP + (BOTTOM - TOP) * i / (N - 1));
+
+    // 주요역 (굵게 표시)
+    const MAJOR = new Set(["신사", "강남", "양재", "판교", "정자", "광교중앙", "광교"]);
+
+    // 역 SVG 생성
+    const sg = document.getElementById('stations');
+    STATIONS.forEach((name, i) => {
+      const y = stationY[i];
+      const isMajor = MAJOR.has(name);
+      // 역 원
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', X_MAIN);
+      c.setAttribute('cy', y);
+      c.setAttribute('r', isMajor ? 8 : 6);
+      c.setAttribute('fill', '#0d1117');
+      c.setAttribute('stroke', '#d31145');
+      c.setAttribute('stroke-width', isMajor ? 4 : 3);
+      sg.appendChild(c);
+      // 역 이름 (좌측)
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', X_MAIN - 18);
+      t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'end');
+      t.setAttribute('class', 'station-name' + (isMajor ? ' major' : ''));
+      t.textContent = name;
+      sg.appendChild(t);
+    });
+
+    // 보간을 위한 상태 저장
+    // currentTrains[trainNo] = { fromY, toY, startTime, dest, updnLine, statn, sttus }
+    let currentTrains = {};
+    let lastFetchAt = 0;
+    let lastBackendFetch = 0;
+
+    function setStatus(text, stale=false) {
+      document.getElementById('status-text').textContent = text;
+      document.getElementById('status').classList.toggle('stale', stale);
+    }
+
+    function stationY_for(name) {
+      const idx = STATIONS.indexOf(name);
+      if (idx === -1) return null;
+      return stationY[idx];
+    }
+
+    // 열차 위치 추정: API는 "현재역" 정보만 줘서, trainSttus에 따라 보간
+    // 0=진입중(다음역 90% 위치), 1=도착(현재역), 2=출발(현재역에서 5% 떠남), 3=전역출발(이전역 50% → 현재역)
+    function estimatePosition(t) {
+      const here = stationY_for(t.statn);
+      if (here === null) return null;
+      const dir = t.updnLine === 1 ? +1 : -1;  // 1=광교방향(아래), 0=신사방향(위)
+      const stepIdx = STATIONS.indexOf(t.statn);
+      const nextIdx = stepIdx + dir;
+      const prevIdx = stepIdx - dir;
+      const next = (nextIdx >= 0 && nextIdx < N) ? stationY[nextIdx] : here;
+      const prev = (prevIdx >= 0 && prevIdx < N) ? stationY[prevIdx] : here;
+
+      switch (t.trainSttus) {
+        case 1: return here;                   // 도착
+        case 2: return here + (next - here) * 0.1;   // 출발
+        case 3: return prev + (here - prev) * 0.5;   // 전역에서 출발 (중간)
+        case 0: return here - (here - prev) * 0.1;   // 진입중 (다음역 직전, 약간 못 왔음)
+        default: return here;
+      }
+    }
+
+    function colorFor(updnLine) {
+      return updnLine === 1 ? '#d31145' : '#ff8c5a';
+    }
+
+    function render() {
+      const tg = document.getElementById('trains');
+      tg.innerHTML = '';
+      const now = performance.now();
+      const trainList = [];
+
+      for (const trainNo in currentTrains) {
+        const t = currentTrains[trainNo];
+        const y = t.targetY;   // 일단 이번 fetch의 목표 위치 (보간은 다음 단계)
+
+        // 좌우 분리: 광교행은 오른쪽, 신사행은 왼쪽
+        const x = X_MAIN + (t.updnLine === 1 ? 16 : -16);
+
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', x);
+        c.setAttribute('cy', y);
+        c.setAttribute('r', 8);
+        c.setAttribute('fill', colorFor(t.updnLine));
+        c.setAttribute('stroke', '#fff');
+        c.setAttribute('stroke-width', 1.5);
+        c.style.transition = 'cy 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        tg.appendChild(c);
+
+        // 열차 번호 표시
+        const tx = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        tx.setAttribute('x', x);
+        tx.setAttribute('y', y + 3);
+        tx.setAttribute('text-anchor', 'middle');
+        tx.setAttribute('font-size', '8');
+        tx.setAttribute('font-weight', '700');
+        tx.setAttribute('fill', '#fff');
+        tx.textContent = t.trainNo;
+        tg.appendChild(tx);
+
+        trainList.push(t);
+      }
+
+      // 카드 영역
+      const info = document.getElementById('train-info');
+      info.innerHTML = '';
+      trainList.sort((a, b) => parseInt(a.trainNo) - parseInt(b.trainNo));
+      const STTUS = {0: "진입 중", 1: "정차 중", 2: "출발", 3: "전역 출발"};
+      trainList.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'train-card';
+        card.innerHTML = `
+          <div><span class="no">#${t.trainNo}</span><span class="dest">${t.dest}행</span></div>
+          <div class="statn">${t.statn}</div>
+          <div class="sttus">${STTUS[t.sttus] || t.sttus}</div>
+        `;
+        info.appendChild(card);
+      });
+
+      // 시각 표시
+      const ageSec = lastBackendFetch ? Math.floor((Date.now()/1000 - lastBackendFetch)) : null;
+      if (ageSec !== null) {
+        document.getElementById('fetched-display').textContent =
+          `${ageSec}초 전 갱신 · 열차 ${trainList.length}편`;
+        setStatus(`연결됨 (${ageSec}s 전)`, ageSec > 180);
+      }
+    }
+
+    function applyTrains(trains) {
+      const seen = new Set();
+      trains.forEach(t => {
+        const y = estimatePosition(t);
+        if (y === null) return;
+        currentTrains[t.trainNo] = {
+          trainNo: t.trainNo,
+          statn: t.statn,
+          dest: t.dest,
+          updnLine: t.updnLine,
+          sttus: t.trainSttus,
+          targetY: y,
+        };
+        seen.add(t.trainNo);
+      });
+      // 더 이상 안 보이는 열차 제거
+      for (const k in currentTrains) {
+        if (!seen.has(k)) delete currentTrains[k];
+      }
+      render();
+    }
+
+    // SSE 연결
+    function connect() {
+      const es = new EventSource('/subway/sinbundang/stream');
+      es.onopen = () => setStatus('연결됨', false);
+      es.onmessage = (ev) => {
+        const data = JSON.parse(ev.data);
+        lastBackendFetch = data.fetched_at || 0;
+        applyTrains(data.trains || []);
+      };
+      es.onerror = () => {
+        setStatus('재연결 시도 중...', true);
+        es.close();
+        setTimeout(connect, 5000);
+      };
+    }
+    connect();
+
+    // 1초마다 시각 업데이트만
+    setInterval(() => {
+      const ageSec = lastBackendFetch ? Math.floor((Date.now()/1000 - lastBackendFetch)) : null;
+      if (ageSec !== null) {
+        document.getElementById('fetched-display').textContent =
+          `${ageSec}초 전 갱신 · 열차 ${Object.keys(currentTrains).length}편`;
+        if (ageSec > 180) setStatus(`데이터 stale (${ageSec}s)`, true);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

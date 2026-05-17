@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI 뉴스 플랫폼 방명록 - 방문 소감을 남겨주세요.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
     <meta property="og:title" content="방명록 - AI 뉴스 플랫폼">
     <meta property="og:description" content="방문 소감을 남겨주세요.">
     <meta property="og:url" content="https://sosig.shop/broadcast">
     <meta property="og:site_name" content="AI 뉴스 플랫폼">
     <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
     <meta name="twitter:title" content="방명록 - AI 뉴스 플랫폼">
     <meta name="twitter:description" content="방문 소감을 남겨주세요.">
     <title>방명록 - AI 뉴스 플랫폼</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/broadcast.css?v=6">
+    <link rel="stylesheet" href="{{ static_v('css/broadcast.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 
 <body>
@@ -52,7 +57,7 @@
         <div class="pagination" id="pagination"></div>
     </div>
 
-    <script src="/static/js/broadcast.js?v=6"></script>
+    <script src="{{ static_v('js/broadcast.js') }}"></script>
 </body>
 
 </html>

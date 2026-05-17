@@ -6,16 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="매일 엄선된 AI 뉴스를 전해드립니다. 팟캐스트, CVE 모니터링, 네트워크 경로 추적 등 다양한 AI 관련 서비스를 제공합니다.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
     <meta property="og:title" content="AI 뉴스 플랫폼">
     <meta property="og:description" content="매일 엄선된 AI 뉴스를 전해드립니다. 팟캐스트, CVE 모니터링, 네트워크 경로 추적 등 다양한 AI 관련 서비스를 제공합니다.">
     <meta property="og:url" content="https://sosig.shop/">
     <meta property="og:site_name" content="AI 뉴스 플랫폼">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://sosig.shop/static/logo/sosig_logo_280.png">
     <meta name="twitter:title" content="AI 뉴스 플랫폼">
     <meta name="twitter:description" content="매일 엄선된 AI 뉴스를 전해드립니다. 팟캐스트, CVE 모니터링, 네트워크 경로 추적 등 다양한 AI 관련 서비스를 제공합니다.">
     <title>AI 뉴스 플랫폼</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/index.css">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+    <link rel="stylesheet" href="{{ static_v('css/index.css') }}">
+
+    <style>
+      .hero-logo {
+        display: block;
+        margin: 0 auto 1rem;
+        width: 140px;
+        height: 140px;
+        border-radius: 20px;
+      }
+      .card.locked .card-icon { filter: grayscale(0.4); opacity: 0.85; }
+      #netauth-modal { position: fixed; inset: 0; z-index: 999; display: none; align-items: center; justify-content: center; }
+      #netauth-modal.show { display: flex; }
+      #netauth-modal .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); }
+      #netauth-modal .modal-box { position: relative; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.5rem 2rem; min-width: 320px; max-width: 90vw; color: #e6edf3; }
+      #netauth-modal h3 { margin-bottom: 0.3rem; font-size: 1.15rem; }
+      #netauth-modal p.hint { color: #8b949e; font-size: 0.88rem; margin-bottom: 1rem; }
+      #netauth-modal input { width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-family: monospace; font-size: 1.4rem; text-align: center; letter-spacing: 0.5em; }
+      #netauth-modal .actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; flex-wrap: wrap; }
+      #netauth-modal .actions button { padding: 8px 16px; border-radius: 6px; border: 1px solid #30363d; background: #21262d; color: #e6edf3; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
+      #netauth-modal .actions button.primary { background: #1f6feb; border-color: #1f6feb; }
+      #netauth-modal .actions button:hover { border-color: #58a6ff; }
+      #otp-msg { margin-top: 0.6rem; font-size: 0.85rem; color: #d29922; min-height: 1.2em; text-align: center; }
+      [data-theme="light"] #netauth-modal .modal-box { background: #f6f8fa; border-color: #d0d7de; color: #1f2328; }
+      [data-theme="light"] #netauth-modal h3 { color: #1f2328; }
+      [data-theme="light"] #netauth-modal input { background: #fff; border-color: #d0d7de; color: #1f2328; }
+      [data-theme="light"] #netauth-modal .actions button { background: #f6f8fa; border-color: #d0d7de; color: #1f2328; }
+      [data-theme="light"] #netauth-modal .actions button.primary { background: #0969da; border-color: #0969da; color: #fff; }
+    </style>
 </head>
 
 <body>
@@ -30,26 +64,43 @@
     <div class="glow glow-2"></div>
 
     <main>
+        <img src="/static/logo/sosig_logo_140.png" srcset="/static/logo/sosig_logo_140.png 1x, /static/logo/sosig_logo_280.png 2x" alt="sosig.shop" class="hero-logo" width="140" height="140">
         <h1>AI 뉴스 플랫폼</h1>
         <p class="subtitle">매일 엄선된 AI 뉴스를 전해드립니다.</p>
 
         <div class="cards">
+            <h3 class="section-label">🎧 콘텐츠</h3>
+
             <a href="/podcast" class="card">
                 <div class="card-icon">🎙️</div>
                 <h2>팟캐스트 캘린더</h2>
                 <p>날짜별, 주제별로 정리된 일일 AI 뉴스 브리핑을 들어보세요.</p>
             </a>
 
-            <a href="/manager" class="card">
-                <div class="card-icon">⚙️</div>
-                <h2>키워드 관리자</h2>
-                <p>키워드와 AI 프롬프트를 관리하여 뉴스 피드를 맞춤 설정하세요.</p>
+            <a href="/briefing" class="card">
+                <div class="card-icon">🎧</div>
+                <h2>시간대별 모음</h2>
+                <p>새벽·아침·낮·저녁·밤 + 일별로 묶은 합본 팟캐스트. 기사 사이 1.5초 무음으로 트랙 구분.</p>
             </a>
 
-            <a href="/route" class="card">
-                <div class="card-icon">🌐</div>
-                <h2>네트워크 경로 추적</h2>
-                <p>전 세계 서버까지의 네트워크 경로를 3D 지구본에서 시각화해보세요.</p>
+            <a href="/news/videos" class="card">
+                <div class="card-icon">📹</div>
+                <h2>AI 뉴스 영상</h2>
+                <p>AI가 생성한 뉴스 영상 모음. 실제 기사 기반 한국어 분석 영상을 확인하세요.</p>
+            </a>
+
+            <a href="/foreign" class="card">
+                <div class="card-icon">🗞️</div>
+                <h2>외신이 본 한국</h2>
+                <p>BBC, Nikkei Asia 등 해외 매체가 보도한 한국 관련 뉴스 중 국내 언론이 놓친 기사를 한국어 팟캐스트로 전달합니다.</p>
+            </a>
+
+            <h3 class="section-label">🛡️ 보안</h3>
+
+            <a href="/kisa" class="card">
+                <div class="card-icon">🇰🇷</div>
+                <h2>KISA 보안 권고</h2>
+                <p>한국인터넷진흥원의 최신 보안 권고와 취약점, 사이버 위기 단계를 한눈에 확인하세요.</p>
             </a>
 
             <a href="/vuln" class="card">
@@ -58,22 +109,55 @@
                 <p>주요 프로그램별 보안 취약점 현황과 최신 CVE를 모니터링하세요.</p>
             </a>
 
-            <a href="/broadcast" class="card">
-                <div class="card-icon">📋</div>
-                <h2>방명록</h2>
-                <p>전체 에피소드를 검색하고 토픽별로 필터링하며 바로 재생해보세요.</p>
+            <a href="/malware" class="card">
+                <div class="card-icon">🔬</div>
+                <h2>악성코드 분석기</h2>
+                <p>실행 파일(PE/ELF)을 정적 분석하고 AI가 악성코드 여부를 판단합니다.</p>
             </a>
 
-            <a href="/about" class="card">
-                <div class="card-icon">ℹ️</div>
-                <h2>서비스 소개</h2>
-                <p>AI 뉴스 플랫폼의 아키텍처와 개발 스토리를 확인해보세요.</p>
+            <a href="/vuln/infra" class="card">
+                <div class="card-icon">🏢</div>
+                <h2>인프라 스캔</h2>
+                <p>OpenVAS로 자기 인프라(웹·DB·SSH 등)를 풀스캔한 결과. 발견된 취약점과 호스트별 위험도를 한눈에.</p>
+            </a>
+
+            <h3 class="section-label">🛠️ 도구·자료</h3>
+
+            <a href="/route" class="card">
+                <div class="card-icon">🌐</div>
+                <h2>네트워크 경로 추적</h2>
+                <p>전 세계 서버까지의 네트워크 경로를 3D 지구본에서 시각화해보세요.</p>
+            </a>
+
+            <a href="/subway" class="card">
+                <div class="card-icon">🚇</div>
+                <h2>지하철 실시간</h2>
+                <p>서울 지하철 노선의 실시간 열차 위치를 노선도 위에 시각화. 신분당선부터 시작.</p>
+            </a>
+
+            <a href="#" class="card locked" onclick="openNetAuth(event)">
+                <div class="card-icon">🔒</div>
+                <h2>네트워크 분석</h2>
+                <p>LAN 패킷 mirror + Zeek/Suricata + LLM 일별 분석. 본인 전용.</p>
+            </a>
+
+            <a href="/book" class="card">
+                <div class="card-icon">📚</div>
+                <h2>번역 선집</h2>
+                <p>퍼블릭 도메인 원전을 AI가 편집·번역한 비영리 선집. 니체 『위버멘쉬』 등.</p>
             </a>
         </div>
     </main>
 
     <footer>
         <div class="footer-content">
+            <div class="footer-nav">
+                <a href="/broadcast" class="footer-link">방명록</a>
+                <span class="footer-sep">·</span>
+                <a href="/status" class="footer-link">운영 상태</a>
+                <span class="footer-sep">·</span>
+                <a href="/about" class="footer-link">서비스 소개</a>
+            </div>
             <div>제작: <span class="footer-highlight">TS.Song</span></div>
             <div>문의: <a href="mailto:sddari@gmail.com" class="footer-link">sddari@gmail.com</a></div>
             <div class="google-credit">
@@ -87,7 +171,62 @@
         <span class="visit-count" id="visitCount">-</span>
     </div>
 
-    <script src="/static/js/index.js"></script>
+    <script src="{{ static_v('js/index.js') }}"></script>
+
+    <div id="netauth-modal" role="dialog" aria-modal="true">
+      <div class="modal-backdrop" onclick="closeNetAuth()"></div>
+      <div class="modal-box">
+        <h3>🔒 네트워크 분석 인증</h3>
+        <p class="hint">텔레그램으로 6자리 코드를 보냈습니다 (5분 유효).</p>
+        <input id="otp-input" type="text" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="------">
+        <div id="otp-msg"></div>
+        <div class="actions">
+          <button onclick="closeNetAuth()">취소</button>
+          <button onclick="window.location='/network/demo'">데모 보기</button>
+          <button onclick="requestOtp()">요청</button>
+          <button class="primary" onclick="submitOtp()">확인</button>
+        </div>
+      </div>
+    </div>
+    <script>
+    function openNetAuth(ev) {
+      ev.preventDefault();
+      const m = document.getElementById('netauth-modal');
+      m.classList.add('show');
+      document.getElementById('otp-input').value = '';
+      document.getElementById('otp-msg').textContent = '[요청] 버튼을 누르면 텔레그램으로 코드가 전송됩니다';
+    }
+    async function requestOtp() {
+      document.getElementById('otp-msg').textContent = '코드 전송 중...';
+      try {
+        const r = await fetch('/api/auth/network/request_otp', {method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+        const d = await r.json();
+        document.getElementById('otp-msg').textContent = d.ok ? '텔레그램에서 코드를 확인하세요 (5분 유효)' : (d.error || '전송 실패');
+        if (d.ok) document.getElementById('otp-input').focus();
+      } catch (e) {
+        document.getElementById('otp-msg').textContent = '네트워크 오류';
+      }
+    }
+    async function submitOtp() {
+      const code = document.getElementById('otp-input').value.trim();
+      if (!/^\d{6}$/.test(code)) { document.getElementById('otp-msg').textContent = '6자리 숫자'; return; }
+      try {
+        const r = await fetch('/api/auth/network/verify_otp', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
+        const d = await r.json();
+        if (d.ok) window.location = '/network';
+        else document.getElementById('otp-msg').textContent = d.error || '실패';
+      } catch (e) {
+        document.getElementById('otp-msg').textContent = '네트워크 오류';
+      }
+    }
+    function closeNetAuth() { document.getElementById('netauth-modal').classList.remove('show'); }
+    document.addEventListener('keydown', (e) => {
+      const m = document.getElementById('netauth-modal');
+      if (!m.classList.contains('show')) return;
+      if (e.key === 'Escape') closeNetAuth();
+      if (e.key === 'Enter') submitOtp();
+    });
+    </script>
 
 </body>
 

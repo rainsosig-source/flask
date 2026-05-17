@@ -736,3 +736,34 @@
         .theme-icon {
             font-size: 1rem;
         }
+
+/* 시간대별/일별 모음 듣기 버튼 */
+.compile-btn {
+    margin-left: 6px;
+    padding: 4px 12px;
+    border: 1px solid #ff8c00;
+    background: rgba(255, 140, 0, 0.12);
+    color: inherit;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+.compile-btn:hover {
+    background: rgba(255, 140, 0, 0.25);
+}
+.compile-daily {
+    font-weight: 600;
+    background: rgba(255, 140, 0, 0.22);
+}
+.compile-divider {
+    opacity: 0.4;
+    margin: 0 4px;
+}
+.list-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}

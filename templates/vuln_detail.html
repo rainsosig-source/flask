@@ -5,509 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ cve.cve_id if cve else 'CVE 상세' }} - sosig.shop</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh;
-            color: #e0e0e0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 25px 0;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 1.8em;
-            color: #00d4ff;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #00d4ff;
-            text-decoration: none;
-            padding: 8px 16px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        nav a:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: #00d4ff;
-        }
-
-        /* Score Overview Section */
-        .score-overview {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 30px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-        }
-
-        @media (max-width: 768px) {
-            .score-overview {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* CVSS Gauge */
-        .gauge-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gauge {
-            position: relative;
-            width: 160px;
-            height: 80px;
-            overflow: hidden;
-        }
-
-        .gauge-bg {
-            position: absolute;
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            background: conic-gradient(#dc3545 0deg 36deg,
-                    #fd7e14 36deg 72deg,
-                    #ffc107 72deg 108deg,
-                    #17a2b8 108deg 144deg,
-                    #6c757d 144deg 180deg,
-                    rgba(255, 255, 255, 0.1) 180deg 360deg);
-            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-        }
-
-        .gauge-fill {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            background: #1a1a2e;
-            border-radius: 50%;
-            top: 10px;
-            left: 10px;
-        }
-
-        .gauge-needle {
-            position: absolute;
-            width: 4px;
-            height: 60px;
-            background: linear-gradient(to top, #fff 0%, #00d4ff 100%);
-            bottom: 0;
-            left: 78px;
-            transform-origin: bottom center;
-            transform: rotate(var(--rotation));
-            border-radius: 2px;
-            transition: transform 1s ease-out;
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-        }
-
-        .gauge-center {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: #00d4ff;
-            border-radius: 50%;
-            bottom: -8px;
-            left: 72px;
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-        }
-
-        .gauge-score {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        .gauge-label {
-            font-size: 0.9em;
-            color: #888;
-        }
-
-        .score-critical .gauge-score {
-            color: #dc3545;
-        }
-
-        .score-high .gauge-score {
-            color: #fd7e14;
-        }
-
-        .score-medium .gauge-score {
-            color: #ffc107;
-        }
-
-        .score-low .gauge-score {
-            color: #17a2b8;
-        }
-
-        .score-unknown .gauge-score {
-            color: #6c757d;
-        }
-
-        /* Info Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .info-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .info-item label {
-            display: block;
-            color: #888;
-            font-size: 0.8em;
-            margin-bottom: 5px;
-        }
-
-        .info-item .value {
-            font-size: 1.1em;
-            font-weight: 500;
-        }
-
-        .badge {
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .badge-critical {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-
-        .badge-high {
-            background: rgba(253, 126, 20, 0.2);
-            color: #fd7e14;
-            border: 1px solid #fd7e14;
-        }
-
-        .badge-medium {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            border: 1px solid #ffc107;
-        }
-
-        .badge-low {
-            background: rgba(23, 162, 184, 0.2);
-            color: #17a2b8;
-            border: 1px solid #17a2b8;
-        }
-
-        .badge-unknown {
-            background: rgba(108, 117, 125, 0.2);
-            color: #6c757d;
-            border: 1px solid #6c757d;
-        }
-
-        /* Tabs */
-        .tabs-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-
-        .tabs-nav {
-            display: flex;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            padding: 15px 25px;
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 0.95em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-        }
-
-        .tab-btn:hover {
-            color: #00d4ff;
-            background: rgba(0, 212, 255, 0.05);
-        }
-
-        .tab-btn.active {
-            color: #00d4ff;
-            border-bottom-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-        }
-
-        .tab-content {
-            display: none;
-            padding: 25px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Description Boxes */
-        .description-box {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .description-box:last-child {
-            margin-bottom: 0;
-        }
-
-        .description-box.korean {
-            border-left: 4px solid #00d4ff;
-        }
-
-        .description-box.simple {
-            border-left: 4px solid #28a745;
-        }
-
-        .description-box.english {
-            border-left: 4px solid #7c3aed;
-            color: #aaa;
-        }
-
-        .description-box h3 {
-            color: #888;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* AI Analysis */
-        .ai-item {
-            margin-bottom: 25px;
-        }
-
-        .ai-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .ai-item h4 {
-            color: #7c3aed;
-            margin-bottom: 10px;
-            font-size: 1.05em;
-        }
-
-        .ai-item p {
-            color: #ccc;
-            line-height: 1.7;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        /* Code Block with Copy Button */
-        .code-container {
-            position: relative;
-            margin-top: 15px;
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 10px 15px;
-            border-radius: 8px 8px 0 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: none;
-        }
-
-        .code-header span {
-            color: #888;
-            font-size: 0.85em;
-        }
-
-        .copy-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 6px;
-            color: #00d4ff;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: rgba(0, 212, 255, 0.2);
-            border-color: #00d4ff;
-        }
-
-        .copy-btn.copied {
-            background: rgba(40, 167, 69, 0.2);
-            border-color: #28a745;
-            color: #28a745;
-        }
-
-        .code-block {
-            background: #0d0d1a;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0 0 8px 8px;
-            padding: 20px;
-            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            color: #00ff88;
-            line-height: 1.6;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        /* Software & References */
-        .software-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .software-tag {
-            padding: 8px 15px;
-            background: rgba(124, 58, 237, 0.2);
-            border: 1px solid rgba(124, 58, 237, 0.5);
-            border-radius: 8px;
-            color: #a78bfa;
-            font-size: 0.95em;
-        }
-
-        .ref-list {
-            list-style: none;
-        }
-
-        .ref-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .ref-list li:last-child {
-            border-bottom: none;
-        }
-
-        .ref-list a {
-            color: #00d4ff;
-            text-decoration: none;
-            word-break: break-all;
-            transition: color 0.3s ease;
-        }
-
-        .ref-list a:hover {
-            color: #7c3aed;
-            text-decoration: underline;
-        }
-
-        .ref-source {
-            color: #666;
-            font-size: 0.85em;
-            margin-left: 10px;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #888;
-        }
-
-        /* Error */
-        .error-message {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid #dc3545;
-            padding: 30px;
-            border-radius: 10px;
-            color: #dc3545;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-            color: #666;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        footer a {
-            color: #00d4ff;
-            text-decoration: none;
-        }
-        .top-nav { max-width: 1400px; margin: 0 auto; padding: 15px 20px 0; }
-        .home-link { display: inline-flex; align-items: center; gap: 6px; color: #888; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
-        .home-link:hover { color: #00d4ff; }
-    </style>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+    <link rel="stylesheet" href="{{ static_v('css/vuln_detail.css') }}">
 </head>
 
 <body>
@@ -519,9 +21,10 @@
     <div class="container">
         <nav>
             <a href="/vuln">📊 대시보드</a>
-            <a href="/vuln/list">📋 전체 목록</a>
+            <a href="/vuln/list" class="active">📋 CVE 취약점 목록</a>
             <a href="/vuln/search">🔍 검색</a>
-            <a href="/vuln/client">💻 클라이언트</a>
+            <a href="/vuln/infra">🛰️ 내 인프라 취약점</a>
+            <a href="/vuln/infra/map">🗺️ 네트워크 지도</a>
         </nav>
 
         {% if error %}
@@ -574,6 +77,12 @@
                 <button class="tab-btn" onclick="switchTab('analysis')">🤖 AI 분석</button>
                 <button class="tab-btn" onclick="switchTab('technical')">🔧 기술 정보</button>
                 <button class="tab-btn" onclick="switchTab('references')">🔗 참조 링크</button>
+                {% if cve.openvas_findings %}
+                <button class="tab-btn" onclick="switchTab('infra')">🏠 내 인프라 발견</button>
+                {% endif %}
+                {% if cve.kisa_advisories %}
+                <button class="tab-btn" onclick="switchTab('kisa')">🇰🇷 KISA 권고 ({{ cve.kisa_advisories|length }})</button>
+                {% endif %}
             </div>
 
             <!-- Tab: Description -->
@@ -711,6 +220,59 @@
                 </div>
                 {% endif %}
             </div>
+
+            {% if cve.openvas_findings %}
+            <div id="tab-infra" class="tab-content">
+                <div style="margin-bottom:16px;padding:12px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:8px;">
+                    <strong style="color:#00d4ff;">🏠 내 인프라 스캔에서 발견된 취약점</strong>
+                    <span style="color:#888;font-size:0.85em;margin-left:8px;">OpenVAS 스캔 결과 ({{ cve.infra_host_count }}개 호스트 영향)</span>
+                </div>
+                {% for f in cve.openvas_findings %}
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:16px;margin-bottom:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                        <strong style="color:#e0e0e0;">{{ f.nvt_name }}</strong>
+                        <span style="padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;{% if f.severity >= 9 %}background:rgba(220,53,69,0.2);color:#dc3545;border:1px solid #dc3545;{% elif f.severity >= 7 %}background:rgba(253,126,20,0.2);color:#fd7e14;border:1px solid #fd7e14;{% elif f.severity >= 4 %}background:rgba(255,193,7,0.2);color:#ffc107;border:1px solid #ffc107;{% else %}background:rgba(23,162,184,0.2);color:#17a2b8;border:1px solid #17a2b8;{% endif %}">{{ f.severity }}</span>
+                    </div>
+                    <div style="color:#888;font-size:0.85em;margin-bottom:8px;">🖥️ {{ f.host_ip }}  |  🔌 {{ f.port }}</div>
+                    {% if f.description %}
+                    <div style="color:#ccc;font-size:0.9em;margin-bottom:8px;white-space:pre-wrap;">{{ f.description }}</div>
+                    {% endif %}
+                    {% if f.solution %}
+                    <div style="background:rgba(40,167,69,0.05);border-left:3px solid #28a745;padding:10px;border-radius:4px;font-size:0.85em;color:#a8d5b5;white-space:pre-wrap;">
+                        <strong style="color:#28a745;">🛠️ 해결 방법</strong><br>{{ f.solution }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if cve.kisa_advisories %}
+            <div id="tab-kisa" class="tab-content">
+                <div style="margin-bottom:16px;padding:12px;background:rgba(248,81,73,0.05);border:1px solid rgba(248,81,73,0.2);border-radius:8px;">
+                    <strong style="color:#f85149;">🇰🇷 KISA(한국인터넷진흥원) 보안 권고</strong>
+                    <span style="color:#888;font-size:0.85em;margin-left:8px;">이 CVE에 대한 한국 공식 권고 ({{ cve.kisa_advisories|length }}건)</span>
+                </div>
+                {% for k in cve.kisa_advisories %}
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:16px;margin-bottom:12px;{% if k.ai_priority == 5 %}border-left:4px solid #f85149;{% elif k.ai_priority == 4 %}border-left:4px solid #f0883e;{% elif k.ai_priority == 3 %}border-left:4px solid #d29922;{% endif %}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                        <strong style="color:#e0e0e0;">{{ k.title }}</strong>
+                        {% if k.ai_priority %}
+                        <span style="padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;background:rgba(255,255,255,0.05);color:#aaa;">P{{ k.ai_priority }}</span>
+                        {% endif %}
+                    </div>
+                    <div style="color:#888;font-size:0.85em;margin-bottom:8px;">📅 {{ k.posted_at }} · {{ k.category }}</div>
+                    {% if k.ai_summary %}
+                    <div style="color:#ccc;font-size:0.9em;margin-bottom:10px;white-space:pre-wrap;line-height:1.6;">{{ k.ai_summary }}</div>
+                    {% endif %}
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:0.85em;">
+                        <a href="{{ k.link }}" target="_blank" rel="noopener" style="color:#58a6ff;text-decoration:none;">KISA 원문 →</a>
+                        <a href="/kisa" style="color:#8b949e;text-decoration:none;">전체 KISA 권고</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
 
         {% endif %}
@@ -720,58 +282,8 @@
         <p><a href="https://nvd.nist.gov/" target="_blank">NIST NVD</a> | <a href="/">sosig.shop</a></p>
     </footer>
 
-    <script>
-        // Tab switching
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Show selected tab
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Copy code to clipboard
-        function copyCode(button) {
-            const codeBlock = button.closest('.code-container').querySelector('.code-block');
-            const text = codeBlock.textContent;
-
-            navigator.clipboard.writeText(text).then(() => {
-                // Success feedback
-                button.classList.add('copied');
-                button.querySelector('.copy-icon').textContent = '✅';
-                button.querySelector('.copy-text').textContent = '복사됨!';
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    button.classList.remove('copied');
-                    button.querySelector('.copy-icon').textContent = '📋';
-                    button.querySelector('.copy-text').textContent = '복사';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('복사에 실패했습니다.');
-            });
-        }
-
-        // Animate gauge on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const needle = document.querySelector('.gauge-needle');
-            if (needle) {
-                needle.style.transition = 'none';
-                needle.style.transform = 'rotate(-90deg)';
-                setTimeout(() => {
-                    needle.style.transition = 'transform 1s ease-out';
-                    needle.style.transform = '';
-                }, 100);
-            }
-        });
-    </script>
+    
+    <script src="{{ static_v('js/vuln_detail.js') }}"></script>
 </body>
 
 </html>

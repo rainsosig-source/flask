@@ -26,7 +26,7 @@ load_dotenv(env_path)
 # 설정
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_USER = os.getenv("DB_USER", "")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_PASSWORD = os.getenv("DB_PASS", os.getenv("DB_PASSWORD", ""))
 DB_NAME = os.getenv("DB_NAME", "podcast")
 
 # SFTP 설정 (원격 실행 시)
@@ -57,18 +57,22 @@ def get_old_episodes(cursor, days):
         SELECT id, title, mp3_path, created_at 
         FROM episodes 
         WHERE created_at < NOW() - INTERVAL %s DAY
+          AND (press IS NULL OR press != 'KISA')
         ORDER BY created_at ASC
     """
     cursor.execute(query, (days,))
     return cursor.fetchall()
 
 
+LOCAL_BASE = "/root/flask-app/static"
+
 def delete_local_file(file_path):
     """로컬 파일 삭제"""
     try:
-        if os.path.exists(file_path):
-            file_size = os.path.getsize(file_path)
-            os.remove(file_path)
+        full = file_path if os.path.isabs(file_path) else os.path.join(LOCAL_BASE, file_path)
+        if os.path.exists(full):
+            file_size = os.path.getsize(full)
+            os.remove(full)
             return True, file_size
         return True, 0
     except Exception as e:

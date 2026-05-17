@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소개 - 취약점 모니터링 - sosig.shop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            line-height: 1.65;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+        h1 { font-size: 28px; margin-bottom: 8px; color: #fff; }
+        h2 { font-size: 20px; margin: 0 0 14px; color: #a0c8ff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
+        h3 { font-size: 15px; margin: 16px 0 8px; color: #c5e1ff; }
+        p  { margin: 0 0 10px; }
+        .subtitle { color: #8aa4c8; margin-bottom: 24px; }
+
+        nav {
+            background: rgba(255,255,255,0.04);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #c5e1ff;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.15s;
+        }
+        nav a:hover { background: rgba(255,255,255,0.08); }
+        nav a.active { background: rgba(100,180,255,0.2); color: #fff; }
+
+        section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 22px 26px;
+            margin-bottom: 18px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+        }
+        .card {
+            background: rgba(0,0,0,0.25);
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .card .num {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .card .label {
+            font-size: 12px;
+            color: #8aa4c8;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .sev-critical .num { color: #ff5c5c; }
+        .sev-high     .num { color: #ffae52; }
+        .sev-medium   .num { color: #ffd666; }
+        .sev-low      .num { color: #7fd996; }
+
+        .pipeline {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 18px 0 6px;
+            justify-content: center;
+        }
+        .node {
+            background: rgba(100,180,255,0.1);
+            border: 1px solid rgba(100,180,255,0.3);
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 130px;
+            font-size: 13px;
+        }
+        .node .tag {
+            display: block;
+            font-size: 11px;
+            color: #8aa4c8;
+            margin-top: 3px;
+        }
+        .node.source { background: rgba(127,217,150,0.1); border-color: rgba(127,217,150,0.3); }
+        .node.store  { background: rgba(255,214,102,0.1); border-color: rgba(255,214,102,0.3); }
+        .node.view   { background: rgba(255,92,92,0.1);  border-color: rgba(255,92,92,0.3); }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: #8aa4c8;
+            font-size: 18px;
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+        th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        th { color: #a0c8ff; font-weight: 600; }
+
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #ffd666;
+        }
+        a.link { color: #7cb9ff; }
+        .muted { color: #8aa4c8; font-size: 13px; }
+    </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+
+<body>
+    <div class="container">
+                <nav>
+            <a href="/">🏠 홈</a>
+            <a href="/book">📚 선집</a>
+            <a href="/vuln">📊 CVE 뉴스</a>
+            <a href="/vuln/list">📋 목록</a>
+            <a href="/vuln/search">🔍 검색</a>
+            <a href="/vuln/infra">🏗️ 내 인프라</a>
+            <a href="/vuln/about" class="active">ℹ️ 소개</a>
+            <a href="/security">🛡️ 보안</a>
+        </nav>
+
+        <h1>🛡️ 취약점 모니터링</h1>
+        <p class="subtitle">CVE 뉴스 피드 + 내 인프라 실측 진단, 두 관점을 교차하는 개인 SOC.</p>
+
+        <!-- ========== 개요 ========== -->
+        <section>
+            <h2>개요</h2>
+            <p>
+                이 사이트는 <strong>세상에 나오는 전체 CVE</strong>를 모니터링하는 뉴스 레이어와,
+                <strong>실제 내 서버/네트워크에 존재하는 취약점</strong>을 진단하는 스캔 레이어를 함께 제공합니다.
+                두 데이터는 CVE ID로 교차돼, "방금 뉴스에 나온 이 취약점이 우리 인프라에도 있다"는 통합 관점을 만듭니다.
+            </p>
+            <div class="card-grid">
+                <div class="card"><div class="num">{{ "{:,}".format(stats.cve_total) }}</div><div class="label">누적 CVE</div></div>
+                <div class="card"><div class="num">{{ "{:,}".format(stats.cve_recent_30d) }}</div><div class="label">최근 30일 CVE</div></div>
+                <div class="card"><div class="num">{{ stats.hosts }}</div><div class="label">스캔 호스트</div></div>
+                <div class="card"><div class="num">{{ stats.findings }}</div><div class="label">전체 findings</div></div>
+            </div>
+        </section>
+
+        <!-- ========== 두 레이어 ========== -->
+        <section>
+            <h2>두 개의 레이어</h2>
+
+            <h3>1) CVE 뉴스 (<code>/vuln</code>)</h3>
+            <p class="muted">
+                NVD(국가 취약점 DB)를 2시간 주기로 크롤링해 세상의 모든 신규 취약점을 수집합니다.
+                각 CVE에 대해 LLM이 한국어 요약·영향·대응 방안을 자동 생성합니다.
+            </p>
+
+            <h3>2) 내 인프라 진단 (<code>/vuln/infra</code>)</h3>
+            <p class="muted">
+                OpenVAS(Greenbone Community Edition)가 실제 서버·네트워크를 주기적으로 스캔해
+                "이 서버의 이 포트·이 패키지에 이 CVE가 존재한다"는 구체적 findings을 생성합니다.
+                공인 IP/사설 IP는 <code>public-host-N</code> / <code>lan-host-N</code> 라벨로 마스킹됩니다.
+            </p>
+
+            <h3>통합: 뉴스 × 인프라 교차</h3>
+            <p class="muted">
+                DB 뷰 <code>v_my_infrastructure_cves</code>가 NVD CVE와 OpenVAS findings를
+                CVE ID로 교차해 "내 자산에 실존하는 CVE" 만 추려 보여줍니다.
+            </p>
+        </section>
+
+        <!-- ========== 현재 상태 ========== -->
+        <section>
+            <h2>현재 상태</h2>
+
+            <h3>CVE 뉴스 분석</h3>
+            <div class="card-grid">
+                <div class="card sev-critical"><div class="num">{{ stats.by_severity.get('CRITICAL', 0) | int }}</div><div class="label">Critical</div></div>
+                <div class="card sev-high"><div class="num">{{ stats.by_severity.get('HIGH', 0) | int }}</div><div class="label">High</div></div>
+                <div class="card sev-medium"><div class="num">{{ stats.by_severity.get('MEDIUM', 0) | int }}</div><div class="label">Medium</div></div>
+                <div class="card sev-low"><div class="num">{{ stats.by_severity.get('LOW', 0) | int }}</div><div class="label">Low</div></div>
+            </div>
+            <p class="muted" style="margin-top:10px">AI 분석 완료: <strong>{{ "{:,}".format(stats.cve_analyzed) }}</strong>건</p>
+
+            <h3>내 인프라 findings</h3>
+            <div class="card-grid">
+                <div class="card sev-critical"><div class="num">{{ stats.findings_by_severity.critical }}</div><div class="label">Critical</div></div>
+                <div class="card sev-high"><div class="num">{{ stats.findings_by_severity.high }}</div><div class="label">High</div></div>
+                <div class="card sev-medium"><div class="num">{{ stats.findings_by_severity.medium }}</div><div class="label">Medium</div></div>
+                <div class="card sev-low"><div class="num">{{ stats.findings_by_severity.low }}</div><div class="label">Low</div></div>
+            </div>
+            {% if stats.last_scan %}
+            <p class="muted" style="margin-top:10px">마지막 스캔: <strong>{{ stats.last_scan }}</strong></p>
+            {% endif %}
+        </section>
+
+        <!-- ========== 파이프라인 ========== -->
+        <section>
+            <h2>데이터 흐름 · 파이프라인</h2>
+
+            <h3>CVE 뉴스 파이프라인</h3>
+            <div class="pipeline">
+                <div class="node source">NVD<span class="tag">nvd.nist.gov</span></div>
+                <div class="arrow">→</div>
+                <div class="node">크롤러<span class="tag">GB10 · 2h 주기</span></div>
+                <div class="arrow">→</div>
+                <div class="node">LLM<span class="tag">Claude Haiku / Qwen3</span></div>
+                <div class="arrow">→</div>
+                <div class="node store">MySQL<span class="tag">cve_entries</span></div>
+                <div class="arrow">→</div>
+                <div class="node view">/vuln<span class="tag">Flask · sosig.shop</span></div>
+            </div>
+
+            <h3 style="margin-top:22px">내 인프라 파이프라인</h3>
+            <div class="pipeline">
+                <div class="node source">OpenVAS<span class="tag">GB10 · weekly scan</span></div>
+                <div class="arrow">→</div>
+                <div class="node">GMP API<span class="tag">python-gvm</span></div>
+                <div class="arrow">→</div>
+                <div class="node">Collector<span class="tag">+ LLM writeup</span></div>
+                <div class="arrow">→</div>
+                <div class="node store">MySQL<span class="tag">openvas_findings</span></div>
+                <div class="arrow">→</div>
+                <div class="node view">/vuln/infra<span class="tag">마스킹 표시</span></div>
+            </div>
+        </section>
+
+        <!-- ========== 기술 스택 ========== -->
+        <section>
+            <h2>기술 스택</h2>
+            <table>
+                <thead><tr><th>영역</th><th>구성</th></tr></thead>
+                <tbody>
+                    <tr><td>데이터 소스</td><td>NVD Feed, Greenbone Community Feed</td></tr>
+                    <tr><td>스캐너</td><td>OpenVAS / Greenbone Community Edition (Docker)</td></tr>
+                    <tr><td>수집기</td><td>Python · python-gvm · pymysql</td></tr>
+                    <tr><td>AI 분석</td><td>Claude Haiku (기본) + Ollama Qwen3/Gemma (로컬 폴백)</td></tr>
+                    <tr><td>저장소</td><td>MySQL (Gabia) — <code>cve_entries</code>, <code>openvas_findings</code></td></tr>
+                    <tr><td>웹</td><td>Flask + Gunicorn, Cloudflare Tunnel(선택), HTTPS</td></tr>
+                    <tr><td>네트워크</td><td>Tailscale (GB10 ↔ sosig.shop, MySQL은 외부 미노출)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ========== 보안 정책 ========== -->
+        <section>
+            <h2>공개 정책</h2>
+            <ul style="padding-left:22px">
+                <li>사설 IP(192.168.x.x)는 <code>gateway</code> / <code>scanner</code> / <code>lan-host-N</code> 로 마스킹</li>
+                <li>공인 IP는 <code>public-host-N</code> 으로 마스킹 (Cloudflare 뒤 오리진 보호)</li>
+                <li>개별 호스트 상세 URL은 IP가 아닌 slug 기반. IP 직접 조회 불가</li>
+                <li>MySQL 3306은 인터넷 미노출, Tailscale 전용</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

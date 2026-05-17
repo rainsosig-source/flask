@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - 번역 선집 - sosig.shop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh; color: #e0e0e0; line-height: 1.7;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+        nav {
+            background: rgba(255,255,255,0.04);
+            padding: 10px 14px; border-radius: 10px; margin-bottom: 22px;
+            display: flex; gap: 6px; flex-wrap: wrap;
+        }
+        nav a {
+            color: #c5e1ff; text-decoration: none;
+            padding: 6px 12px; border-radius: 6px; font-size: 14px;
+        }
+        nav a:hover { background: rgba(255,255,255,0.08); }
+
+        .hero {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 30px;
+            margin-bottom: 22px; text-align: center;
+        }
+        .hero .emoji { font-size: 64px; margin-bottom: 12px; }
+        .hero h1 { font-size: 34px; color: #fff; margin-bottom: 4px; }
+        .hero .subtitle { font-size: 15px; color: #a0c8ff; margin-bottom: 10px; }
+        .hero .author {
+            font-size: 14px; color: #c5e1ff; font-style: italic; margin-bottom: 14px;
+        }
+        .hero .tags { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+        .tag {
+            font-size: 12px; padding: 3px 10px;
+            background: rgba(100,180,255,0.15); color: #a0c8ff;
+            border-radius: 12px;
+        }
+
+        .download-section { text-align: center; margin-bottom: 22px; }
+        .btn-download {
+            display: inline-block;
+            padding: 14px 32px; border-radius: 10px;
+            font-size: 16px; font-weight: 600;
+            text-decoration: none;
+            background: linear-gradient(135deg, #4a7eff 0%, #6b9bff 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(74,126,255,0.3);
+            transition: transform 0.15s;
+        }
+        .btn-download:hover { transform: translateY(-1px); }
+        .btn-disabled {
+            display: inline-block;
+            padding: 14px 32px; border-radius: 10px;
+            background: rgba(255,255,255,0.08); color: #8aa4c8;
+            font-size: 15px;
+        }
+        .file-info { font-size: 12px; color: #8aa4c8; margin-top: 8px; }
+
+        section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 22px 26px; margin-bottom: 18px;
+        }
+        h2 {
+            font-size: 18px; margin: 0 0 12px; color: #a0c8ff;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;
+        }
+        p { margin: 0 0 10px; color: #d6dde8; }
+        strong { color: #fff; }
+
+        .toc { }
+        .toc .part-title {
+            font-size: 13px; color: #a0c8ff; text-transform: uppercase;
+            letter-spacing: 0.5px; margin: 14px 0 6px; font-weight: 600;
+        }
+        .toc .part-title:first-child { margin-top: 0; }
+        .toc ol {
+            list-style: none; padding-left: 12px;
+            border-left: 2px solid rgba(100,180,255,0.2);
+        }
+        .toc li {
+            padding: 3px 0; font-size: 14px; color: #c5e1ff;
+        }
+        .toc li::before { content: "· "; color: #555; }
+
+        .meta-table { width: 100%; font-size: 13px; }
+        .meta-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .meta-table td:first-child { color: #8aa4c8; width: 35%; }
+        .meta-table a { color: #7cb9ff; }
+
+        .warning {
+            background: rgba(255,184,0,0.08);
+            border-left: 3px solid #ffc107;
+            padding: 14px 18px; border-radius: 4px; margin-top: 10px;
+            font-size: 13px;
+        }
+        .warning strong { color: #ffc107; }
+    </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
+    <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">🏠 홈</a>
+            <a href="/book">📚 선집</a>
+            <a href="/vuln">📊 CVE 뉴스</a>
+            <a href="/security">🛡️ 보안</a>
+        </nav>
+
+        <!-- 히어로 -->
+        <div class="hero">
+            <div class="emoji">{{ book.cover_emoji|default('📖') }}</div>
+            <h1>{{ book.title }}</h1>
+            <p class="subtitle">{{ book.subtitle }}</p>
+            <p class="author">{{ book.author }} ({{ book.author_years }})</p>
+            <div class="tags">
+                {% for tag in book.tags|default([]) %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 다운로드 -->
+        {% if book.pdf_file %}
+        <div class="download-section">
+            {% if pdf_available %}
+            <a href="/static/{{ book.pdf_file }}" class="btn-download">📥 PDF 다운로드</a>
+            <div class="file-info">{{ book.pdf_file }} · {{ pdf_size_display }} · A5 / 한국어</div>
+            {% else %}
+            <span class="btn-disabled">⏳ PDF 준비 중</span>
+            <div class="file-info">번역 파이프라인 진행 중 — 완료되면 이 페이지에 다운로드 링크가 표시됩니다.</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- 소개 -->
+        <section>
+            <h2>📖 소개</h2>
+            {% for p in book.description_paragraphs %}
+            <p>{{ p|safe }}</p>
+            {% endfor %}
+        </section>
+
+        <!-- 목차 -->
+        {% if parts %}
+        <section>
+            <h2>📑 목차</h2>
+            <div class="toc">
+                {% for part in parts %}
+                <div class="part-title">제{{ part.num }}부 — {{ part.title }}</div>
+                <ol>
+                    {% for item in part['items'] %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ol>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- 메타 정보 -->
+        <section>
+            <h2>ℹ️ 출처 및 저작권</h2>
+            <table class="meta-table">
+                <tr><td>원전</td><td>{{ book.original_title }} ({{ book.original_year }})</td></tr>
+                <tr><td>원본 텍스트 출처</td>
+                    <td><a href="{{ book.source_url }}" target="_blank" rel="noopener">{{ book.source }}</a></td></tr>
+                <tr><td>저작권</td><td>{{ book.license }}</td></tr>
+                <tr><td>편집 기획</td><td>{{ book.editor }}</td></tr>
+                <tr><td>번역</td><td>{{ book.translator }}</td></tr>
+                <tr><td>공개일</td><td>{{ book.published_at }}</td></tr>
+                <tr><td>공개처</td><td>sosig.shop · 비영리 · 학습·교육 목적</td></tr>
+            </table>
+
+            <div class="warning">
+                <strong>⚠️ 주의:</strong> 본 번역본은 AI 도구로 생성되었으며 <strong>학술 번역본이 아닙니다</strong>.
+                정확한 독서를 원하시면 책세상·민음사 등 전문 번역본을 참고하십시오.
+                상업적 판매·재배포는 허용되지 않습니다.
+            </div>
+        </section>
+    </div>
+</body>
+</html>

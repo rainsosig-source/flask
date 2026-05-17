@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네트워크 트래픽 분석 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; }
+    .logout { margin-left: auto; padding: 4px 12px; background: transparent; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; cursor: pointer; font-family: inherit; }
+    .logout:hover { color: #f85149; border-color: #f85149; }
+
+    .container { max-width: 1100px; margin: 1.5rem auto; padding: 0 2rem 3rem; display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+    .sidebar { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem; height: fit-content; max-height: 80vh; overflow-y: auto; }
+    .sidebar h3 { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .report-item { display: block; padding: 8px 10px; margin-bottom: 4px; border-radius: 6px; color: #e6edf3; text-decoration: none; font-size: 0.9rem; cursor: pointer; transition: background 0.15s; }
+    .report-item:hover { background: #21262d; }
+    .report-item.active { background: #1f6feb; color: #fff; }
+    .report-item .meta { font-size: 0.74rem; color: #8b949e; }
+    .report-item.active .meta { color: rgba(255,255,255,0.7); }
+
+    .content { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.5rem 2rem; min-height: 60vh; }
+    .content h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+    .content .stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; padding: 0.75rem 1rem; background: #0d1117; border-radius: 6px; }
+    .content .stats span { font-size: 0.85rem; color: #8b949e; }
+    .content .stats strong { color: #58a6ff; }
+    .content .md { font-size: 0.95rem; line-height: 1.65; }
+    .content .md h1 { font-size: 1.3rem; margin: 1rem 0 0.6rem; color: #58a6ff; }
+    .content .md h2 { font-size: 1.1rem; margin: 1rem 0 0.5rem; color: #79c0ff; border: 0; padding: 0; }
+    .content .md h3 { font-size: 1rem; margin: 0.8rem 0 0.4rem; }
+    .content .md ul, .content .md ol { margin: 0.4rem 0 0.6rem 1.5rem; }
+    .content .md li { margin: 0.2rem 0; }
+    .content .md code { background: #0d1117; padding: 1px 6px; border-radius: 3px; font-size: 0.85em; color: #f0883e; }
+    .content .md strong { color: #79c0ff; }
+    .content .md hr { border: 0; border-top: 1px solid #30363d; margin: 1rem 0; }
+    .content .md blockquote { border-left: 3px solid #30363d; padding-left: 1rem; color: #8b949e; margin: 0.5rem 0; }
+    .empty { text-align: center; padding: 3rem 0; color: #484f58; }
+
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .chart-box { background: #0d1117; border-radius: 6px; padding: 0.8rem 1rem 0.5rem; }
+    .chart-box h4 { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .chart-box canvas { width: 100% !important; height: 220px !important; }
+    @media (max-width: 800px) { .charts { grid-template-columns: 1fr; } }
+
+    .heatmap { background: #0d1117; border-radius: 6px; padding: 0.7rem 1rem 0.6rem; margin: 1rem 0; }
+    .heatmap h4 { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .heatmap .hm-grid { display: grid; gap: 1px; }
+    .heatmap .hm-row { display: contents; }
+    .heatmap .hm-label { font-size: 0.75rem; color: #c9d1d9; padding: 2px 6px 2px 0; white-space: nowrap; align-self: center; font-variant-numeric: tabular-nums; }
+    .heatmap .hm-cell { width: 100%; aspect-ratio: 1.4 / 1; border-radius: 2px; background: #161b22; cursor: default; transition: outline 0.1s; }
+    .heatmap .hm-cell:hover { outline: 1px solid #58a6ff; }
+    .heatmap .hm-hours { display: grid; gap: 1px; font-size: 0.66rem; color: #6e7681; padding-left: 60px; margin-bottom: 4px; }
+    .heatmap .hm-hours div { text-align: center; }
+    .heatmap .hm-legend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: #8b949e; margin-top: 0.5rem; }
+    .heatmap .hm-legend .grad { display: inline-block; width: 80px; height: 8px; border-radius: 2px; background: linear-gradient(90deg, #161b22, #1f6feb); }
+
+    .globe-box { background: #0a0a14; border-radius: 6px; padding: 0.7rem 1rem 0.6rem; margin: 1rem 0; position: relative; }
+    .globe-box h4 { font-size: 0.85rem; color: #8b949e; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .globe-box #globe-canvas { width: 100%; height: 420px; display: block; cursor: grab; }
+    .globe-box #globe-canvas:active { cursor: grabbing; }
+    .globe-box .globe-time { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem; font-size: 0.78rem; color: #8b949e; }
+    .globe-box .globe-time input[type=range] { flex: 1; accent-color: #58a6ff; }
+    .globe-box .globe-time .gt-label { min-width: 100px; font-variant-numeric: tabular-nums; color: #c9d1d9; }
+    .globe-box .globe-time button { padding: 3px 10px; background: #21262d; border: 1px solid #30363d; color: #c9d1d9; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 0.74rem; }
+    .globe-box .globe-time button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .globe-box .globe-stats { position: absolute; bottom: 3rem; left: 1rem; font-size: 0.78rem; color: #8b949e; pointer-events: none; }
+    .globe-box .globe-stats strong { color: #3fb950; }
+    .globe-box #globe-legend { position: absolute; bottom: 0.8rem; right: 1rem; display: flex; flex-direction: column; gap: 3px; font-size: 0.74rem; color: #c9d1d9; background: rgba(13,17,23,0.7); padding: 6px 10px; border-radius: 6px; pointer-events: none; max-width: 220px; }
+    .globe-box #globe-legend .lg-row { display: flex; align-items: center; gap: 6px; }
+    .globe-box #globe-legend .lg-row .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .globe-box #globe-legend .lg-title { color: #8b949e; font-size: 0.7rem; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .globe-box #globe-info { position: absolute; top: 2.5rem; right: 1rem; background: rgba(13,17,23,0.92); border: 1px solid #30363d; border-radius: 6px; padding: 0.7rem 0.9rem; min-width: 220px; max-width: 280px; font-size: 0.82rem; color: #c9d1d9; line-height: 1.55; backdrop-filter: blur(4px); display: none; }
+    .globe-box #globe-info.show { display: block; }
+    .globe-box #globe-info .ip { color: #58a6ff; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; word-break: break-all; }
+    .globe-box #globe-info .row { display: flex; justify-content: space-between; gap: 0.5em; }
+    .globe-box #globe-info .row .k { color: #8b949e; }
+    .globe-box #globe-info .row .v { color: #c9d1d9; text-align: right; }
+    .globe-box #globe-info .close { position: absolute; top: 4px; right: 8px; cursor: pointer; color: #6e7681; font-size: 1.1rem; line-height: 1; }
+    .globe-box #globe-info .close:hover { color: #f85149; }
+
+    .host-section { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #30363d; }
+    .host-section h3 { font-size: 1.05rem; margin-bottom: 0.6rem; color: #79c0ff; }
+    .host-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+    .host-tab { padding: 5px 12px; border-radius: 16px; border: 1px solid #30363d; background: #0d1117; color: #8b949e; font-size: 0.82rem; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .host-tab:hover { border-color: #58a6ff; color: #e6edf3; }
+    .host-tab.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .host-tab .count { opacity: 0.65; margin-left: 0.4em; font-size: 0.72rem; }
+    .host-detail { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .host-detail .col { background: #0d1117; border-radius: 6px; padding: 0.7rem 0.9rem; }
+    .host-detail .col h4 { font-size: 0.78rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .host-detail .col ul { list-style: none; margin: 0; }
+    .host-detail .col li { font-size: 0.82rem; padding: 3px 0; color: #c9d1d9; display: flex; justify-content: space-between; gap: 0.5em; border-bottom: 1px dashed #21262d; }
+    .host-detail .col li:last-child { border-bottom: 0; }
+    .host-detail .col li .v { color: #58a6ff; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .host-bytes { font-size: 0.82rem; color: #8b949e; margin-bottom: 0.6rem; }
+    .host-bytes strong { color: #3fb950; }
+    .host-verdict { grid-column: 1 / -1; padding: 10px 14px; margin-bottom: 0.8rem; background: rgba(31,111,235,0.12); border-left: 3px solid #58a6ff; border-radius: 4px; font-size: 0.92rem; color: #c9d1d9; line-height: 1.5; }
+    @media (max-width: 800px) { .host-detail { grid-template-columns: 1fr; } }
+
+    @media (max-width: 800px) {
+      .container { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+      .sidebar { max-height: 250px; }
+    }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
+</head>
+<body>
+<header>
+  <a href="/">← sosig.shop</a>
+  <h1>{% if demo %}🎭 네트워크 트래픽 분석 (DEMO){% else %}🔒 네트워크 트래픽 분석{% endif %}</h1>
+  <button class="logout" onclick="logout()">{% if demo %}홈으로{% else %}로그아웃{% endif %}</button>
+</header>
+{% if demo %}
+<div style="background:#4a2e1a; color:#f0883e; padding:10px 16px; text-align:center; font-size:0.92rem; border-bottom:1px solid #f0883e;">
+  🎭 <strong>DEMO 모드</strong> — 이 페이지의 모든 데이터는 합성된 예시입니다. 실제 트래픽이 아닙니다 (RFC 5737 documentation IP 사용).
+</div>
+{% endif %}
+
+<div class="container">
+  <aside class="sidebar">
+    <h3>일별 보고서</h3>
+    <div id="reports-list"><div class="empty">로딩…</div></div>
+  </aside>
+  <main class="content" id="content">
+    <div class="empty">왼쪽에서 날짜를 선택하세요</div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const IS_DEMO = {{ 'true' if demo else 'false' }};
+const API_PREFIX = IS_DEMO ? '/api/network/demo' : '/api/network';
+let activeDate = null;
+
+async function loadList() {
+  try {
+    const r = await fetch(`${API_PREFIX}/reports.json`);
+    if (r.status === 401) { window.location = '/'; return; }
+    const d = await r.json();
+    const list = document.getElementById('reports-list');
+    if (!d.reports.length) {
+      list.innerHTML = '<div class="empty">보고서 없음</div>';
+      return;
+    }
+    list.innerHTML = d.reports.map(r => `
+      <a class="report-item ${r.report_date === activeDate ? 'active' : ''}" onclick="loadReport('${r.report_date}')">
+        <div>${r.report_date}</div>
+        <div class="meta">생성 ${r.created_at}</div>
+      </a>
+    `).join('');
+    if (!activeDate && d.reports.length) {
+      loadReport(d.reports[0].report_date);
+    }
+  } catch (e) {
+    document.getElementById('reports-list').innerHTML = `<div class="empty">로드 실패</div>`;
+  }
+}
+
+async function loadReport(date) {
+  activeDate = date;
+  document.querySelectorAll('.report-item').forEach(el => {
+    el.classList.toggle('active', el.textContent.trim().startsWith(date));
+  });
+  document.getElementById('content').innerHTML = '<div class="empty">로딩…</div>';
+  try {
+    const r = await fetch(`${API_PREFIX}/reports/${date}`);
+    if (r.status === 401) { window.location = '/'; return; }
+    const d = await r.json();
+    const stats = d.stats_json || {};
+    const statsHtml = `<div class="stats">
+      <span>📡 연결 <strong>${(stats.conn_total||0).toLocaleString()}</strong></span>
+      <span>🌐 DNS <strong>${(stats.dns_total||0).toLocaleString()}</strong></span>
+      <span>🔐 TLS <strong>${(stats.ssl_total||0).toLocaleString()}</strong></span>
+      <span>🚨 Suricata 알람 <strong>${(stats.real_alerts||0).toLocaleString()}</strong> (노이즈 ${(stats.noise_alerts||0).toLocaleString()} 제외)</span>
+    </div>`;
+    const md = marked.parse(d.summary_md || '_(요약 없음)_');
+    document.getElementById('content').innerHTML = `
+      <h2>${date}</h2>
+      ${statsHtml}
+      <div class="charts">
+        <div class="chart-box"><h4>시간대별 추이 (KST)</h4><canvas id="chart-ts"></canvas></div>
+        <div class="chart-box"><h4>호스트별 트래픽 (송신/수신)</h4><canvas id="chart-bytes"></canvas></div>
+      </div>
+      <div class="heatmap" id="heatmap-box">
+        <h4>🕐 호스트 × 시간대 활동 (KST)</h4>
+        <div id="heatmap-grid"></div>
+        <div class="hm-legend">활동량 적음 <span class="grad"></span> 많음 — 야간(00–06)에 의도하지 않은 활동이 보이면 의심 신호</div>
+      </div>
+      <div class="globe-box">
+        <h4>🌐 외부 IP 지리 분포 — 색상 = LAN 호스트</h4>
+        <canvas id="globe-canvas"></canvas>
+        <div class="globe-stats" id="globe-stats"></div>
+        <div id="globe-legend"></div>
+        <div id="globe-info"><span class="close" onclick="closeGlobeInfo()">×</span><div id="globe-info-body"></div></div>
+        <div class="globe-time">
+          <button id="gt-all" class="active" onclick="setGlobeHour(-1)">전체 24h</button>
+          <span class="gt-label" id="gt-label">00:00–24:00</span>
+          <input type="range" id="gt-slider" min="-1" max="23" value="-1" oninput="setGlobeHour(parseInt(this.value))">
+        </div>
+      </div>
+      <div class="md">${md}</div>
+      <div class="host-section">
+        <h3>🖥️ 호스트별 외부 통신</h3>
+        <div class="host-tabs" id="host-tabs"></div>
+        <div id="host-detail"></div>
+      </div>
+    `;
+    renderCharts(stats);
+    renderHeatmap(stats.host_breakdown || {});
+    renderGlobe(stats.host_breakdown || {});
+    renderHostBreakdown(stats.host_breakdown || {});
+  } catch (e) {
+    document.getElementById('content').innerHTML = `<div class="empty">로드 실패</div>`;
+  }
+}
+
+// ─── 외부 IP 지리 분포 지구본 (three.js) ───
+let globeScene = null, globeCamera = null, globeRenderer = null, globeControls = null, globeMesh = null, globeMarkers = [], globeAnimating = false;
+
+function latLonToVec3(lat, lon, radius) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lon + 180) * Math.PI / 180;
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+     radius * Math.cos(phi),
+     radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
+function initGlobe() {
+  const canvas = document.getElementById('globe-canvas');
+  globeScene = new THREE.Scene();
+  globeCamera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+  globeCamera.position.z = 3.2;
+  globeRenderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  globeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  globeRenderer.setPixelRatio(window.devicePixelRatio);
+
+  // 별
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = [];
+  for (let i = 0; i < 800; i++) {
+    const r = 30 + Math.random() * 30;
+    const t = Math.random() * Math.PI * 2;
+    const p = (Math.random() - 0.5) * Math.PI;
+    starPos.push(r * Math.cos(p) * Math.cos(t), r * Math.sin(p), r * Math.cos(p) * Math.sin(t));
+  }
+  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+  globeScene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xaaaaaa, size: 0.1, transparent: true, opacity: 0.7 })));
+
+  // 지구본 (sosig.shop 정적 텍스처 재사용)
+  const geo = new THREE.SphereGeometry(1, 64, 64);
+  const tex = new THREE.TextureLoader().load('/static/earth_texture.jpg');
+  const bump = new THREE.TextureLoader().load('/static/earth_bump.jpg');
+  const mat = new THREE.MeshPhongMaterial({ map: tex, bumpMap: bump, bumpScale: 0.02, shininess: 8 });
+  globeMesh = new THREE.Mesh(geo, mat);
+  globeScene.add(globeMesh);
+
+  globeScene.add(new THREE.AmbientLight(0xffffff, 0.45));
+  const sun = new THREE.DirectionalLight(0xffffff, 0.9);
+  sun.position.set(5, 3, 5);
+  globeScene.add(sun);
+
+  globeControls = new THREE.OrbitControls(globeCamera, canvas);
+  globeControls.enableDamping = true;
+  globeControls.autoRotate = true;
+  globeControls.autoRotateSpeed = 0.4;
+  globeControls.minDistance = 1.5;
+  globeControls.maxDistance = 6;
+  globeControls.enablePan = false;
+
+  // 클릭으로 점 선택 (raycaster) — drag 5px 이상이면 회전으로 간주
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  let downX = 0, downY = 0, dragDist = 0;
+  canvas.addEventListener('pointerdown', (e) => { downX = e.clientX; downY = e.clientY; dragDist = 0; });
+  canvas.addEventListener('pointermove', (e) => {
+    dragDist = Math.max(dragDist, Math.hypot(e.clientX - downX, e.clientY - downY));
+  });
+  canvas.addEventListener('pointerup', (e) => {
+    if (dragDist > 5) return;
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, globeCamera);
+    // sphere markers만 hit 검사 (line cylinder는 제외)
+    const targets = globeMarkers.filter(m => m.userData && m.userData.ip && m.geometry && m.geometry.type === 'SphereGeometry');
+    const hits = raycaster.intersectObjects(targets, false);
+    if (hits.length) {
+      showGlobeInfo(hits[0].object.userData);
+    } else {
+      closeGlobeInfo();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!globeRenderer) return;
+    globeCamera.aspect = canvas.clientWidth / canvas.clientHeight;
+    globeCamera.updateProjectionMatrix();
+    globeRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  });
+
+  if (!globeAnimating) {
+    globeAnimating = true;
+    (function loop() {
+      requestAnimationFrame(loop);
+      globeControls.update();
+      globeRenderer.render(globeScene, globeCamera);
+    })();
+  }
+}
+
+let _globeHb = null, _globeHour = -1;
+function renderGlobe(hb, hourFilter = -1) {
+  if (typeof THREE === 'undefined') return;
+  if (!globeScene) initGlobe();
+  _globeHb = hb;
+  _globeHour = hourFilter;
+  // 기존 마커 제거
+  globeMarkers.forEach(m => globeScene.remove(m));
+  globeMarkers = [];
+
+  const palette = ['#58a6ff', '#3fb950', '#f0883e', '#f85149', '#d2a8ff', '#79c0ff', '#bc8cff', '#7ee787'];
+  const lanHosts = Object.keys(hb);
+  const countryCount = new Map();
+  let totalIps = 0;
+  lanHosts.forEach((h, idx) => {
+    const color = palette[idx % palette.length];
+    const geo = hb[h].top_remote_geo || [];
+    geo.forEach(g => {
+      if (typeof g.lat !== 'number' || typeof g.lon !== 'number') return;
+      // hourFilter -1 = 전체. 그 외 시간에 해당 IP의 활동이 0이면 skip
+      let displayCount = g.count;
+      if (hourFilter >= 0) {
+        const hourActivity = (g.by_hour || [])[hourFilter] || 0;
+        if (hourActivity === 0) return;
+        displayCount = hourActivity;
+      }
+      // 점 크기: hourFilter 적용 시 활동량에 비례
+      const size = hourFilter < 0 ? 0.032 : Math.max(0.018, Math.min(0.05, 0.018 + Math.log10(displayCount + 1) * 0.012));
+      const v = latLonToVec3(g.lat, g.lon, 1.02);
+      const sphere = new THREE.Mesh(
+        new THREE.SphereGeometry(size, 12, 12),
+        new THREE.MeshBasicMaterial({ color })
+      );
+      sphere.position.copy(v);
+      sphere.userData = { ...g, fromHost: h, color, displayCount, hourFilter };
+      globeScene.add(sphere);
+      globeMarkers.push(sphere);
+      const line = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.002, 0.002, 0.04, 6),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.6 })
+      );
+      line.position.copy(v);
+      line.lookAt(0, 0, 0);
+      line.rotateX(Math.PI / 2);
+      globeScene.add(line);
+      globeMarkers.push(line);
+      const cc = g.cc || g.country || '?';
+      countryCount.set(cc, (countryCount.get(cc) || 0) + displayCount);
+      totalIps++;
+    });
+  });
+
+  const top = [...countryCount.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+  document.getElementById('globe-stats').innerHTML =
+    `외부 IP 위치 <strong>${totalIps}</strong>건 · 상위: ${top.map(([cc, n]) => `${cc} ${n.toLocaleString()}`).join(' · ')}`;
+
+  // legend (점 활성된 호스트만 — 색상 매핑 명시)
+  const activeHosts = lanHosts.filter(h => (hb[h].top_remote_geo || []).some(g => typeof g.lat === 'number'));
+  const legend = document.getElementById('globe-legend');
+  if (legend) {
+    legend.innerHTML = '<div class="lg-title">LAN 호스트 → 색</div>' +
+      activeHosts.map((h, i) => {
+        const idx = lanHosts.indexOf(h);
+        const color = palette[idx % palette.length];
+        const n = (hb[h].top_remote_geo || []).length;
+        return `<div class="lg-row"><span class="dot" style="background:${color}"></span><span>${h} <span style="color:#6e7681">(${n}곳)</span></span></div>`;
+      }).join('');
+  }
+  closeGlobeInfo();
+}
+
+function showGlobeInfo(d) {
+  const body = document.getElementById('globe-info-body');
+  const hourLabel = d.hourFilter >= 0
+    ? `${String(d.hourFilter).padStart(2,'0')}:00–${String((d.hourFilter+1)%24).padStart(2,'0')}:00`
+    : '24h 전체';
+  const rows = [
+    ['국가', `${escapeHtml(d.country || '-')} (${escapeHtml(d.cc || '?')})`],
+    ['좌표', `${(d.lat||0).toFixed(2)}, ${(d.lon||0).toFixed(2)}`],
+    ['연결 수', `${(d.displayCount || d.count || 0).toLocaleString()} <span style="color:#6e7681">(${hourLabel})</span>`],
+    ['24h 합계', (d.count || 0).toLocaleString()],
+    ['ISP', escapeHtml(d.isp || '-')],
+    ['AS', escapeHtml(d.as || '-')],
+    ['통신한 호스트', `<span style="color:${d.color}">${escapeHtml(d.fromHost || '-')}</span>`],
+  ];
+  body.innerHTML = `<div class="ip">${escapeHtml(d.ip)}</div>` +
+    rows.map(([k, v]) => `<div class="row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+  document.getElementById('globe-info').classList.add('show');
+  if (globeControls) globeControls.autoRotate = false;
+}
+
+function setGlobeHour(h) {
+  if (!_globeHb) return;
+  const slider = document.getElementById('gt-slider');
+  const allBtn = document.getElementById('gt-all');
+  const label = document.getElementById('gt-label');
+  if (slider.value != h) slider.value = h;
+  allBtn.classList.toggle('active', h === -1);
+  label.textContent = h < 0 ? '00:00–24:00' : `${String(h).padStart(2,'0')}:00–${String((h+1)%24).padStart(2,'0')}:00`;
+  renderGlobe(_globeHb, h);
+}
+
+function closeGlobeInfo() {
+  const el = document.getElementById('globe-info');
+  if (el) el.classList.remove('show');
+  if (globeControls) globeControls.autoRotate = true;
+}
+
+function renderHeatmap(hb) {
+  const grid = document.getElementById('heatmap-grid');
+  const hosts = Object.keys(hb).filter(h => (hb[h].by_hour || []).some(v => v > 0))
+                  .sort((a, b) => hb[b].conn - hb[a].conn);
+  if (!hosts.length) {
+    grid.innerHTML = '<div style="color:#484f58;font-size:0.85rem;text-align:center;padding:1rem">데이터 없음</div>';
+    return;
+  }
+  // 전체 max로 정규화
+  let maxV = 1;
+  hosts.forEach(h => (hb[h].by_hour || []).forEach(v => { if (v > maxV) maxV = v; }));
+  // hours 헤더 + 각 호스트 행
+  const cols = '60px ' + '1fr '.repeat(24);
+  const hours = Array.from({length: 24}, (_, i) => i);
+  const headerCells = hours.map(h => `<div>${(h%6===0)?String(h).padStart(2,'0'):''}</div>`).join('');
+  const rowsHtml = hosts.map(h => {
+    const arr = hb[h].by_hour || new Array(24).fill(0);
+    const cells = arr.map((v, idx) => {
+      const intensity = v === 0 ? 0 : Math.max(0.08, Math.min(1, Math.log10(v + 1) / Math.log10(maxV + 1)));
+      const bg = v === 0 ? '#161b22' : `rgba(31,111,235,${intensity.toFixed(2)})`;
+      const isNight = idx < 6;
+      const border = (isNight && v > maxV * 0.1) ? 'box-shadow:inset 0 0 0 1px #f0883e;' : '';
+      const hh = String(idx).padStart(2, '0');
+      const next = String((idx + 1) % 24).padStart(2, '0');
+      return `<div class="hm-cell" style="background:${bg};${border}" title="${h} · ${hh}:00–${next}:00 KST · 새 연결 ${v.toLocaleString()}건 (TCP/UDP flow 합산)"></div>`;
+    }).join('');
+    return `<div class="hm-label">${h}</div>${cells}`;
+  }).join('');
+  grid.innerHTML = `
+    <div class="hm-hours" style="grid-template-columns: repeat(24, 1fr)">${headerCells}</div>
+    <div class="hm-grid" style="grid-template-columns: ${cols}">${rowsHtml}</div>
+  `;
+}
+
+let chartTs = null, chartBytes = null;
+function renderCharts(stats) {
+  Chart.defaults.color = '#8b949e';
+  Chart.defaults.borderColor = '#21262d';
+  const ts = stats.time_series || {labels: [], conn: [], dns: [], ssl: []};
+  if (chartTs) chartTs.destroy();
+  const totals = {
+    conn: ts.conn.reduce((a,b)=>a+b,0),
+    dns:  ts.dns.reduce((a,b)=>a+b,0),
+    ssl:  ts.ssl.reduce((a,b)=>a+b,0),
+  };
+  const peakHour = {
+    conn: ts.conn.indexOf(Math.max(...ts.conn)),
+    dns:  ts.dns.indexOf(Math.max(...ts.dns)),
+    ssl:  ts.ssl.indexOf(Math.max(...ts.ssl)),
+  };
+  const seriesKey = ['conn', 'dns', 'ssl'];
+  chartTs = new Chart(document.getElementById('chart-ts').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ts.labels,
+      datasets: [
+        { label: '연결', data: ts.conn, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', tension: 0.3, fill: true, pointRadius: 2, pointHoverRadius: 6 },
+        { label: 'DNS', data: ts.dns, borderColor: '#3fb950', tension: 0.3, pointRadius: 2, pointHoverRadius: 6 },
+        { label: 'TLS', data: ts.ssl, borderColor: '#f0883e', tension: 0.3, pointRadius: 2, pointHoverRadius: 6 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false, axis: 'x' },
+      plugins: {
+        legend: { labels: { font: { size: 11 } } },
+        tooltip: {
+          backgroundColor: 'rgba(13,17,23,0.95)',
+          borderColor: '#30363d',
+          borderWidth: 1,
+          padding: 10,
+          titleColor: '#e6edf3',
+          bodyColor: '#c9d1d9',
+          callbacks: {
+            title: (items) => `${items[0].label}:00–${(parseInt(items[0].label)+1)%24}:00 KST`,
+            label: (ctx) => {
+              const v = ctx.parsed.y;
+              const key = seriesKey[ctx.datasetIndex];
+              const total = totals[key];
+              const pct = total ? ((v / total) * 100).toFixed(1) : '0.0';
+              const peak = peakHour[key];
+              const peakStr = peak === ctx.dataIndex ? ' 🔝peak' : '';
+              return `${ctx.dataset.label}: ${v.toLocaleString()} (전체의 ${pct}%)${peakStr}`;
+            },
+            afterBody: (items) => {
+              const h = items[0].dataIndex;
+              const avg = {
+                conn: (totals.conn / 24).toFixed(0),
+                dns:  (totals.dns / 24).toFixed(0),
+                ssl:  (totals.ssl / 24).toFixed(0),
+              };
+              return [
+                '─────────',
+                `24h 평균 — 연결 ${(+avg.conn).toLocaleString()} · DNS ${(+avg.dns).toLocaleString()} · TLS ${(+avg.ssl).toLocaleString()}`,
+                `peak 시간 — 연결 ${String(peakHour.conn).padStart(2,'0')}시 · DNS ${String(peakHour.dns).padStart(2,'0')}시 · TLS ${String(peakHour.ssl).padStart(2,'0')}시`,
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, title: { display: true, text: 'KST', color: '#6e7681', font: { size: 10 } } },
+        y: { beginAtZero: true, ticks: { precision: 0 } }
+      }
+    }
+  });
+
+  const hb = stats.host_breakdown || {};
+  const hosts = Object.keys(hb).sort((a,b) => (hb[b].bytes_out + hb[b].bytes_in) - (hb[a].bytes_out + hb[a].bytes_in));
+  const top = hosts.slice(0, 8);
+  if (chartBytes) chartBytes.destroy();
+  chartBytes = new Chart(document.getElementById('chart-bytes').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: top,
+      datasets: [
+        { label: '송신 MB', data: top.map(h => +(hb[h].bytes_out/1e6).toFixed(1)), backgroundColor: '#1f6feb' },
+        { label: '수신 MB', data: top.map(h => +(hb[h].bytes_in/1e6).toFixed(1)), backgroundColor: '#f0883e' },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { labels: { font: { size: 11 } } } },
+      scales: {
+        x: { stacked: true, beginAtZero: true, ticks: { callback: v => v + ' MB' } },
+        y: { stacked: true, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+let activeHost = null;
+function renderHostBreakdown(hb) {
+  const tabs = document.getElementById('host-tabs');
+  const detail = document.getElementById('host-detail');
+  const hosts = Object.keys(hb).sort((a, b) => hb[b].conn - hb[a].conn);
+  if (!hosts.length) {
+    tabs.innerHTML = '<div style="color:#484f58;font-size:0.85rem">호스트 데이터 없음</div>';
+    detail.innerHTML = '';
+    return;
+  }
+  activeHost = hosts[0];
+  tabs.innerHTML = hosts.map(h =>
+    `<button class="host-tab ${h === activeHost ? 'active' : ''}" data-host="${h}" onclick="selectHost('${h}')">${h}<span class="count">${hb[h].conn.toLocaleString()}</span></button>`
+  ).join('');
+  window.__hostBreak = hb;
+  renderHostDetail(activeHost);
+}
+
+function selectHost(h) {
+  activeHost = h;
+  document.querySelectorAll('.host-tab').forEach(el => {
+    el.classList.toggle('active', el.dataset.host === h);
+  });
+  renderHostDetail(h);
+}
+
+function renderHostDetail(h) {
+  const data = (window.__hostBreak || {})[h];
+  if (!data) return;
+  const detail = document.getElementById('host-detail');
+  const fmtBytes = (n) => {
+    if (n > 1e9) return (n/1e9).toFixed(2)+' GB';
+    if (n > 1e6) return (n/1e6).toFixed(1)+' MB';
+    if (n > 1e3) return (n/1e3).toFixed(0)+' KB';
+    return n+' B';
+  };
+  const list = (arr, link) => arr.length
+    ? '<ul>' + arr.map(([k,n]) => `<li><span>${link ? link(k) : escapeHtml(k)}</span><span class="v">${n.toLocaleString()}</span></li>`).join('') + '</ul>'
+    : '<div style="color:#484f58;font-size:0.82rem">없음</div>';
+  const verdict = data.verdict ? `<div class="host-verdict">🧭 ${escapeHtml(data.verdict)}</div>` : '';
+  detail.innerHTML = `
+    <div style="grid-column: 1 / -1;" class="host-bytes">
+      연결 <strong>${data.conn.toLocaleString()}</strong>건 · 송신 <strong>${fmtBytes(data.bytes_out)}</strong> · 수신 <strong>${fmtBytes(data.bytes_in)}</strong>
+    </div>
+    ${verdict}
+    <div class="col">
+      <h4>외부 IP 상위</h4>
+      ${list(data.top_remote_ips || [])}
+    </div>
+    <div class="col">
+      <h4>DNS 질의 상위</h4>
+      ${list(data.top_dns || [])}
+    </div>
+    <div class="col">
+      <h4>TLS SNI 상위</h4>
+      ${list(data.top_sni || [])}
+    </div>
+  `;
+}
+
+function escapeHtml(s) {
+  return (s+'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function logout() {
+  if (IS_DEMO) { window.location = '/'; return; }
+  await fetch('/api/auth/network/logout', { method: 'POST' });
+  window.location = '/';
+}
+
+loadList();
+if (!IS_DEMO) setInterval(loadList, 300000);  // 5분마다 리스트 갱신 (데모는 정적이라 X)
+</script>
+</body>
+</html>

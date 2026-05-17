@@ -197,7 +197,36 @@ def cve_detail(cve_id):
                 WHERE cve_id = %s
             """, (cve_id,))
             cve['references'] = cursor.fetchall()
-            
+
+            # KISA 권고 (cve_id 매칭)
+            try:
+                import json as _json
+                cursor.execute("""
+                    SELECT id, title, link, posted_at, ai_summary, ai_priority, category
+                    FROM kisa_advisories
+                    WHERE JSON_CONTAINS(cve_ids, %s)
+                    ORDER BY posted_at DESC
+                    LIMIT 5
+                """, (_json.dumps(cve_id),))
+                cve['kisa_advisories'] = cursor.fetchall()
+            except Exception as _e:
+                cve['kisa_advisories'] = []
+
+            # OpenVAS stub CVE인 경우 finding 정보로 보완
+            if cve.get('source_flags') and 'openvas' in str(cve['source_flags']):
+                cursor.execute("""
+                    SELECT f.nvt_name, f.description, f.solution,
+                           f.severity, f.host_ip, f.port, f.threat
+                    FROM openvas_findings f
+                    JOIN openvas_finding_cves ofc ON ofc.finding_id = f.id
+                    WHERE ofc.cve_id = %s
+                    ORDER BY f.severity DESC
+                    LIMIT 5
+                """, (cve_id,))
+                cve['openvas_findings'] = cursor.fetchall()
+            else:
+                cve['openvas_findings'] = []
+
         conn.close()
         return render_template('vuln_detail.html', cve=cve)
         
@@ -207,35 +236,43 @@ def cve_detail(cve_id):
 
 @vuln_bp.route('/search')
 def search():
-    """CVE 검색"""
+    """CVE 검색 (NVD + OpenVAS 통합)"""
     query = request.args.get('q', '')
+    infra_only = request.args.get('infra_only', '0') == '1'
     results = []
-    
+
     if query:
         try:
             conn = get_cve_db()
             with conn.cursor() as cursor:
                 search_query = f"%{query}%"
-                cursor.execute("""
-                    SELECT e.*, GROUP_CONCAT(DISTINCT t.name) as software
+                infra_clause = "AND FIND_IN_SET('openvas', e.source_flags)" if infra_only else ""
+                cursor.execute(f"""
+                    SELECT e.*,
+                           GROUP_CONCAT(DISTINCT t.name) as software,
+                           FIND_IN_SET('openvas', e.source_flags) as in_my_infra
                     FROM cve_entries e
                     LEFT JOIN cve_software s ON e.cve_id = s.cve_id
                     LEFT JOIN monitor_targets t ON s.target_id = t.id
-                    WHERE e.cve_id LIKE %s
+                    WHERE (
+                        e.cve_id LIKE %s
                        OR e.description_en LIKE %s
                        OR e.description_ko LIKE %s
                        OR e.simple_explanation LIKE %s
                        OR t.name LIKE %s
+                    ) {infra_clause}
                     GROUP BY e.id
-                    ORDER BY e.cvss_score DESC
+                    ORDER BY COALESCE(e.cvss_score, e.openvas_severity, 0) DESC
                     LIMIT 50
                 """, (search_query, search_query, search_query, search_query, search_query))
                 results = cursor.fetchall()
             conn.close()
         except Exception as e:
-            return render_template('vuln_search.html', query=query, results=[], error=str(e))
-    
-    return render_template('vuln_search.html', query=query, results=results)
+            return render_template('vuln_search.html', query=query, results=[],
+                                   infra_only=infra_only, error=str(e))
+
+    return render_template('vuln_search.html', query=query, results=results,
+                           infra_only=infra_only)
 
 
 @vuln_bp.route('/api/stats')
@@ -261,13 +298,75 @@ def api_stats():
             
         conn.close()
         return jsonify(stats)
-        
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
-@vuln_bp.route('/client')
-def client_page():
-    """클라이언트 다운로드 및 사용법 페이지"""
-    return render_template('vuln_client.html')
+@vuln_bp.route('/about')
+def about():
+    """취약점 모니터링 구조·데이터 흐름 소개."""
+    stats = {
+        "cve_total": 0,
+        "cve_recent_30d": 0,
+        "cve_analyzed": 0,
+        "by_severity": {},
+        "hosts": 0,
+        "findings": 0,
+        "findings_by_severity": {"critical": 0, "high": 0, "medium": 0, "low": 0},
+        "last_scan": None,
+    }
+    try:
+        conn = get_cve_db()
+        with conn.cursor() as cur:
+            cur.execute("SELECT COUNT(*) AS n FROM cve_entries")
+            stats["cve_total"] = cur.fetchone()["n"]
 
+            cur.execute(
+                "SELECT COUNT(*) AS n FROM cve_entries "
+                "WHERE published_date >= DATE_SUB(NOW(), INTERVAL 30 DAY)"
+            )
+            stats["cve_recent_30d"] = cur.fetchone()["n"]
+
+            cur.execute("SELECT COUNT(*) AS n FROM cve_entries WHERE ai_analyzed = TRUE")
+            stats["cve_analyzed"] = cur.fetchone()["n"]
+
+            cur.execute(
+                "SELECT severity, COUNT(*) AS n FROM cve_entries "
+                "GROUP BY severity"
+            )
+            stats["by_severity"] = {r["severity"]: r["n"] for r in cur.fetchall()}
+
+            # OpenVAS 집계
+            cur.execute("SELECT COUNT(*) AS n FROM openvas_hosts")
+            stats["hosts"] = cur.fetchone()["n"]
+
+            cur.execute("""
+                SELECT
+                    SUM(severity >= 9)                   AS critical,
+                    SUM(severity >= 7 AND severity < 9)  AS high,
+                    SUM(severity >= 4 AND severity < 7)  AS medium,
+                    SUM(severity > 0 AND severity < 4)   AS low,
+                    COUNT(*)                             AS total
+                FROM openvas_findings
+            """)
+            row = cur.fetchone() or {}
+            stats["findings"] = int(row.get("total") or 0)
+            stats["findings_by_severity"] = {
+                "critical": int(row.get("critical") or 0),
+                "high":     int(row.get("high") or 0),
+                "medium":   int(row.get("medium") or 0),
+                "low":      int(row.get("low") or 0),
+            }
+
+            cur.execute(
+                "SELECT MAX(scan_ended) AS t FROM openvas_reports"
+            )
+            t = cur.fetchone()["t"]
+            if t:
+                stats["last_scan"] = t.strftime("%Y-%m-%d %H:%M")
+        conn.close()
+    except Exception as e:
+        stats["error"] = str(e)
+
+    return render_template("vuln_about.html", stats=stats)

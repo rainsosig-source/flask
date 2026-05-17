@@ -32,6 +32,10 @@ _TRACE_TIMEOUT_SEC = int(os.environ.get('ROUTE_TRACE_TIMEOUT', '60'))
 
 _SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tcp_traceroute.py')
 
+# TCP 주 포트가 막힐 때 시도할 폴백 포트. 인터넷 경로에서 널리 허용되는 포트들.
+# 80(HTTP), 53(DNS), 22(SSH).
+_FALLBACK_PORTS = os.environ.get("ROUTE_FALLBACK_PORTS", "80,53,22")
+
 
 def _validate_target(target: str) -> bool:
     return bool(_HOSTNAME_RE.match(target or ''))
@@ -48,6 +52,7 @@ def run_tcp_traceroute(target: str, max_hops: int, probes: int, protocol: str) -
         '-m', str(max_hops),
         '-q', str(probes),
         '-P', protocol,
+        '-F', _FALLBACK_PORTS,
         '--json',
     ]
 
@@ -123,9 +128,10 @@ def trace():
     except (TypeError, ValueError):
         return jsonify({'success': False, 'error': '잘못된 옵션 값.'}), 400
 
-    protocol = data.get('protocol', 'both')
-    if protocol not in ('tcp', 'udp', 'both'):
-        protocol = 'both'
+    # 기본 'all' — TCP + UDP + ICMP 3-way로 막힌 홉 뚫기 강화
+    protocol = data.get('protocol', 'all')
+    if protocol not in ('tcp', 'udp', 'icmp', 'both', 'all'):
+        protocol = 'all'
 
     if not _trace_semaphore.acquire(blocking=False):
         return jsonify({
