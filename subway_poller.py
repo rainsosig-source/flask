@@ -23,12 +23,18 @@ def _load_api_key() -> str:
     key = os.environ.get("SEOUL_API_KEY", "")
     if key:
         return key
-    # 폴백: .env 직접 읽기
-    env = Path("/opt/flask-app/.env")
-    if env.exists():
-        for line in env.read_text().splitlines():
-            if line.startswith("SEOUL_API_KEY="):
-                return line.split("=", 1)[1].strip()
+    # 폴백: credstore(LoadCredentialEncrypted=envfile) → 옛 .env 순서로 SEOUL_API_KEY 탐색
+    # (2026-05-23 시크릿 마이그레이션으로 /opt/flask-app/.env는 credstore로 이전됨)
+    cands = []
+    _cd = os.environ.get("CREDENTIALS_DIRECTORY", "")
+    if _cd:
+        cands.append(Path(_cd) / "envfile")
+    cands.append(Path("/opt/flask-app/.env"))
+    for env in cands:
+        if env.exists():
+            for line in env.read_text().splitlines():
+                if line.strip().startswith("SEOUL_API_KEY="):
+                    return line.split("=", 1)[1].strip().strip('"').strip("'")
     return ""
 
 

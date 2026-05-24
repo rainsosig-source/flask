@@ -386,6 +386,11 @@
             <a href="/security">🛡️ 보안</a>
         </nav>
 
+        <aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+          <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+          NVD(미국 국립취약점DB)에서 주요 소프트웨어 CVE를 2시간마다 자동 수집하고 <strong>Claude Haiku</strong>로 한국어 요약·심각도·악용 가능성을 평가합니다. 단순한 CVSS 점수 나열보다는 <strong>"실제로 쓰는 도구에 어떤 영향이 가는지"</strong>를 핵심으로 잡았습니다. <strong>OpenVAS로 sosig.shop 자기 인프라를 직접 스캔한 결과(/vuln/infra)와 cross-link</strong>해, 내가 실제로 노출시킨 자산에 해당하는 CVE만 강조하도록 했습니다. 추적 대상은 운영자가 직접 쓰는 소프트웨어 위주이고, 산업·정부 인프라 전수 모니터링이 아닙니다. 다른 보안 도구·정보 출처를 대체할 의도는 없으며, "내가 쓰는 SW의 새 CVE를 한국어로 빠르게 훑는" 용도로 만들었습니다.
+        </aside>
+
         {% if error %}
         <div class="error-message">⚠️ 오류: {{ error }}</div>
         {% endif %}

@@ -48,6 +48,11 @@
         .book-title {
             font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px;
         }
+        .series-badge {
+            font-size: 12px; font-weight: 600; color: #c5e1ff;
+            background: rgba(100,180,255,0.18); border: 1px solid rgba(100,180,255,0.4);
+            border-radius: 10px; padding: 1px 8px; margin-left: 6px; vertical-align: middle;
+        }
         .book-subtitle {
             font-size: 13px; color: #8aa4c8; margin-bottom: 10px;
         }
@@ -94,18 +99,19 @@
 
         <h1>📚 AI 번역 선집</h1>
         <p class="subtitle">퍼블릭 도메인 원전 · AI(vLLM Gemma 4)가 편집·번역한 비영리 선집 · 학습·교육 목적</p>
+        <a href="https://www.youtube.com/@sosigbooks" target="_blank" rel="noopener" style="display:inline-block;margin:4px 0 20px;padding:9px 18px;background:#ff0000;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:700;">📺 유튜브에서 오디오북으로 듣기 →</a>
 
         <aside style="max-width: 1100px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
           <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
-          퍼블릭 도메인(원작자 사후 70년 경과)에 속한 원전만 골라 <strong>GB10 로컬에서 돌리는 vLLM Gemma 4 26B-A4B</strong>로 2-pass 번역해 PDF로 묶었습니다. 기존 9권은 Claude Opus 4.7로 번역했고, 2026-05 이후 신규 번역과 보강은 vLLM Gemma 4로 진행합니다(비용 0, 외부 의존 제거). 니체 『위버멘쉬』, 장자 내편, 하워드 파일 『아서왕』, 잰그윌 『보우의 미스터리』, 에드거 앨런 포 단편 등 <strong>현재 9권</strong>이 올라가 있고, 작품 선정은 학술적 권위가 아니라 "지금 한국어로 읽을 가치가 있다고 본 운영자의 취향"입니다. AI 번역의 한계(어조 흔들림, 고유명사 표기 갈등)는 분명히 있으니 학술 번역본 대체가 아닌 <strong>읽을거리 한 권 더의 위치</strong>로 봐주시면 좋겠습니다. 인용·연구는 원전 또는 정식 번역본을 권합니다.
+          퍼블릭 도메인(원작자 사후 70년 경과)에 속한 원전만 골라 <strong>GB10 로컬에서 돌리는 vLLM Gemma 4 26B-A4B</strong>로 2-pass 번역(회별 인물·사건 사실 시트 추출 → 본문 번역 + 누적 사전 일관성 강제)해 PDF로 묶었습니다. 기존 9권은 Claude Opus 4.7로 번역했고, 2026-05 이후 신규 번역과 보강은 vLLM Gemma 4로 진행합니다(비용 0, 외부 의존 제거). 니체 『위버멘쉬』, 장자 내편, 하워드 파일 『아서왕』, 잰그윌 『보우의 미스터리』, 에드거 앨런 포 단편 15편 등 <strong>현재 19권</strong>이 올라가 있고, <strong>나관중 『삼국연의』(모종강본 120회)</strong>를 매일 새벽 02:00 cron으로 자동 번역 중입니다(12회씩 묶어 10권 단위 PDF 발행 예정). 작품 선정은 학술적 권위가 아니라 "지금 한국어로 읽을 가치가 있다고 본 운영자의 취향"입니다. AI 번역의 한계(어조 흔들림, 고유명사 표기 갈등)는 분명히 있으니 학술 번역본 대체가 아닌 <strong>읽을거리 한 권 더의 위치</strong>로 봐주시면 좋겠습니다. 인용·연구는 원전 또는 정식 번역본을 권합니다.
         </aside>
 
         {% if books %}
         <div class="books-grid">
             {% for book in books %}
-            <a href="/book/{{ book.slug }}" class="book-card">
+            <a href="{% if book.is_series %}/book/series/{{ book.series_slug }}{% else %}/book/{{ book.slug }}{% endif %}" class="book-card">
                 <div class="book-emoji">{{ book.cover_emoji|default('📖') }}</div>
-                <div class="book-title">{{ book.title }}</div>
+                <div class="book-title">{{ book.title }}{% if book.is_series %} <span class="series-badge">전 {{ book.vol_count }}권</span>{% endif %}</div>
                 <div class="book-subtitle">{{ book.subtitle }}</div>
                 <div class="book-author">{{ book.author }} ({{ book.author_years }})</div>
                 <div class="book-summary">{{ book.summary }}</div>
@@ -114,7 +120,9 @@
                     <span class="tag">{{ tag }}</span>
                     {% endfor %}
                 </div>
-                {% if book.pdf_file %}
+                {% if book.is_series %}
+                <div class="status-pill status-ok">📚 전 {{ book.vol_count }}권 · 권별 다운로드</div>
+                {% elif book.pdf_file %}
                   {% if book.pdf_available %}
                   <div class="status-pill status-ok">✅ PDF 공개 · {{ book.pdf_size_display }}</div>
                   {% else %}

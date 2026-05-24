@@ -16,7 +16,23 @@ sys.path.insert(0, SCRIPT_DIR)
 from compilation_periods import PERIOD_KEYS, period_range, period_label  # noqa: E402
 from title_duration_cache import get_duration as get_title_dur, load_cache as load_title_cache, save_cache as save_title_cache  # noqa: E402
 
-load_dotenv("/opt/flask-app/.env")
+# 2026-05-23 시크릿 마이그레이션: /opt/flask-app/.env가 credstore로 이전됨.
+# cron 단독 실행 시 .env가 없으므로 credstore를 복호화해 환경변수 주입(있으면 그대로 .env 사용).
+_ENV = "/opt/flask-app/.env"
+if not os.path.exists(_ENV):
+    try:
+        _out = subprocess.run(
+            ["systemd-creds", "decrypt", "--name=envfile",
+             "/etc/credstore.encrypted/flask_envfile", "-"],
+            capture_output=True, text=True, check=True).stdout
+        for _l in _out.splitlines():
+            _l = _l.strip()
+            if _l and not _l.startswith("#") and "=" in _l:
+                _k, _v = _l.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
+    except Exception:
+        pass
+load_dotenv(_ENV)
 
 STATIC_ROOT = "/root/flask-app/static"
 PODCAST_ROOT = os.path.join(STATIC_ROOT, "podcast")

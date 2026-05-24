@@ -88,12 +88,17 @@ def foreign_page():
 def foreign_json():
     limit = min(int(request.args.get('limit', 50)), 200)
     source = request.args.get('source', 'all')
+    date = request.args.get('date')   # "YYYY-MM-DD" 발행일 필터 (선택)
 
     where = "ai_status='done'"
-    params: list = [limit]
+    params: list = []
     if source != 'all' and source in SOURCE_LABELS:
         where += " AND source=%s"
-        params.insert(0, source)
+        params.append(source)
+    if date:
+        where += " AND DATE(audio_published_at)=%s"
+        params.append(date)
+    params.append(limit)
 
     conn = get_db_connection()
     try:
@@ -132,6 +137,21 @@ def foreign_json():
                   AND audio_published_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
             """)
             recent7 = int((cur.fetchone() or {}).get('n', 0))
+
+            # 발행된 날짜 목록 (날짜 칩용) — source 필터 반영
+            date_where = "ai_status='done' AND audio_published_at IS NOT NULL"
+            date_params = []
+            if source != 'all' and source in SOURCE_LABELS:
+                date_where += " AND source=%s"
+                date_params.append(source)
+            cur.execute(f"""
+                SELECT DATE(audio_published_at) AS d, COUNT(*) AS n
+                FROM foreign_news WHERE {date_where}
+                GROUP BY DATE(audio_published_at)
+                ORDER BY d DESC LIMIT 60
+            """, date_params)
+            dates = [{'date': row['d'].strftime('%Y-%m-%d'), 'n': int(row['n'])}
+                     for row in cur.fetchall() if row['d']]
     finally:
         conn.close()
 
@@ -139,6 +159,7 @@ def foreign_json():
         'articles': rows,
         'counts': counts,
         'recent7': recent7,
+        'dates': dates,
         '_now': datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S'),
     })
 

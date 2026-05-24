@@ -6,6 +6,8 @@ tcp_traceroute.py를 사용하여 경로 추적 + 3D 지구본 시각화
 import os
 import re
 import json
+import socket
+import ipaddress
 import subprocess
 from threading import Semaphore
 
@@ -38,7 +40,18 @@ _FALLBACK_PORTS = os.environ.get("ROUTE_FALLBACK_PORTS", "80,53,22")
 
 
 def _validate_target(target: str) -> bool:
-    return bool(_HOSTNAME_RE.match(target or ''))
+    if not _HOSTNAME_RE.match(target or ''):
+        return False
+    # SSRF/내부망 정찰 방지: 해석 IP가 사설/로컬/링크로컬/예약이면 거부
+    try:
+        for *_, sockaddr in socket.getaddrinfo(target, None):
+            ip = ipaddress.ip_address(sockaddr[0])
+            if (ip.is_private or ip.is_loopback or ip.is_link_local
+                    or ip.is_reserved or ip.is_multicast or ip.is_unspecified):
+                return False
+    except Exception:
+        return False
+    return True
 
 
 def run_tcp_traceroute(target: str, max_hops: int, probes: int, protocol: str) -> dict:

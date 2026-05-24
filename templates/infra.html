@@ -97,6 +97,11 @@ td a:hover { text-decoration: underline; }
             <a href="/security">🛡️ 보안</a>
         </nav>
 
+        <aside style="max-width: 1400px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+          <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+          <strong>OpenVAS</strong>로 sosig.shop이 실제로 외부에 노출하고 있는 호스트(웹 서버·Cloudflare 엣지 등)를 직접 스캔한 결과입니다. CVE DB(/vuln)가 "이런 SW에 새 취약점이 있다"를 보여준다면, 이 페이지는 "<strong>그중 내가 실제로 띄워둔 자산에 해당하는 건 무엇인가</strong>"를 보여줍니다. 운영자가 자기 인프라의 attack surface를 점검하고, 외부 도구가 sosig.shop을 어떻게 인식하는지(banner, 포트, 인증 헤더 등) 확인하는 용도로 만들었습니다. Critical·High 결과는 운영자가 즉시 조치하고, 잔여 항목은 우선순위에 따라 검토합니다. 일반 사용자용 정보가 아니며 "투명성" 차원에서 공개합니다.
+        </aside>
+
   {% set crit_total = hosts|sum(attribute='critical') or 0 %}
   {% set high_total = hosts|sum(attribute='high') or 0 %}
   {% if crit_total > 0 %}

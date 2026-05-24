@@ -274,6 +274,11 @@
   <h1>AI 뉴스 영상</h1>
 </header>
 
+<aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+  <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+  매일 9·13·18시에 뉴스 한 건을 골라 <strong>대본(vLLM Gemma 4 26B-A4B) + 음성(Supertonic on-device TTS) + 단락별 일러스트(black-forest-labs FLUX.1-dev, 28 step, 단락당 한 장) + 자막</strong>을 합쳐 1~2분 영상으로 만들어 발행합니다. 음성·이미지는 AI 합성물이라는 점, YouTube 변형 콘텐츠 표시 의무를 따른다는 점, 원문 기사에 없는 수치·인용은 절대 추가하지 않는다는 점을 프롬프트와 후처리에서 강제했습니다. 한 회 생성에 GB10에서 약 40~50분(Flux 이미지 12장 × 단장 3~4분이 병목)이 들고, vLLM과 메모리를 공유하는 통합 메모리 구조라 동시 가동 시 마진 관리가 필요해 cron 시간을 분산 배치했습니다. 일반 청취·시청 외에 영상 합성 파이프라인의 한국어 워크플로 PoC가 운영자의 부가 동기입니다.
+</aside>
+
 <div class="notice">
   ⚠️ 이 영상들은 AI가 생성한 콘텐츠입니다. 모든 영상은 실제 뉴스 기사 기반이지만,
   음성·이미지는 AI 합성물입니다. YouTube 업로드 시 '변형 또는 합성 콘텐츠' 표시가 적용되어 있습니다.

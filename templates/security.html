@@ -101,6 +101,11 @@
         <h1>🛡️ 보안 대시보드</h1>
         <p class="subtitle">최근 24시간 활동 요약 · 생성 {{ generated }}</p>
 
+        <aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
+          <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
+          <strong>KISA 보안 권고</strong>(매시 스크래핑·vLLM Gemma 4 우선순위 분류·≥4 자동 팟캐스트), <strong>NVD CVE</strong>(2시간 주기·Claude Haiku 요약·악용 가능성 평가), <strong>악성코드 분석기</strong>(YARA + Capstone + vLLM Gemma 4 디컴파일), <strong>OpenVAS 자기 인프라 스캔</strong>(/vuln/infra)을 한 화면에서 훑어볼 수 있게 모은 페이지입니다. 한 출처가 놓친 위협을 다른 출처로 보완하는 <strong>"교차 검증"</strong>이 목적이고, 일반 사용자가 매시 모든 권고를 들여다볼 수 없으니 운영자가 직접 임계값(priority≥4, CVSS≥7 등)을 정해 자동 발행을 결정했습니다. 운영자 본인의 인프라(sosig.shop, GB10, 홈 네트워크) 보안 운용이 1차 목적이고, 같은 위협을 마주한 사람에게 한국어 보안 정보 접근성을 제공하는 게 2차 목적입니다.
+        </aside>
+
         <!-- 상단 통합 지표 -->
         <section>
             <h2>지표 요약 (최근 24시간)</h2>

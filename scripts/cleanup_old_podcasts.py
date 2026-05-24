@@ -21,6 +21,20 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(script_dir, '.env')
 if not os.path.exists(env_path):
     env_path = os.path.join(os.path.dirname(script_dir), '.env')
+import subprocess as _sp
+# 2026-05-23 시크릿 마이그레이션: .env가 credstore로 이전됨. 파일 없으면 credstore 복호화(root 크론).
+if not os.path.exists(env_path):
+    try:
+        _out = _sp.run(["systemd-creds", "decrypt", "--name=envfile",
+                        "/etc/credstore.encrypted/flask_envfile", "-"],
+                       capture_output=True, text=True, check=True).stdout
+        for _l in _out.splitlines():
+            _l = _l.strip()
+            if _l and not _l.startswith("#") and "=" in _l:
+                _k, _v = _l.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
+    except Exception:
+        pass
 load_dotenv(env_path)
 
 # 설정

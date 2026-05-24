@@ -4,8 +4,29 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, render_template, Response
 
+# systemd LoadCredentialEncrypted .env → os.environ (평문 EnvironmentFile 대체, override=평소 동작 복제)
+_cred_dir = os.environ.get("CREDENTIALS_DIRECTORY")
+if _cred_dir:
+    _ef = os.path.join(_cred_dir, "envfile")
+    if os.path.exists(_ef):
+        with open(_ef, encoding="utf-8") as _f:
+            for _ln in _f:
+                _ln = _ln.strip()
+                if _ln and not _ln.startswith("#") and "=" in _ln:
+                    _k, _v = _ln.split("=", 1)
+                    os.environ[_k.strip()] = _v.strip().strip(chr(34)).strip(chr(39))
+
 app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev-secret-key-change-in-production')
+_secret = os.environ.get('FLASK_SECRET_KEY')
+if not _secret:
+    raise RuntimeError('FLASK_SECRET_KEY must be set in environment (no insecure default).')
+app.secret_key = _secret
+# 보안 하드닝 2026-05-23: 세션 쿠키 플래그
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SECURE=True,
+)
 
 # === Static asset cache-bust — 파일 mtime을 ?v= 쿼리로 자동 부착 ===
 @app.context_processor

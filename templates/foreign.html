@@ -79,6 +79,7 @@
 
 <div class="top-bar">
   <div class="filters" id="filters"></div>
+  <div class="date-chips" id="dateChips" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.6rem;"></div>
 </div>
 
 <p class="notice">BBC, Nikkei Asia 등 해외 매체가 보도한 한국 관련 기사 중 국내 언론이 거의 다루지 않은 것을 골라 한국어 팟캐스트로 발행합니다.</p>
@@ -94,6 +95,7 @@
 
 <script>
 let currentSource = 'all';
+let currentDate = '';   // '' = 전체 날짜
 
 function isAnyAudioPlaying() {
   return Array.from(document.querySelectorAll('audio')).some(a => !a.paused && !a.ended && a.readyState > 2);
@@ -102,9 +104,12 @@ function isAnyAudioPlaying() {
 async function load() {
   if (isAnyAudioPlaying()) return;
   try {
-    const r = await fetch(`/api/foreign.json?source=${currentSource}&limit=80`);
+    let url = `/api/foreign.json?source=${currentSource}&limit=80`;
+    if (currentDate) url += `&date=${currentDate}`;
+    const r = await fetch(url);
     const d = await r.json();
     renderFilters(d);
+    renderDateChips(d.dates || []);
     renderGrid(d.articles || []);
   } catch (e) {
     document.getElementById('grid').innerHTML = `<div class="empty">로드 실패: ${e.message}</div>`;
@@ -124,8 +129,23 @@ function renderFilters(d) {
   ).join('');
 }
 
+function renderDateChips(dates) {
+  const fmt = (s) => { const [y,m,dd]=s.split('-'); return `${m}.${dd}`; };
+  const chips = [`<button class="filter-btn ${currentDate === '' ? 'active' : ''}" onclick="setDate('')">전체 날짜</button>`];
+  for (const item of dates) {
+    chips.push(`<button class="filter-btn ${currentDate === item.date ? 'active' : ''}" onclick="setDate('${item.date}')">${fmt(item.date)}<span class="count">${item.n}</span></button>`);
+  }
+  document.getElementById('dateChips').innerHTML = chips.join('');
+}
+
 function setSrc(k) {
   currentSource = k;
+  currentDate = '';   // 매체 변경 시 날짜 초기화
+  load();
+}
+
+function setDate(d) {
+  currentDate = d;
   load();
 }
 
