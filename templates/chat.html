@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sosig에게 물어봐 · sosig.shop</title>
+<style>
+  :root { --bg:#0f1115; --card:#1a1d24; --accent:#4cc9f0; --txt:#e6e8eb; --muted:#8b93a1; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:-apple-system,"Noto Sans KR",sans-serif; }
+  header { padding:18px 16px; border-bottom:1px solid #232733; display:flex; align-items:center; gap:10px; }
+  header h1 { font-size:18px; margin:0; }
+  header a { color:var(--muted); text-decoration:none; font-size:13px; margin-left:auto; }
+  .wrap { max-width:780px; margin:0 auto; padding:16px; }
+  .hint { color:var(--muted); font-size:13px; margin:8px 0 16px; line-height:1.6; }
+  .hint b { color:var(--accent); }
+  #log { display:flex; flex-direction:column; gap:12px; margin-bottom:90px; }
+  .msg { padding:12px 14px; border-radius:12px; line-height:1.7; white-space:pre-wrap; word-break:break-word; }
+  .me { background:#243; align-self:flex-end; max-width:85%; }
+  .bot { background:var(--card); border:1px solid #232733; }
+  .src { margin-top:10px; font-size:12px; color:var(--muted); border-top:1px dashed #333; padding-top:8px; }
+  .bar { position:fixed; bottom:0; left:0; right:0; background:var(--bg); border-top:1px solid #232733; padding:12px; }
+  .bar .inner { max-width:780px; margin:0 auto; display:flex; gap:8px; }
+  #q { flex:1; padding:12px; border-radius:10px; border:1px solid #333; background:#11141a; color:var(--txt); font-size:15px; }
+  #send { padding:0 18px; border:0; border-radius:10px; background:var(--accent); color:#04222c; font-weight:700; cursor:pointer; }
+  #send:disabled { opacity:.5; cursor:default; }
+  .ex { display:inline-block; margin:3px 4px 0 0; padding:5px 10px; background:var(--card); border:1px solid #2a2f3a; border-radius:14px; font-size:12px; color:var(--txt); cursor:pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🤖 sosig에게 물어봐</h1>
+  <a href="/">← sosig.shop</a>
+</header>
+<div class="wrap">
+  <div class="hint">
+    sosig.shop의 <b>뉴스·외신 아카이브</b>와 <b>번역 선집(책 본문)</b>을 근거로 답합니다. GB10 로컬 Gemma 4 기반.<br>
+    예시:
+    <span class="ex">최근 반도체 뉴스 알려줘</span>
+    <span class="ex">크툴루의 부름 줄거리</span>
+    <span class="ex">전우치는 누구야?</span>
+    <span class="ex">삼국지에서 도원결의가 뭐야?</span>
+  </div>
+  <div id="log"></div>
+</div>
+<div class="bar"><div class="inner">
+  <input id="q" placeholder="질문을 입력하세요…" autocomplete="off">
+  <button id="send">전송</button>
+</div></div>
+<script>
+const log=document.getElementById('log'), q=document.getElementById('q'), send=document.getElementById('send');
+function add(cls,html){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;log.appendChild(d);window.scrollTo(0,document.body.scrollHeight);return d;}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+async function ask(text){
+  if(!text)return; q.value=''; send.disabled=true;
+  add('me',esc(text));
+  const wait=add('bot','<span style="color:#8b93a1">생각 중… (로컬 LLM, 수십 초 걸릴 수 있어요)</span>');
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:text})});
+    const d=await r.json();
+    if(d.error){wait.innerHTML='<span style="color:#f88">'+esc(d.error)+'</span>';}
+    else{
+      let h=esc(d.answer);
+      if(d.sources&&d.sources.length){h+='<div class="src">출처: '+d.sources.map(s=>esc(s.title)).join(' · ')+'</div>';}
+      wait.innerHTML=h;
+    }
+  }catch(e){wait.innerHTML='<span style="color:#f88">오류가 발생했어요. 잠시 후 다시.</span>';}
+  send.disabled=false; q.focus();
+}
+send.onclick=()=>ask(q.value.trim());
+q.addEventListener('keydown',e=>{if(e.key==='Enter')ask(q.value.trim());});
+document.querySelectorAll('.ex').forEach(b=>b.onclick=()=>ask(b.textContent));
+</script>
+</body>
+</html>

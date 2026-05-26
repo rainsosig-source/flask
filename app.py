@@ -66,11 +66,13 @@ from openvas_blueprint import openvas_bp
 from security_blueprint import security_bp
 from book_blueprint import book_bp
 from video_blueprint import video_bp
+from chat_blueprint import chat_bp
 from status_blueprint import status_bp
 from kisa_blueprint import kisa_bp
 from foreign_blueprint import foreign_bp
 
 app.register_blueprint(podcast_bp)
+app.register_blueprint(chat_bp)
 app.register_blueprint(subway_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(route_bp)

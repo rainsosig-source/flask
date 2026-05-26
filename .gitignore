@@ -20,3 +20,6 @@ backup-*/
 *.old-*
 .env.old-*
 *.bak_*
+.chat_token
+.cache/
+.ssh/

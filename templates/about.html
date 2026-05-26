@@ -46,7 +46,7 @@
                 <li><strong>목표</strong>: AI 기반 뉴스 자동화, 외신 큐레이션, 보안 분석(악성코드·CVE·KISA), 네트워크 트래픽 가시화, 공공 도메인 문학 번역 선집, 실시간 도시 데이터(지하철)를 한 플랫폼에 통합</li>
                 <li><strong>핵심 기술</strong>: Python (Flask + Gunicorn), MariaDB, vLLM Gemma 4 26B-A4B FP8 + MTP drafter (GB10 로컬, 메인 LLM), Claude CLI (인터랙티브), Supertonic on-device TTS, Zeek, Suricata, YARA, LIEF, Capstone, BBC·Nikkei Asia RSS</li>
                 <li><strong>인프라</strong>: Web Server (Gabia, Flask/Nginx) ↔ GPU Server (NVIDIA DGX Spark GB10, Tailscale + Cloudflare Tunnel) — 모든 AI 워크로드·크롤러·cron 워커는 GB10에서 실행</li>
-                <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중 (2026-05 기준 23권 번역 — 메인 4권 + 포 단편 15편 + 삼국지 1~4권, 5~10권 자동 진행 중 — , KISA 보안 권고 자동 팟캐스트 발행, BBC/Nikkei Asia 외신 큐레이션, 매일 자동 뉴스 팟캐스트·CVE·악성코드 분석)</li>
+                <li><strong>개발 기간</strong>: 2025년 11월 ~ 진행 중 (2026-05 기준 43권 번역 — 메인 5권 + 포 단편 15편 + 서유기 9권 + 삼국지 10권 + 러브크래프트 4편 — , KISA 보안 권고 자동 팟캐스트 발행, BBC/Nikkei Asia 외신 큐레이션, 매일 자동 뉴스 팟캐스트·CVE·악성코드 분석)</li>
             </ul>
         </div>
 
@@ -195,7 +195,7 @@
             <p>TL-SG105E port mirror로 LAN 전체 트래픽을 GB10의 USB-LAN으로 미러링 → Zeek + Suricata 24시간 캡처 → vLLM Gemma 4 26B-A4B로 1차 triage + 의심 호스트 deep dive → 시간대별/호스트별 통계와 지구본 시각화. 본인 전용 텔레그램 OTP 인증.</p>
 
             <h3>📚 AI 번역 선집 (/book)</h3>
-            <p>퍼블릭 도메인 문학을 vLLM Gemma 4 26B-A4B로 2-pass 번역하여 책 형태 PDF로 발행. 니체 『위버멘쉬』, 장자 내편, 하워드 파일 『아서왕』, 잰그윌 『보우의 미스터리』, 에드거 앨런 포 단편 15편, 나관중 『삼국연의』 모종강본 제1~4권 등 <strong>총 23권</strong> (삼국지는 12회씩 10권 분할, 5~10권은 매일 새벽 02:00 cron으로 자동 빌드·등록). A5 판형, Noto Serif CJK KR 본문.</p>
+            <p>퍼블릭 도메인 문학을 vLLM Gemma 4 26B-A4B로 2-pass 번역하여 책 형태 PDF로 발행. 니체 『위버멘쉬』, 장자 내편, 『홍길동전』, 하워드 파일 『아서왕과 그의 기사들』, 잰그윌 『보우의 미스터리』, 에드거 앨런 포 단편 15편, 오승은 『서유기』 제1~9권, 나관중 『삼국연의』 모종강본 제1~10권, H.P. 러브크래프트 단편 4편(크툴루의 부름·우주에서 온 색채 등) 등 <strong>총 43권</strong> (삼국지·서유기는 회차 분할로 매일 새벽 cron 자동 빌드·등록). 오디오북 버전은 유튜브 <a href="https://www.youtube.com/@sosigbooks" target="_blank" rel="noopener">@sosigbooks</a>에서도 청취 가능. A5 판형, Noto Serif CJK KR 본문.</p>
 
             <h3 style="font-size: 1.5rem; margin-top: 1.5rem; padding: 0.6rem 0 0.3rem; border-top: 2px solid var(--text-muted, #8b949e); color: var(--text-muted, #8b949e);">⚙️ 운영·메타 (메인 푸터에서 진입)</h3>
 
@@ -251,7 +251,7 @@
 
         <div class="section-card">
             <h2>5. 개발 스토리</h2>
-            <p><strong>Google Antigravity AI</strong>를 활용하여 전체 프로젝트를 개발했습니다.</p>
+            <p><strong>Google Antigravity AI</strong>로 프로젝트를 시작했고, 이후 기능 추가·수정·운영은 <strong>Claude Code</strong>로 진행하고 있습니다.</p>
 
             <h3>개발 과정</h3>
             <ul>
@@ -326,7 +326,7 @@
         <p>제작: <strong>TS.Song</strong> | 문의: <a href="mailto:sddari@gmail.com" class="footer-link">sddari@gmail.com</a>
         </p>
         <p style="margin-top: 15px; opacity: 0.7;">Powered by <span style="color: var(--accent-cyan);">Google
-                Antigravity</span></p>
+                Antigravity &amp; Claude Code</span></p>
     </footer>
 
     <script src="{{ static_v('js/about.js') }}"></script>

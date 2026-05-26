@@ -1072,347 +1072,11 @@
       "인명·지명·관직은 원문 그대로 보존했고(홍길동, 세종, 춘섬, 이조판서), 옛 번역투를 지양해 초등 고학년도 막힘없이 읽을 수 있도록 옮겼다. 한자어를 복원하거나 뜻을 바로잡은 곳, 설명이 필요한 어휘는 책 끝에 <strong>주석</strong>으로 모았다.",
       "AI 윤문의 한계상 옛 어휘의 동음이의 오역·어조 흔들림 가능성이 남아 있다. 학술 교주본의 대체가 아닌 \"쉽게 읽는 한 권\"으로 봐주시면 좋겠다."
     ],
-    "chapters": []
-  },
-  {
-    "slug": "xiyouji_vol01",
-    "title": "서유기 제1권",
-    "subtitle": "世德堂本 제1회 ~ 제10회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol01.pdf",
-    "published_at": "2026-05-22",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제1회부터 제10회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제1회부터 제10회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제1회 — 靈根育孕源流出 心性修持大道生"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제2회 — 悟徹菩提真妙理　斷魔歸本合元神"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제3회 — 四海千山皆拱伏　九幽十類盡除名"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제4회 — 官封弼馬心何足　名注齊天意未寧"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제5회 — 亂蟠桃大聖偷丹　反天宮諸神捉怪"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제6회 — 觀音赴會問原因　小聖施威降大聖"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제7회 — 八卦爐中逃大聖　五行山下定心猿"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제8회 — 我佛造經傳極樂　觀音奉旨上長安"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제9회 — 陳光蕊赴任逢災　江流僧復讎報本"
-      },
-      {
-        "part": 1,
-        "part_title": "제1권",
-        "ko_title": "제10회 — 老龍王拙計犯天條　魏丞相遺書託冥吏"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol02",
-    "title": "서유기 제2권",
-    "subtitle": "世德堂本 제11회 ~ 제20회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol02.pdf",
-    "published_at": "2026-05-22",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제11회부터 제20회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제11회부터 제20회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제11회 — 遊地府太宗還魂　進瓜果劉全續配"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제12회 — {{另"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제13회 — 陷虎穴金星解厄　雙叉嶺伯欽留僧"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제14회 — 心猿歸正　六賊無蹤"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제15회 — 蛇盤山諸神暗佑　鷹愁澗意馬收韁"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제16회 — 觀音院僧謀寶貝　黑風山怪竊袈裟"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제17회 — 孫行者大鬧黑風山　觀世音收伏熊羆怪"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제18회 — 觀音院唐僧脫難　高老莊大聖除魔"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제19회 — 雲棧洞悟空收八戒　浮屠山玄奘受心經"
-      },
-      {
-        "part": 2,
-        "part_title": "제2권",
-        "ko_title": "제20회 — 黃風嶺唐僧有難　半山中八戒爭先"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol03",
-    "title": "서유기 제3권",
-    "subtitle": "世德堂本 제21회 ~ 제30회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol03.pdf",
-    "published_at": "2026-05-22",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제21회부터 제30회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제21회부터 제30회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제21회 — 護法設莊留大聖　須彌靈吉定風魔"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제22회 — 八戒大戰流沙河　木吒奉法收悟淨"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제23회 — 三藏不忘本　四聖試禪心"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제24회 — 萬壽山大仙留故友　五莊觀行者竊人參"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제25회 — 鎮元仙趕捉取經僧　孫行者大鬧五莊觀"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제26회 — 孫悟空三島求方　觀世音甘泉活樹"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제27회 — 屍魔三戲唐三藏　聖僧恨逐美猴王"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제28회 — 花果山群妖聚義　黑松林三藏逢魔"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제29회 — 脫難江流來國土　承恩八戒轉山林"
-      },
-      {
-        "part": 3,
-        "part_title": "제3권",
-        "ko_title": "제30회 — 邪魔侵正法　意馬憶心猿"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol04",
-    "title": "서유기 제4권",
-    "subtitle": "世德堂本 제31회 ~ 제40회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol04.pdf",
-    "published_at": "2026-05-22",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제31회부터 제40회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제31회부터 제40회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제31회 — 豬八戒義激猴王　孫行者智降妖怪"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제32회 — 平頂山功曹傳信　蓮花洞木母逢災"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제33회 — 外道迷真性　元神助本心"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제34회 — 魔王巧算困心猿　大聖騰{{另"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제35회 — 外道施威欺正性　心猿獲寶伏邪魔"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제36회 — 心猿正處諸緣伏　劈破傍門見月明"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제37회 — 鬼王夜謁唐三藏　悟空神化引嬰兒"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제38회 — 嬰兒問母知邪正　金木參玄見假真"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제39회 — 一粒丹砂天上得　三年故主世間生"
-      },
-      {
-        "part": 4,
-        "part_title": "제4권",
-        "ko_title": "제40회 — 嬰兒戲化禪心亂　猿馬刀{{另"
-      }
-    ]
+    "chapters": [],
+    "series_slug": "korean_classic",
+    "series_title": "한국 고전소설 선집",
+    "series_subtitle": "조선 방각본 한글 고전소설 · 옛 한글 → 현대 한국어 윤문",
+    "series_summary": "조선 시대 한글 고전소설을 경판본 옛 한글 원문에서 현대 한국어로 윤문한 선집. 서얼 차별에 맞선 의적 영웅담 『홍길동전』(경판 30장본)과 도술로 권력자를 희롱하고 백성을 돕는 『전우치전』(경판 37장본) — 한국 고전 영웅·도술 소설의 대표작을 한곳에 모았다. GB10 로컬 vLLM Gemma 4 1차 윤문 + Claude Opus 4.7 검수. 작품은 앞으로 계속 추가됩니다. 원전은 ko.wikisource 퍼블릭 도메인."
   },
   {
     "slug": "samgukji_vol02",
@@ -2270,176 +1934,6 @@
     ]
   },
   {
-    "slug": "xiyouji_vol05",
-    "title": "서유기 제5권",
-    "subtitle": "世德堂本 제41회 ~ 제50회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol05.pdf",
-    "published_at": "2026-05-23",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제41회부터 제50회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제41회부터 제50회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제41회 — 心猿遭火敗　木母被魔擒"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제42회 — 大聖慇懃拜南海　觀音慈善縛紅孩"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제43회 — 黑河妖孽擒僧去　西洋龍子捉鼉回"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제44회 — 法身元運逢車力　心正妖邪度脊關"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제45회 — 三清觀大聖留名　車遲國猴王顯法"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제46회 — 外道弄強欺正法　心猿顯聖滅諸邪"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제47회 — 聖僧夜阻通天水　金木垂慈救小童"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제48회 — 魔弄寒風飄大雪　僧思拜佛履層冰"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제49회 — 三藏有災沉水宅　觀音救難現魚籃"
-      },
-      {
-        "part": 5,
-        "part_title": "제5권",
-        "ko_title": "제50회 — 情亂性從因愛慾　神昏心動遇魔頭"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol06",
-    "title": "서유기 제6권",
-    "subtitle": "世德堂本 제51회 ~ 제60회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol06.pdf",
-    "published_at": "2026-05-23",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제51회부터 제60회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제51회부터 제60회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제51회 — 心猿空用千般計　水火無功難煉魔"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제52회 — 悟空大鬧金{{參"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제53회 — 禪主吞餐懷鬼孕　黃婆運水解邪胎"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제54회 — 法性西來逢女國　心猿定計脫煙花"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제55회 — 色邪淫戲唐三藏　性正修持不壞身"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제56회 — 神狂誅草寇　道迷放心猿"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제57회 — 真行者落伽山訴苦　假猴王水簾洞謄文"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제58회 — 二心攪亂大乾坤　一體難修真寂滅"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제59회 — 唐三藏路阻火焰山　孫行者一調芭蕉扇"
-      },
-      {
-        "part": 6,
-        "part_title": "제6권",
-        "ko_title": "제60회 — 牛魔王罷戰赴華筵　孫行者二調芭蕉扇"
-      }
-    ]
-  },
-  {
     "slug": "samgukji_vol01",
     "title": "삼국연의 제1권",
     "subtitle": "모종강본 제1회 ~ 제12회",
@@ -2531,261 +2025,6 @@
         "part": 1,
         "part_title": "제1권",
         "ko_title": "제12회 — 도공조가 서주를 세 번 양보하고, 조맹덕이 여포와 크게 싸우다"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol07",
-    "title": "서유기 제7권",
-    "subtitle": "世德堂本 제61회 ~ 제70회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol07.pdf",
-    "published_at": "2026-05-24",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제61회부터 제70회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제61회부터 제70회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제61회 — 豬八戒助力{{另"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제62회 — 滌垢洗心惟掃塔　縛魔歸主乃修身"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제63회 — 二僧蕩怪鬧龍宮　群聖除邪獲寶貝"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제64회 — 荊棘嶺悟能努力　木仙庵三藏談詩"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제65회 — 妖邪假設小雷音　四眾皆遭大厄難"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제66회 — 諸神遭毒手　彌勒縛妖魔"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제67회 — 拯救駝羅禪性穩　脫離穢污道心清"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제68회 — 朱紫國唐僧論前世　孫行者施為三折肱"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제69회 — 心主夜間修藥物　君王筵上論妖邪"
-      },
-      {
-        "part": 7,
-        "part_title": "제7권",
-        "ko_title": "제70회 — 妖魔寶放煙沙火　悟空計盜紫金鈴"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol08",
-    "title": "서유기 제8권",
-    "subtitle": "世德堂本 제71회 ~ 제80회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol08.pdf",
-    "published_at": "2026-05-24",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제71회부터 제80회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제71회부터 제80회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제71회 — 行者假名降怪犼　觀音現像伏妖王"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제72회 — 盤絲洞七情迷本　濯垢泉八戒忘形"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제73회 — 情因舊恨生災毒　心主遭{{另"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제74회 — 長庚傳報魔頭狠　行者施為變化能"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제75회 — 心猿鑽透陰陽體　魔{{另"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제76회 — 心神居舍魔歸性　木母同降怪體真"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제77회 — 群魔欺本性 一體拜真如"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제78회 — 比丘憐子遣陰神　金殿識魔談道德"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제79회 — 尋洞擒妖逢老壽　當朝正主救嬰兒"
-      },
-      {
-        "part": 8,
-        "part_title": "제8권",
-        "ko_title": "제80회 — 姹女育陽求配偶　心猿護主識妖邪"
-      }
-    ]
-  },
-  {
-    "slug": "xiyouji_vol09",
-    "title": "서유기 제9권",
-    "subtitle": "世德堂本 제81회 ~ 제90회",
-    "series_slug": "xiyouji",
-    "series_title": "서유기",
-    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
-    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
-    "author": "오승은 (吳承恩)",
-    "author_years": "약 1500–1582",
-    "original_title": "西遊記 (世德堂本)",
-    "original_year": "1592년 명대",
-    "source": "Wikisource 中文",
-    "source_url": "https://zh.wikisource.org/wiki/西遊記",
-    "license": "Public Domain (원전)",
-    "editor": "vLLM Gemma 4 26B-A4B",
-    "translator": "vLLM Gemma 4 26B-A4B",
-    "pdf_file": "xiyouji_vol09.pdf",
-    "published_at": "2026-05-24",
-    "tags": [
-      "고전소설",
-      "중국 고전",
-      "서유기"
-    ],
-    "cover_emoji": "🐒",
-    "summary": "오승은 『서유기』 世德堂本의 제81회부터 제90회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
-    "description_paragraphs": [
-      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제81회부터 제90회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
-      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
-      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
-      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
-    ],
-    "chapters": [
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제81회 — 鎮海寺心猿知怪　黑松林三眾尋師"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제82회 — 姹女求陽　元神護道"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제83회 — 心猿識得丹頭　姹女還歸本性"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제84회 — 難滅伽持圓大覺　法王成正體天然"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제85회 — 心猿妒木母　魔主計吞禪"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제86회 — 木母助威征怪物　金公施法滅妖邪"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제87회 — 鳳仙郡冒天{{另"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제88회 — 禪到玉華施法會　心猿木{{另"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제89회 — 黃獅精虛設釘鈀宴　金木土計鬧豹頭山"
-      },
-      {
-        "part": 9,
-        "part_title": "제9권",
-        "ko_title": "제90회 — 師獅授受同歸一　盜道纏禪靜九靈"
       }
     ]
   },
@@ -2922,5 +2161,1583 @@
       "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
     ],
     "chapters": []
+  },
+  {
+    "slug": "jeonwoochi",
+    "title": "전우치전",
+    "subtitle": "田禹治傳 · 경판 37장본",
+    "author": "작자 미상",
+    "author_years": "",
+    "original_title": "田禹治傳 (경판 37장본)",
+    "original_year": "1847년 경판본",
+    "source": "Wikisource 한국어",
+    "source_url": "https://ko.wikisource.org/wiki/전운치전 (경판 37장본)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B (1차) + Claude Opus 4.7 (재검수·역주)",
+    "translator": "vLLM Gemma 4 26B-A4B (1차) + Claude Opus 4.7 (재검수·역주)",
+    "pdf_file": "jeonwoochi_20260525_0444.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "고전소설",
+      "한국 고전",
+      "전우치전"
+    ],
+    "cover_emoji": "📜",
+    "summary": "작자 미상의 한글 고전소설 『전우치전』 경판 37장본 옛 한글 원문을 현대 한국어로 윤문한 단권.",
+    "description_paragraphs": [
+      "작자 미상의 한글 고전소설 『전우치전(田禹治傳)』의 경판 37장본(1847년 간행, 경판본 중 최고본)을 저본으로 한다. 고려 말을 배경으로, 도술을 익힌 전우치가 부패한 권력자를 골탕 먹이고 헐벗은 백성을 돕는 의적·환술담으로, 홍길동전과 더불어 대표적인 한글 영웅·도술 소설로 꼽힌다.",
+      "이 책은 한문 번역이 아니라 <strong>옛 한글 → 현대 한국어 윤문</strong>이다. 아래아(ㆍ)·옛 자모·고어 표기를 현대 정서법으로 정규화하고, 화셜 같은 고어 어휘를 현대어로 풀어썼다. GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 1차 윤문을 하고, <strong>Claude Opus 4.7</strong>이 단락마다 원문을 기준으로 재검수했다. 한글 표음만으로는 오해하기 쉬운 한자어(時人·處士·過人 등)를 복원해 본문을 바로잡았다.",
+      "인명·지명·관직은 원문 그대로 보존했고(전우치, 화담, 고려, 송도), 옛 번역투를 지양해 초등 고학년도 막힘없이 읽을 수 있도록 옮겼다. 한자어를 복원하거나 뜻을 바로잡은 곳, 설명이 필요한 어휘는 책 끝에 <strong>주석</strong>으로 모았다.",
+      "AI 윤문의 한계상 옛 어휘의 동음이의 오역·어조 흔들림 가능성이 남아 있다. 학술 교주본의 대체가 아닌 \"쉽게 읽는 한 권\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": [],
+    "series_slug": "korean_classic",
+    "series_title": "한국 고전소설 선집",
+    "series_subtitle": "조선 방각본 한글 고전소설 · 옛 한글 → 현대 한국어 윤문",
+    "series_summary": "조선 시대 한글 고전소설을 경판본 옛 한글 원문에서 현대 한국어로 윤문한 선집. 서얼 차별에 맞선 의적 영웅담 『홍길동전』(경판 30장본)과 도술로 권력자를 희롱하고 백성을 돕는 『전우치전』(경판 37장본) — 한국 고전 영웅·도술 소설의 대표작을 한곳에 모았다. GB10 로컬 vLLM Gemma 4 1차 윤문 + Claude Opus 4.7 검수. 작품은 앞으로 계속 추가됩니다. 원전은 ko.wikisource 퍼블릭 도메인."
+  },
+  {
+    "slug": "cool_air",
+    "title": "차가운 공기",
+    "subtitle": "Cool Air",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "Cool Air",
+    "original_year": "1928",
+    "source": "Project Gutenberg #73177",
+    "source_url": "https://www.gutenberg.org/ebooks/73177",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "cool_air_20260525_0703.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "❄️",
+    "summary": "냉기 속에서만 존재할 수 있는 무뇨스 박사의 비밀. 짧고 강렬한 고전 호러.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1928년 발표한 「차가운 공기(Cool Air)」.",
+      "냉기 속에서만 존재할 수 있는 무뇨스 박사의 비밀. 짧고 강렬한 고전 호러.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "he",
+    "title": "그",
+    "subtitle": "He",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "He",
+    "original_year": "1926",
+    "source": "Project Gutenberg #68547",
+    "source_url": "https://www.gutenberg.org/ebooks/68547",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "he_20260525_0711.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🏙️",
+    "summary": "뉴욕에 환멸한 화자가 그리니치 빌리지에서 만난 수상한 노인과 시간의 환영.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1926년 발표한 「그(He)」.",
+      "뉴욕에 환멸한 화자가 그리니치 빌리지에서 만난 수상한 노인과 시간의 환영.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "silver_key",
+    "title": "은열쇠",
+    "subtitle": "The Silver Key",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Silver Key",
+    "original_year": "1929",
+    "source": "Project Gutenberg #70478",
+    "source_url": "https://www.gutenberg.org/ebooks/70478",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "silver_key_20260525_0718.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🗝️",
+    "summary": "꿈의 세계를 잃은 랜돌프 카터가 은열쇠로 되찾는 어린 시절. 드림랜드 연작.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1929년 발표한 「은열쇠(The Silver Key)」.",
+      "꿈의 세계를 잃은 랜돌프 카터가 은열쇠로 되찾는 어린 시절. 드림랜드 연작.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "horror_at_red_hook",
+    "title": "레드 훅의 공포",
+    "subtitle": "The Horror at Red Hook",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Horror at Red Hook",
+    "original_year": "1927",
+    "source": "Project Gutenberg #72966",
+    "source_url": "https://www.gutenberg.org/ebooks/72966",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "horror_at_red_hook_20260525_0732.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🌃",
+    "summary": "브루클린 레드 훅의 밀교 사건을 쫓는 형사 멀론. (시대적 인종 편견 서술 포함 — 콜로폰에 맥락 주석)",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1927년 발표한 「레드 훅의 공포(The Horror at Red Hook)」.",
+      "브루클린 레드 훅의 밀교 사건을 쫓는 형사 멀론. (시대적 인종 편견 서술 포함 — 콜로폰에 맥락 주석)",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다.",
+      "이 작품에는 1920년대 당시 작가의 이민자·인종에 대한 편견이 노골적으로 드러나는 서술이 있습니다. 시대적 한계를 그대로 보여주는 사료로서 원문을 옮겼을 뿐, 그 관점에 동의하지 않습니다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "lurking_fear",
+    "title": "잠복하는 공포",
+    "subtitle": "The Lurking Fear",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Lurking Fear",
+    "original_year": "1923",
+    "source": "Project Gutenberg #70486",
+    "source_url": "https://www.gutenberg.org/ebooks/70486",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "lurking_fear_20260525_0744.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "⛰️",
+    "summary": "템페스트 산의 마텐스 저택과 땅속에 도사린 공포.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1923년 발표한 「잠복하는 공포(The Lurking Fear)」.",
+      "템페스트 산의 마텐스 저택과 땅속에 도사린 공포.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "shunned_house",
+    "title": "기피되는 집",
+    "subtitle": "The Shunned House",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Shunned House",
+    "original_year": "1937",
+    "source": "Project Gutenberg #31469",
+    "source_url": "https://www.gutenberg.org/ebooks/31469",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "shunned_house_20260525_0801.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🏚️",
+    "summary": "프로비던스 베니핏 가의 저주받은 집과 지하에 도사린 흡혈적 존재. 화자와 휘플 삼촌의 추적.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1937년 발표한 「기피되는 집(The Shunned House)」.",
+      "프로비던스 베니핏 가의 저주받은 집과 지하에 도사린 흡혈적 존재. 화자와 휘플 삼촌의 추적.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "haunter_of_the_dark",
+    "title": "어둠 속을 떠도는 자",
+    "subtitle": "The Haunter of the Dark",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Haunter of the Dark",
+    "original_year": "1936",
+    "source": "Project Gutenberg #73233",
+    "source_url": "https://www.gutenberg.org/ebooks/73233",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "haunter_of_the_dark_20260525_0817.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🌑",
+    "summary": "프로비던스의 작가 블레이크와 폐교회의 빛나는 트래퍼조헤드론, 니알라토텝.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1936년 발표한 「어둠 속을 떠도는 자(The Haunter of the Dark)」.",
+      "프로비던스의 작가 블레이크와 폐교회의 빛나는 트래퍼조헤드론, 니알라토텝.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "thing_on_the_doorstep",
+    "title": "문간의 방문자",
+    "subtitle": "The Thing on the Doorstep",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Thing on the Doorstep",
+    "original_year": "1937",
+    "source": "Project Gutenberg #73230",
+    "source_url": "https://www.gutenberg.org/ebooks/73230",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "thing_on_the_doorstep_20260525_0841.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🚪",
+    "summary": "에드워드 더비와 아세나스 웨이트, 인격 전이의 공포.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1937년 발표한 「문간의 방문자(The Thing on the Doorstep)」.",
+      "에드워드 더비와 아세나스 웨이트, 인격 전이의 공포.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "dunwich_horror",
+    "title": "더니치 호러",
+    "subtitle": "The Dunwich Horror",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Dunwich Horror",
+    "original_year": "1929",
+    "source": "Project Gutenberg #50133",
+    "source_url": "https://www.gutenberg.org/ebooks/50133",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "dunwich_horror_20260525_0931.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🐐",
+    "summary": "외딴 마을 더니치의 웨이틀리 가와 요그소토스. 네크로노미콘·미스카토닉이 얽힌 신화 핵심작.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1929년 발표한 「더니치 호러(The Dunwich Horror)」.",
+      "외딴 마을 더니치의 웨이틀리 가와 요그소토스. 네크로노미콘·미스카토닉이 얽힌 신화 핵심작.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "shadow_over_innsmouth",
+    "title": "인스머스의 그림자",
+    "subtitle": "The Shadow Over Innsmouth",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Shadow Over Innsmouth",
+    "original_year": "1936",
+    "source": "Project Gutenberg #73181",
+    "source_url": "https://www.gutenberg.org/ebooks/73181",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "shadow_over_innsmouth_20260525_1001.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🐟",
+    "summary": "쇠락한 항구 인스머스와 깊은 것들, 다곤 비밀교단. 러브크래프트의 대표 중편.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1936년 발표한 「인스머스의 그림자(The Shadow Over Innsmouth)」.",
+      "쇠락한 항구 인스머스와 깊은 것들, 다곤 비밀교단. 러브크래프트의 대표 중편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "charles_dexter_ward",
+    "title": "찰스 덱스터 워드의 사례",
+    "subtitle": "The Case of Charles Dexter Ward",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Case of Charles Dexter Ward",
+    "original_year": "1941",
+    "source": "Project Gutenberg #73547",
+    "source_url": "https://www.gutenberg.org/ebooks/73547",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "charles_dexter_ward_20260525_1145.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🕯️",
+    "summary": "프로비던스 청년 찰스 덱스터 워드와 조상 조지프 커웬의 흑마술. 러브크래프트 유일의 장편.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1941년 발표한 「찰스 덱스터 워드의 사례(The Case of Charles Dexter Ward)」.",
+      "프로비던스 청년 찰스 덱스터 워드와 조상 조지프 커웬의 흑마술. 러브크래프트 유일의 장편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "mountains_of_madness",
+    "title": "광기의 산맥",
+    "subtitle": "At the Mountains of Madness",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "At the Mountains of Madness",
+    "original_year": "1936",
+    "source": "Project Gutenberg #70652",
+    "source_url": "https://www.gutenberg.org/ebooks/70652",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "mountains_of_madness_20260525_1240.pdf",
+    "published_at": "2026-05-25",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🏔️",
+    "summary": "남극 탐사대가 발견한 태고 도시와 옛존재들. 러브크래프트의 코스믹 호러 정점작(중편).",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1936년 발표한 「광기의 산맥(At the Mountains of Madness)」.",
+      "남극 탐사대가 발견한 태고 도시와 옛존재들. 러브크래프트의 코스믹 호러 정점작(중편).",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "nyarlathotep",
+    "title": "니알라토텝",
+    "subtitle": "Nyarlathotep",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "Nyarlathotep",
+    "original_year": "1920",
+    "source": "Wikisource (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/Nyarlathotep",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "nyarlathotep_20260526_0252.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🌃",
+    "summary": "이집트에서 나타난 '기어다니는 혼돈' 니알라토텝과 세계의 종말적 환상을 그린 산문시.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1920년 발표한 「니알라토텝(Nyarlathotep)」.",
+      "이집트에서 나타난 '기어다니는 혼돈' 니알라토텝과 세계의 종말적 환상을 그린 산문시.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "azathoth",
+    "title": "아자토스",
+    "subtitle": "Azathoth",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "Azathoth",
+    "original_year": "1938",
+    "source": "Wikisource (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/Azathoth",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "azathoth_20260526_0252.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🌌",
+    "summary": "무미건조한 근대 세계를 떠나 우주 너머로 향하는 꿈을 그린 미완 단편. 신화의 단편적 기원.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1938년 발표한 「아자토스(Azathoth)」.",
+      "무미건조한 근대 세계를 떠나 우주 너머로 향하는 꿈을 그린 미완 단편. 신화의 단편적 기원.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "history_of_necronomicon",
+    "title": "네크로노미콘의 역사",
+    "subtitle": "History of the Necronomicon",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "History of the Necronomicon",
+    "original_year": "1938",
+    "source": "Wikisource (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/History_of_the_Necronomicon",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "history_of_necronomicon_20260526_0252.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "📜",
+    "summary": "가공의 금서 『네크로노미콘』의 기원·저자·판본·전래를 다룬 의사(擬似) 서지 에세이.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1938년 발표한 「네크로노미콘의 역사(History of the Necronomicon)」.",
+      "가공의 금서 『네크로노미콘』의 기원·저자·판본·전래를 다룬 의사(擬似) 서지 에세이.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "dagon",
+    "title": "다곤",
+    "subtitle": "Dagon",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "Dagon",
+    "original_year": "1919",
+    "source": "Wikisource / Weird Tales (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/Dagon",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "dagon_20260526_0252.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🌊",
+    "summary": "태평양에서 표류한 화자가 솟아오른 태고의 땅에서 마주친 거대한 존재. 러브크래프트 신화의 원형이 된 초기작.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1919년 발표한 「다곤(Dagon)」.",
+      "태평양에서 표류한 화자가 솟아오른 태고의 땅에서 마주친 거대한 존재. 러브크래프트 신화의 원형이 된 초기작.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "the_hound",
+    "title": "사냥개",
+    "subtitle": "The Hound",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Hound",
+    "original_year": "1924",
+    "source": "Wikisource / Weird Tales (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/The_Hound",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "the_hound_20260526_0253.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🐕",
+    "summary": "무덤 도굴에 탐닉하는 두 데카당과 옥 부적, 그들을 쫓는 사냥개. 『네크로노미콘』이 처음 언급된 작품.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1924년 발표한 「사냥개(The Hound)」.",
+      "무덤 도굴에 탐닉하는 두 데카당과 옥 부적, 그들을 쫓는 사냥개. 『네크로노미콘』이 처음 언급된 작품.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "nameless_city",
+    "title": "이름 없는 도시",
+    "subtitle": "The Nameless City",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Nameless City",
+    "original_year": "1921",
+    "source": "Wikisource / Weird Tales (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/The_Nameless_City",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "nameless_city_20260526_0253.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🏜️",
+    "summary": "아라비아 사막의 이름 없는 폐도시와 태고 파충류 종족. 압둘 알하즈레드의 유명한 2행시가 처음 등장한다.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1921년 발표한 「이름 없는 도시(The Nameless City)」.",
+      "아라비아 사막의 이름 없는 폐도시와 태고 파충류 종족. 압둘 알하즈레드의 유명한 2행시가 처음 등장한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "dreams_in_the_witch_house",
+    "title": "마녀의 집의 꿈",
+    "subtitle": "The Dreams in the Witch-House",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Dreams in the Witch-House",
+    "original_year": "1933",
+    "source": "Wikisource (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/The_Dreams_in_the_Witch-House",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "dreams_in_the_witch_house_20260526_0253.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🔺",
+    "summary": "아컴 '마녀의 집'에 묵는 수학도 길먼과 마녀 케지아 메이슨, 비유클리드 기하로 떠나는 차원 여행의 공포.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1933년 발표한 「마녀의 집의 꿈(The Dreams in the Witch-House)」.",
+      "아컴 '마녀의 집'에 묵는 수학도 길먼과 마녀 케지아 메이슨, 비유클리드 기하로 떠나는 차원 여행의 공포.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "whisperer_in_darkness",
+    "title": "어둠 속에서 속삭이는 자",
+    "subtitle": "The Whisperer in Darkness",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Whisperer in Darkness",
+    "original_year": "1931",
+    "source": "Wikisource (퍼블릭 도메인)",
+    "source_url": "https://en.wikisource.org/wiki/The_Whisperer_in_Darkness",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "whisperer_in_darkness_20260526_0253.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "🛸",
+    "summary": "버몬트 산간의 에이클리가 겪는 외계종 '미고'와의 접촉. 유고스(명왕성)에서 온 존재들과 코스믹 호러 중편.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1931년 발표한 「어둠 속에서 속삭이는 자(The Whisperer in Darkness)」.",
+      "버몬트 산간의 에이클리가 겪는 외계종 '미고'와의 접촉. 유고스(명왕성)에서 온 존재들과 코스믹 호러 중편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "shadow_out_of_time",
+    "title": "시간 밖의 그림자",
+    "subtitle": "The Shadow Out of Time",
+    "series_slug": "lovecraft",
+    "series_title": "H.P. 러브크래프트 선집",
+    "series_subtitle": "H.P. Lovecraft · 1890–1937 · 코스믹 호러 선집",
+    "series_summary": "H.P. 러브크래프트의 괴기소설을 한국어로 옮긴 선집. 코스믹 호러의 원형이자 '크툴루 신화'의 출발점이 된 작품들을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.P. 러브크래프트 (Howard Phillips Lovecraft)",
+    "author_years": "1890–1937",
+    "original_title": "The Shadow Out of Time",
+    "original_year": "1936",
+    "source": "hplovecraft.com (퍼블릭 도메인)",
+    "source_url": "https://www.hplovecraft.com/writings/texts/fiction/sot.aspx",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "shadow_out_of_time_20260526_0253.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "괴기소설",
+      "코스믹 호러"
+    ],
+    "cover_emoji": "⏳",
+    "summary": "기억상실에 빠진 피슬리 교수와 '이스의 위대한 종족'의 정신 전이, 태고 도시의 진실을 파헤치는 후기 대표 중편.",
+    "description_paragraphs": [
+      "H.P. 러브크래프트(1890–1937)가 1936년 발표한 「시간 밖의 그림자(The Shadow Out of Time)」.",
+      "기억상실에 빠진 피슬리 교수와 '이스의 위대한 종족'의 정신 전이, 태고 도시의 진실을 파헤치는 후기 대표 중편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 음산한 분위기를 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "xiyouji_vol01",
+    "title": "서유기 제1권",
+    "subtitle": "世德堂本 제1회 ~ 제10회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol01.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제1회부터 제10회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제1회부터 제10회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제1회 — 靈根育孕源流出 心性修持大道生"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제2회 — 悟徹菩提真妙理　斷魔歸本合元神"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제3회 — 四海千山皆拱伏　九幽十類盡除名"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제4회 — 官封弼馬心何足　名注齊天意未寧"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제5회 — 亂蟠桃大聖偷丹　反天宮諸神捉怪"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제6회 — 觀音赴會問原因　小聖施威降大聖"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제7회 — 八卦爐中逃大聖　五行山下定心猿"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제8회 — 我佛造經傳極樂　觀音奉旨上長安"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제9회 — 陳光蕊赴任逢災　江流僧復讎報本"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제10회 — 老龍王拙計犯天條　魏丞相遺書託冥吏"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol02",
+    "title": "서유기 제2권",
+    "subtitle": "世德堂本 제11회 ~ 제20회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol02.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제11회부터 제20회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제11회부터 제20회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제11회 — 遊地府太宗還魂　進瓜果劉全續配"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제12회 — {{另"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제13회 — 陷虎穴金星解厄　雙叉嶺伯欽留僧"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제14회 — 心猿歸正　六賊無蹤"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제15회 — 蛇盤山諸神暗佑　鷹愁澗意馬收韁"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제16회 — 觀音院僧謀寶貝　黑風山怪竊袈裟"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제17회 — 孫行者大鬧黑風山　觀世音收伏熊羆怪"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제18회 — 觀音院唐僧脫難　高老莊大聖除魔"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제19회 — 雲棧洞悟空收八戒　浮屠山玄奘受心經"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제20회 — 黃風嶺唐僧有難　半山中八戒爭先"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol03",
+    "title": "서유기 제3권",
+    "subtitle": "世德堂本 제21회 ~ 제30회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol03.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제21회부터 제30회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제21회부터 제30회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제21회 — 護法設莊留大聖　須彌靈吉定風魔"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제22회 — 八戒大戰流沙河　木吒奉法收悟淨"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제23회 — 三藏不忘本　四聖試禪心"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제24회 — 萬壽山大仙留故友　五莊觀行者竊人參"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제25회 — 鎮元仙趕捉取經僧　孫行者大鬧五莊觀"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제26회 — 孫悟空三島求方　觀世音甘泉活樹"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제27회 — 屍魔三戲唐三藏　聖僧恨逐美猴王"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제28회 — 花果山群妖聚義　黑松林三藏逢魔"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제29회 — 脫難江流來國土　承恩八戒轉山林"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제30회 — 邪魔侵正法　意馬憶心猿"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol04",
+    "title": "서유기 제4권",
+    "subtitle": "世德堂本 제31회 ~ 제40회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol04.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제31회부터 제40회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제31회부터 제40회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제31회 — 豬八戒義激猴王　孫行者智降妖怪"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제32회 — 平頂山功曹傳信　蓮花洞木母逢災"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제33회 — 外道迷真性　元神助本心"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제34회 — 魔王巧算困心猿　大聖騰{{另"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제35회 — 外道施威欺正性　心猿獲寶伏邪魔"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제36회 — 心猿正處諸緣伏　劈破傍門見月明"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제37회 — 鬼王夜謁唐三藏　悟空神化引嬰兒"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제38회 — 嬰兒問母知邪正　金木參玄見假真"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제39회 — 一粒丹砂天上得　三年故主世間生"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제40회 — 嬰兒戲化禪心亂　猿馬刀{{另"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol05",
+    "title": "서유기 제5권",
+    "subtitle": "世德堂本 제41회 ~ 제50회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol05.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제41회부터 제50회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제41회부터 제50회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제41회 — 心猿遭火敗　木母被魔擒"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제42회 — 大聖慇懃拜南海　觀音慈善縛紅孩"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제43회 — 黑河妖孽擒僧去　西洋龍子捉鼉回"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제44회 — 法身元運逢車力　心正妖邪度脊關"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제45회 — 三清觀大聖留名　車遲國猴王顯法"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제46회 — 外道弄強欺正法　心猿顯聖滅諸邪"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제47회 — 聖僧夜阻通天水　金木垂慈救小童"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제48회 — 魔弄寒風飄大雪　僧思拜佛履層冰"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제49회 — 三藏有災沉水宅　觀音救難現魚籃"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제50회 — 情亂性從因愛慾　神昏心動遇魔頭"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol06",
+    "title": "서유기 제6권",
+    "subtitle": "世德堂本 제51회 ~ 제60회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol06.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제51회부터 제60회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제51회부터 제60회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제51회 — 心猿空用千般計　水火無功難煉魔"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제52회 — 悟空大鬧金{{參"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제53회 — 禪主吞餐懷鬼孕　黃婆運水解邪胎"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제54회 — 法性西來逢女國　心猿定計脫煙花"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제55회 — 色邪淫戲唐三藏　性正修持不壞身"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제56회 — 神狂誅草寇　道迷放心猿"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제57회 — 真行者落伽山訴苦　假猴王水簾洞謄文"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제58회 — 二心攪亂大乾坤　一體難修真寂滅"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제59회 — 唐三藏路阻火焰山　孫行者一調芭蕉扇"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제60회 — 牛魔王罷戰赴華筵　孫行者二調芭蕉扇"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol07",
+    "title": "서유기 제7권",
+    "subtitle": "世德堂本 제61회 ~ 제70회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol07.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제61회부터 제70회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제61회부터 제70회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제61회 — 豬八戒助力{{另"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제62회 — 滌垢洗心惟掃塔　縛魔歸主乃修身"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제63회 — 二僧蕩怪鬧龍宮　群聖除邪獲寶貝"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제64회 — 荊棘嶺悟能努力　木仙庵三藏談詩"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제65회 — 妖邪假設小雷音　四眾皆遭大厄難"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제66회 — 諸神遭毒手　彌勒縛妖魔"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제67회 — 拯救駝羅禪性穩　脫離穢污道心清"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제68회 — 朱紫國唐僧論前世　孫行者施為三折肱"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제69회 — 心主夜間修藥物　君王筵上論妖邪"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제70회 — 妖魔寶放煙沙火　悟空計盜紫金鈴"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol08",
+    "title": "서유기 제8권",
+    "subtitle": "世德堂本 제71회 ~ 제80회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol08.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제71회부터 제80회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제71회부터 제80회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제71회 — 行者假名降怪犼　觀音現像伏妖王"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제72회 — 盤絲洞七情迷本　濯垢泉八戒忘形"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제73회 — 情因舊恨生災毒　心主遭{{另"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제74회 — 長庚傳報魔頭狠　行者施為變化能"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제75회 — 心猿鑽透陰陽體　魔{{另"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제76회 — 心神居舍魔歸性　木母同降怪體真"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제77회 — 群魔欺本性 一體拜真如"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제78회 — 比丘憐子遣陰神　金殿識魔談道德"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제79회 — 尋洞擒妖逢老壽　當朝正主救嬰兒"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제80회 — 姹女育陽求配偶　心猿護主識妖邪"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol09",
+    "title": "서유기 제9권",
+    "subtitle": "世德堂本 제81회 ~ 제90회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol09.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제81회부터 제90회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제81회부터 제90회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제81회 — 鎮海寺心猿知怪　黑松林三眾尋師"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제82회 — 姹女求陽　元神護道"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제83회 — 心猿識得丹頭　姹女還歸本性"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제84회 — 難滅伽持圓大覺　法王成正體天然"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제85회 — 心猿妒木母　魔主計吞禪"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제86회 — 木母助威征怪物　金公施法滅妖邪"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제87회 — 鳳仙郡冒天{{另"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제88회 — 禪到玉華施法會　心猿木{{另"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제89회 — 黃獅精虛設釘鈀宴　金木土計鬧豹頭山"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제90회 — 師獅授受同歸一　盜道纏禪靜九靈"
+      }
+    ]
+  },
+  {
+    "slug": "xiyouji_vol10",
+    "title": "서유기 제10권",
+    "subtitle": "世德堂本 제91회 ~ 제100회",
+    "series_slug": "xiyouji",
+    "series_title": "서유기",
+    "series_subtitle": "西遊記 · 世德堂本 · 전 10권",
+    "series_summary": "오승은 『서유기』 世德堂本 100회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 10회씩 10권으로 묶었다.",
+    "author": "오승은 (吳承恩)",
+    "author_years": "약 1500–1582",
+    "original_title": "西遊記 (世德堂本)",
+    "original_year": "1592년 명대",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/西遊記",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "xiyouji_vol10.pdf",
+    "published_at": "2026-05-26",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "서유기"
+    ],
+    "cover_emoji": "🐒",
+    "summary": "오승은 『서유기』 世德堂本의 제91회부터 제100회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "오승은(吳承恩, 약 1500–1582)이 명대에 정리한 『서유기(西遊記)』 100회 중 제91회부터 제100회를 모은 본 권은, 1592년 명대 世德堂本을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(孫悟空 → 손오공, 玄奘 → 현장). 별칭·법명·도호는 본명으로 통일하여(美猴王 → 손오공, 八戒 → 저팔계, 三藏 → 당승) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·게송은 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제91회 — 金平府元夜觀燈　玄英洞唐僧供狀"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제92회 — 三僧大戰青龍山　四星挾捉犀牛怪"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제93회 — 給孤園問古談因　天竺國朝王遇偶"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제94회 — 四僧宴樂御花園　一怪空懷情慾喜"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제95회 — 假合{{另"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제96회 — 寇員外喜待高僧　唐長老不貪富貴"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제97회 — 金酬外護遭魔蟄　聖顯幽魂救本原"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제98회 — 猿熟馬馴方脫殼　功成行滿見真如"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제99회 — 九九數完魔{{另"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제100회 — 徑回東土　五聖成真"
+      }
+    ]
   }
 ]

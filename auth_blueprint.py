@@ -6,7 +6,7 @@
 import random
 import json
 import uuid
-from flask import Blueprint, render_template, jsonify, request, session, redirect, current_app
+from flask import Blueprint, render_template, jsonify, request, session, redirect, current_app, abort
 from database import get_db_connection
 
 auth_bp = Blueprint('auth', __name__)
@@ -33,23 +33,27 @@ CHALLENGE_COUNTRIES = [
 
 @auth_bp.route('/manager')
 def manager_gate():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     session.pop('is_admin', None)
     return render_template('globe.html')
 
 @auth_bp.route('/manager/dashboard')
 def manager_dashboard():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     if not session.get('challenge_passed'):
         return redirect('https://sosig.shop')
     return render_template('manager.html')
 
 @auth_bp.route('/manager/settings')
 def manager_settings():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     if not session.get('challenge_passed'):
         return redirect('https://sosig.shop')
     return render_template('settings.html')
 
 @auth_bp.route('/api/gate/unlock', methods=['POST'])
 def gate_unlock():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     if not session.get('challenge_passed'):
         return jsonify({"error": "unauthorized"}), 403
     session['is_admin'] = True
@@ -120,6 +124,7 @@ def verify_mfa_code():
 
 @auth_bp.route('/api/challenge/generate', methods=['POST'])
 def generate_challenge():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     try:
         selected = random.sample(CHALLENGE_COUNTRIES, 3)
         conn = get_db_connection()
@@ -146,6 +151,7 @@ def generate_challenge():
 
 @auth_bp.route('/api/challenge/current', methods=['GET'])
 def get_current_challenge():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     try:
         conn = get_db_connection()
         try:
@@ -165,6 +171,7 @@ def get_current_challenge():
 
 @auth_bp.route('/api/challenge/verify', methods=['POST'])
 def verify_challenge():
+    abort(404)  # /manager disabled 2026-05-27 (globe 3-country challenge was bypassable; feature unused)
     try:
         data = request.json
         clicked = data.get('countries', [])
