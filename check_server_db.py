@@ -2,10 +2,13 @@ import pymysql
 import json
 
 # Same config as app.py
-DB_HOST = "localhost"
-DB_USER = "root"
-DB_PASS = "***REMOVED***"
-DB_NAME = "podcast"
+import os
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_USER = os.environ.get('DB_USER', 'root')
+DB_PASS = os.environ.get('DB_PASS', '')
+DB_NAME = os.environ.get('DB_NAME', 'podcast')
+if not DB_PASS:
+    raise SystemExit('DB_PASS env var required')
 
 def check_db():
     print(f"Connecting to {DB_HOST} as {DB_USER}...")

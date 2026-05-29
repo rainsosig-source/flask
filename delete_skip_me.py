@@ -1,9 +1,12 @@
 import pymysql
 
-DB_HOST = 'localhost'
-DB_USER = 'root'
-DB_PASS = '***REMOVED***'
-DB_NAME = 'podcast'
+import os
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_USER = os.environ.get('DB_USER', 'root')
+DB_PASS = os.environ.get('DB_PASS', '')
+DB_NAME = os.environ.get('DB_NAME', 'podcast')
+if not DB_PASS:
+    raise SystemExit('DB_PASS env var required')
 
 def delete_skip_me():
     conn = pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASS, db=DB_NAME, charset='utf8mb4')
