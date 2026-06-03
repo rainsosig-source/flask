@@ -14,6 +14,8 @@
            background:var(--bg); color:var(--text); line-height:1.6; }
     .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
     .top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .stocksel { background:var(--card); color:var(--text); border:1px solid var(--line);
+                border-radius:8px; padding:6px 10px; font-size:14px; cursor:pointer; }
     h1 { font-size: 22px; margin: 4px 0 2px; }
     .sub { color:var(--muted); font-size: 13px; margin-bottom: 12px; }
     .note { background:rgba(240,180,41,.08); border:1px solid #5c4310; color:#e3b341; font-size:12px;
@@ -67,7 +69,12 @@
 <body>
   <div class="wrap">
     <a class="back" href="/sentiment">← 감성 대시보드</a>
-    <div class="top"><h1>📊 {{ stock_name }} 뉴스 감성 특별관리</h1></div>
+    <div class="top">
+      <h1>📊 {{ stock_name }} 뉴스 감성 특별관리</h1>
+      <select class="stocksel" onchange="if(this.value)location.href='/sentiment/stock/'+this.value" aria-label="종목 선택">
+        {% for s in stocks %}<option value="{{ s.slug }}"{% if s.slug == slug %} selected{% endif %}>{{ s.name }}</option>{% endfor %}
+      </select>
+    </div>
     <div class="sub" id="sub">국내·외신 뉴스의 호재/악재 감성 — 수집·분석 전용 (팟캐스트 미생성)</div>
     <div class="ranges" id="ranges">
       <button data-days="7">7일</button>

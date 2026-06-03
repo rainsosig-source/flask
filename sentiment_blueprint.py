@@ -273,7 +273,8 @@ def stock_page(slug):
     meta = STOCKS.get(slug)
     if not meta:
         abort(404)
-    return render_template('stock_sentiment.html', slug=slug, stock_name=meta['name'])
+    stocks = [{'slug': k, 'name': v['name']} for k, v in STOCKS.items()]
+    return render_template('stock_sentiment.html', slug=slug, stock_name=meta['name'], stocks=stocks)
 
 
 @sentiment_bp.route('/sentiment/samsung', strict_slashes=False)  # 하위호환 → 통일 경로로 301
