@@ -16,14 +16,14 @@
     .btn { padding: 6px 14px; border-radius: 18px; border: 1px solid var(--c-border); background: var(--c-bg2); color: var(--c-muted); font-size: 0.85rem; cursor: pointer; font-family: inherit; }
     .btn:hover { border-color: var(--c-accent); color: var(--c-text); }
     .btn.active { background: var(--c-accent2); border-color: var(--c-accent2); color: #fff; }
-    .up { color: var(--c-bad); } .down { color: var(--c-accent); } .flat { color: var(--c-muted); }
+    .up { color: #3fb950; } .down { color: #f85149; } .flat { color: var(--c-muted); }
     .section { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
     .section h2 { font-size: 1rem; margin-bottom: 0.8rem; color: var(--c-text); }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; }
     .card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 8px; padding: 0.8rem; text-align: center; }
     .card .v { font-size: 1.6rem; font-weight: 700; } .card .l { font-size: 0.78rem; color: var(--c-muted); }
     .bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin: 0.6rem 0; font-size: 0.72rem; }
-    .bar .p { background: #b62324; } .bar .n { background: #1f4f8b; } .bar .z { background: var(--c-border); }
+    .bar .p { background: #238636; } .bar .n { background: #b62324; } .bar .z { background: var(--c-border); }
     .bar span { display: flex; align-items: center; justify-content: center; color: #fff; }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--c-bg3); }
@@ -39,8 +39,8 @@
     .art { border-bottom: 1px solid var(--c-bg3); padding: 0.6rem 0; }
     .art .row1 { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.25rem; }
     .badge { font-size: 0.72rem; padding: 1px 8px; border-radius: 10px; font-weight: 600; }
-    .b-pos { background: #3d1a1a; color: var(--c-bad); border: 1px solid #b62324; }
-    .b-neg { background: #16243d; color: var(--c-accent); border: 1px solid var(--c-accent2); }
+    .b-pos { background: #0f2a17; color: #3fb950; border: 1px solid #238636; }
+    .b-neg { background: #3d1a1a; color: #f85149; border: 1px solid #b62324; }
     .b-neu { background: var(--c-bg3); color: var(--c-muted); }
     .art .meta { font-size: 0.74rem; color: var(--c-muted); }
     .art a { color: var(--c-text); text-decoration: none; font-size: 0.9rem; }
@@ -52,12 +52,12 @@
     .kw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
     @media (max-width: 640px) { .kw-grid { grid-template-columns: 1fr; } }
     .kw-head { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .kw-head.pos { color: #f85149; } .kw-head.neg { color: #58a6ff; }
+    .kw-head.pos { color: #3fb950; } .kw-head.neg { color: #f85149; }
     .kw-row { display: flex; align-items: center; gap: 0.5rem; padding: 3px 0; font-size: 0.83rem; }
     .kw-row .kw-w { width: 96px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .kw-row .kw-bar { flex: 1; height: 12px; background: var(--c-bg3); border-radius: 6px; overflow: hidden; }
     .kw-row .kw-fill { display: block; height: 100%; border-radius: 6px; }
-    .kw-fill.pos { background: #b62324; } .kw-fill.neg { background: #1f4f8b; }
+    .kw-fill.pos { background: #238636; } .kw-fill.neg { background: #b62324; }
     .kw-row .kw-n { width: 28px; text-align: right; color: var(--c-muted); font-size: 0.78rem; flex-shrink: 0; }
   </style>
 </head>
@@ -81,7 +81,7 @@
     <div class="section"><h2>섹터별 감성 추이 (일별 평균, +호재 / −악재)</h2><div class="chartbox"><canvas id="trend"></canvas></div></div>
     <div class="section"><h2>섹터별 분위기 · 뉴스량</h2><div id="sectors"></div></div>
     <div class="section"><h2>종목 랭킹 (언급 많은 순)</h2><div id="tickers"></div></div>
-    <div class="section"><h2>키워드 워드클라우드 (크기=빈도 · 색=감성, 🔴 호재 / 🔵 악재)</h2><div class="wc-box" id="wordcloud"><div class="loading">불러오는 중…</div></div></div>
+    <div class="section"><h2>키워드 워드클라우드 (크기=빈도 · 색=감성, 🟢 호재 / 🔴 악재)</h2><div class="wc-box" id="wordcloud"><div class="loading">불러오는 중…</div></div></div>
     <div class="section"><h2>호재 · 악재 키워드 비교</h2><div id="kwCompare"><div class="loading">불러오는 중…</div></div></div>
     <div class="section"><h2>최근 기사</h2><div id="recent"></div></div>
 
@@ -173,7 +173,7 @@
       const list = narrow ? wc.slice(0, 30) : wc;   // 단어 수 제한 → 배치 재귀 폭주 방지
       const avg = {}; wc.forEach(x => avg[x.word] = x.avg);
       const maxC = Math.max(...list.map(x => x.count));
-      // 색: 호재=빨강 / 악재=파랑 / 중립=회색 (한국 증시 관례)
+      // 색: 호재=초록 / 악재=빨강 / 중립=회색 (글로벌 관례)
       try {
         WordCloud(cv, {
           list: list.map(x => [x.word, x.count]),
@@ -181,7 +181,7 @@
           weightFactor: c => (narrow ? 9 : 13) + (c / maxC) * (narrow ? 26 : 46),
           fontFamily: "'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif",
           color: (word) => { const a = avg[word] || 0;
-            return a > 0.08 ? '#f85149' : (a < -0.08 ? '#58a6ff' : '#8b949e'); },
+            return a > 0.08 ? '#3fb950' : (a < -0.08 ? '#f85149' : '#8b949e'); },
           backgroundColor: 'transparent',
           rotateRatio: 0.18, minRotation: 0, maxRotation: 0,
           drawOutOfBound: false, shrinkToFit: false,
