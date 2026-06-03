@@ -6,18 +6,18 @@
 <title>{{ host.label }} - 내 인프라 - sosig.shop</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Segoe UI',sans-serif; background: linear-gradient(135deg,#0f0f23,#1a1a2e,#16213e); min-height:100vh; color:#e0e0e0; }
+body { font-family:'Segoe UI',sans-serif; background: linear-gradient(135deg,var(--c-bg-alt3),var(--c-bg-alt1),var(--c-bg-alt2)); min-height:100vh; color:var(--c-text3); }
 .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 header { text-align:center; padding:25px 0; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:25px; }
-header h1 { font-size:1.6em; color:#00d4ff; }
+header h1 { font-size:1.6em; color:var(--c-cyan); }
 .sub { color:#888; margin-top:6px; font-size:0.9em; }
 nav { margin-bottom:18px; }
-nav a { color:#00d4ff; text-decoration:none; padding:6px 12px; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:0.9em; }
+nav a { color:var(--c-cyan); text-decoration:none; padding:6px 12px; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:0.9em; }
 table { width:100%; border-collapse:collapse; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden; }
 th,td { padding:11px 13px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.06); font-size:0.9em; }
-th { background: rgba(0,212,255,0.08); color:#00d4ff; }
+th { background: rgba(0,212,255,0.08); color:var(--c-cyan); }
 tr:hover td { background: rgba(0,212,255,0.03); }
-td a { color:#00d4ff; text-decoration:none; }
+td a { color:var(--c-cyan); text-decoration:none; }
 .badge { display:inline-block; padding:3px 8px; border-radius:10px; font-size:0.8em; font-weight:600; }
 .badge.c { background:rgba(255,71,87,0.2); color:#ff4757; }
 .badge.h { background:rgba(255,159,64,0.2); color:#ff9f40; }
@@ -32,24 +32,18 @@ td a { color:#00d4ff; text-decoration:none; }
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
-<header>
-  <div class="container">
-    <h1>🖥️ {{ host.label }}{% if host.display_ip %} ({{ host.display_ip }}){% endif %}</h1>
-    <div class="sub">
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+<header class="sg-pagehead">
+  <h1>🖥️ {{ host.label }}{% if host.display_ip %} ({{ host.display_ip }}){% endif %}</h1>
+  <p class="sg-sub">
       {% if host.masked %}<span style="color:#666;">사설망 · IP 비공개</span> · {% endif %}
       {% if host.os_detected %}OS: {{ host.os_detected }} · {% endif %}
       마지막 스캔: {{ host.last_seen.strftime('%Y-%m-%d %H:%M') if host.last_seen else '-' }}
-    </div>
-  </div>
+    </p>
 </header>
 <div class="container">
-  <nav>
-    <a href="/vuln">📊 대시보드</a>
-    <a href="/vuln/list">📋 CVE 취약점 목록</a>
-    <a href="/vuln/search">🔍 검색</a>
-    <a href="/vuln/infra" class="active">🛰️ 내 인프라 취약점</a>
-    <a href="/vuln/infra/map">🗺️ 네트워크 지도</a>
-  </nav>
 
   <table>
     <thead>

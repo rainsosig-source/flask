@@ -71,7 +71,8 @@ def _recent_episodes(limit=50):
         with conn.cursor() as cur:
             cur.execute(
                 "SELECT id, press, title, mp3_path, duration_sec, summary, created_at "
-                "FROM episodes ORDER BY created_at DESC LIMIT %s",
+                "FROM episodes WHERE (press IS NULL OR press <> 'KISA') "
+                "ORDER BY created_at DESC LIMIT %s",
                 (limit,),
             )
             return list(cur.fetchall())
@@ -337,7 +338,7 @@ def calendar_data():
     data = {}
     try:
         with conn.cursor() as cursor:
-            sql = "SELECT created_at FROM episodes WHERE 1=1"
+            sql = "SELECT created_at FROM episodes WHERE 1=1 AND (press IS NULL OR press <> 'KISA')"
             params = []
             if keyword_id:
                 sql += " AND keyword_id = %s"
@@ -365,7 +366,7 @@ def get_episodes():
     try:
         with conn.cursor() as cursor:
             sql = ("SELECT press, title, link, mp3_path, duration_sec, summary, created_at "
-                   "FROM episodes WHERE 1=1")
+                   "FROM episodes WHERE 1=1 AND (press IS NULL OR press <> 'KISA')")
             params = []
             if date_str:
                 sql += " AND DATE(created_at) = %s"
@@ -439,7 +440,7 @@ def _episodes_in_window(date_str, hour_start=None, hour_end=None):
     try:
         with conn.cursor() as cur:
             sql = ("SELECT id, press, title, mp3_path, created_at FROM episodes "
-                   "WHERE DATE(created_at)=%s ")
+                   "WHERE DATE(created_at)=%s AND (press IS NULL OR press <> 'KISA') ")
             params = [date_str]
             if hour_start is not None and hour_end is not None:
                 sql += "AND HOUR(created_at) BETWEEN %s AND %s "
@@ -499,7 +500,7 @@ def api_compilation_index(date_str):
         with conn.cursor() as cur:
             cur.execute(
                 "SELECT HOUR(created_at) AS h, COUNT(*) AS n FROM episodes "
-                "WHERE DATE(created_at)=%s GROUP BY HOUR(created_at)",
+                "WHERE DATE(created_at)=%s AND (press IS NULL OR press <> 'KISA') GROUP BY HOUR(created_at)",
                 (date_str,),
             )
             for row in cur.fetchall():
@@ -579,6 +580,7 @@ def podcast_rss():
             cursor.execute(
                 "SELECT id, press, title, link, mp3_path, duration_sec, summary, created_at "
                 "FROM episodes WHERE mp3_path IS NOT NULL AND mp3_path <> '' "
+                "AND (press IS NULL OR press <> 'KISA') "
                 "ORDER BY created_at DESC LIMIT 100"
             )
             for row in cursor.fetchall():

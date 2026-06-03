@@ -9,8 +9,8 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-  min-height: 100vh; color: #e0e0e0;
+  background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
+  min-height: 100vh; color: var(--c-text3);
 }
 .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 header { text-align: center; padding: 25px 0;
@@ -20,16 +20,16 @@ header { text-align: center; padding: 25px 0;
 }
 header h1 {
   font-size: 1.7em;
-  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  background: linear-gradient(90deg, var(--c-cyan), #7c3aed);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .sub { color: #888; margin-top: 6px; font-size: 0.9em; }
 nav { display:flex; justify-content:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-nav a { color:#00d4ff; text-decoration:none; padding:8px 14px;
+nav a { color:var(--c-cyan); text-decoration:none; padding:8px 14px;
   border:1px solid rgba(0,212,255,0.3); border-radius:8px;
   transition: all 0.25s ease; font-size: 0.9em; }
-nav a:hover, nav a.active { background: rgba(0,212,255,0.1); border-color:#00d4ff; }
+nav a:hover, nav a.active { background: rgba(0,212,255,0.1); border-color:var(--c-cyan); }
 
 .legend { display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
   margin-bottom:14px; font-size:0.85em; color:#aaa; }
@@ -50,28 +50,28 @@ svg:active { cursor: grabbing; }
 .node circle { stroke: rgba(255,255,255,0.25); stroke-width: 1.5px;
   transition: stroke-width 0.15s ease; }
 .node:hover circle { stroke: #fff; stroke-width: 2.5px; }
-.node text { fill: #e0e0e0; font-size: 11px; text-anchor: middle;
+.node text { fill: var(--c-text3); font-size: 11px; text-anchor: middle;
   pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
-.node.scanner circle { stroke: #00d4ff; stroke-width: 2.5px; }
+.node.scanner circle { stroke: var(--c-cyan); stroke-width: 2.5px; }
 .node.gateway circle { stroke: #7c3aed; stroke-width: 2px; stroke-dasharray: 3,2; }
 
 .link { stroke-opacity: 0.4; }
-.link.lan { stroke: #00d4ff; stroke-width: 1.2px; }
+.link.lan { stroke: var(--c-cyan); stroke-width: 1.2px; }
 .link.uplink { stroke: #7c3aed; stroke-width: 2px; stroke-dasharray: 4,3; }
 
 #tooltip {
   position: absolute; pointer-events: none;
-  background: rgba(10,10,20,0.95); color: #e0e0e0;
+  background: rgba(10,10,20,0.95); color: var(--c-text3);
   border: 1px solid rgba(0,212,255,0.3);
   border-radius: 8px; padding: 10px 14px;
   font-size: 0.85em; line-height: 1.45;
   max-width: 320px; opacity: 0; transition: opacity 0.12s ease;
   z-index: 100;
 }
-#tooltip .name { color: #00d4ff; font-weight: 600; font-size: 1em; margin-bottom: 4px; }
+#tooltip .name { color: var(--c-cyan); font-weight: 600; font-size: 1em; margin-bottom: 4px; }
 #tooltip .meta { color: #888; font-size: 0.8em; margin-bottom: 6px; }
 #tooltip .k { color: #888; display: inline-block; min-width: 70px; }
-#tooltip a { color: #00d4ff; text-decoration: none; }
+#tooltip a { color: var(--c-cyan); text-decoration: none; }
 #tooltip .ports { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
 #tooltip .port { background: rgba(0,212,255,0.12); padding: 1px 6px;
   border-radius: 8px; font-size: 0.75em; font-family: monospace; }
@@ -81,20 +81,14 @@ svg:active { cursor: grabbing; }
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
-<header>
-  <div class="container">
-    <h1>🗺️ 네트워크 지도</h1>
-    <div class="sub">OpenVAS 스캔 결과 기반 — 호스트 크기 = finding 수, 색 = 최고 severity</div>
-  </div>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+<header class="sg-pagehead">
+  <h1>🗺️ 네트워크 지도</h1>
+  <p class="sg-sub">OpenVAS 스캔 결과 기반 — 호스트 크기 = finding 수, 색 = 최고 severity</p>
 </header>
 <div class="container">
-  <nav>
-    <a href="/vuln">📊 대시보드</a>
-    <a href="/vuln/list">📋 CVE 취약점 목록</a>
-    <a href="/vuln/search">🔍 검색</a>
-    <a href="/vuln/infra">🛰️ 내 인프라 취약점</a>
-    <a href="/vuln/infra/map" class="active">🗺️ 네트워크 지도</a>
-  </nav>
 
   <div class="legend">
     <span><span class="dot crit"></span>Critical (≥9)</span>

@@ -1,8 +1,10 @@
 import os
+import re
 import sys
 import logging
 from logging.handlers import RotatingFileHandler
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request as _seo_request, g as _seo_g
+import json as _seo_json
 
 # systemd LoadCredentialEncrypted .env → os.environ (평문 EnvironmentFile 대체, override=평소 동작 복제)
 _cred_dir = os.environ.get("CREDENTIALS_DIRECTORY")
@@ -70,6 +72,8 @@ from chat_blueprint import chat_bp
 from status_blueprint import status_bp
 from kisa_blueprint import kisa_bp
 from foreign_blueprint import foreign_bp
+from gold_blueprint import gold_bp
+from sentiment_blueprint import sentiment_bp
 
 app.register_blueprint(podcast_bp)
 app.register_blueprint(chat_bp)
@@ -87,6 +91,8 @@ app.register_blueprint(video_bp)
 app.register_blueprint(status_bp)
 app.register_blueprint(kisa_bp)
 app.register_blueprint(foreign_bp)
+app.register_blueprint(gold_bp)
+app.register_blueprint(sentiment_bp)
 
 # /route/trace에 IP당 rate-limit (분 5건, 시간 30건)
 route_limiter.init_app(app)
@@ -115,6 +121,79 @@ def internal_server_error(e):
     return render_template('error.html', code=500, message='Internal Server Error'), 500
 
 
+# === SEO(canonical/JSON-LD) + CDN Cache-Control (2026-06-02) ===
+_SEO_CACHE_PAGES = {"/", "/about", "/book", "/foreign", "/gold", "/kisa",
+                    "/sentiment", "/briefing", "/podcast", "/news/videos", "/broadcast"}
+_SEO_SITE_LD = {"@context": "https://schema.org", "@type": "WebSite",
+                "name": "sosig.shop", "alternateName": "AI 뉴스 플랫폼",
+                "url": "https://sosig.shop/", "inLanguage": "ko"}
+_SEO_ORG_LD = {"@context": "https://schema.org", "@type": "Organization",
+               "name": "sosig.shop", "url": "https://sosig.shop/",
+               "logo": "https://sosig.shop/static/logo/sosig_logo_280.png"}
+_SEO_HEAD_RE = re.compile(r"<head[^>]*>")
+_SEO_TITLE_RE = re.compile(r"<title>([^<]*)</title>")
+
+
+def _seo_cacheable(p):
+    return p in _SEO_CACHE_PAGES or p.startswith("/book/") or p.startswith("/cve/")
+
+
+@app.after_request
+def _seo_and_cache(resp):
+    try:
+        if _seo_request.method != "GET":
+            return resp
+        p = _seo_request.path
+        is_html = "text/html" in resp.headers.get("Content-Type", "")
+        if not is_html or resp.status_code != 200:
+            return resp
+        # CDN/브라우저 엣지 캐시 (준정적 공개 페이지만)
+        if _seo_cacheable(p) and "Cache-Control" not in resp.headers:
+            resp.headers["Cache-Control"] = "public, max-age=60, s-maxage=300"
+        # canonical + JSON-LD 주입 (head 직후 1회)
+        if getattr(resp, "direct_passthrough", False):
+            return resp
+        html = resp.get_data(as_text=True)
+        m = _SEO_HEAD_RE.search(html)
+        if not m:
+            return resp
+        inject = []
+        if 'rel="canonical"' not in html:
+            inject.append('<link rel="canonical" href="https://sosig.shop%s">' % p)
+        if 'property="og:image"' not in html:   # og 없는 서브페이지에 기본 og 주입(SNS 공유)
+            tm2 = _SEO_TITLE_RE.search(html)
+            _ogt = (tm2.group(1).strip() if tm2 else "sosig.shop")
+            _ogt = _ogt.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+            _ogimg = getattr(_seo_g, "og_image", None) if hasattr(_seo_g, "get") else None
+            _ogimg = _ogimg or "https://sosig.shop/static/logo/sosig_logo_280.png"
+            inject.append('<meta property="og:type" content="website">')
+            inject.append('<meta property="og:title" content="%s">' % _ogt)
+            inject.append('<meta property="og:url" content="https://sosig.shop%s">' % p)
+            inject.append('<meta property="og:image" content="%s">' % _ogimg)
+        if "application/ld+json" not in html:   # foreign 등 자체 JSON-LD 있으면 건너뜀
+            tm = _SEO_TITLE_RE.search(html)
+            name = tm.group(1).strip() if tm else "sosig.shop"
+            blocks = [_SEO_SITE_LD]
+            _rich = _seo_g.get("seo_ld", None) if hasattr(_seo_g, "get") else None
+            if _rich:
+                blocks.extend(_rich)
+            elif p == "/":
+                blocks.append(_SEO_ORG_LD)
+            else:
+                blocks.append({"@context": "https://schema.org", "@type": "WebPage",
+                               "name": name, "url": "https://sosig.shop" + p, "inLanguage": "ko",
+                               "isPartOf": {"@type": "WebSite", "url": "https://sosig.shop/"}})
+            inject.append('<script type="application/ld+json">%s</script>'
+                          % _seo_json.dumps(blocks, ensure_ascii=False))
+        if inject:
+            pos = m.end()
+            html = html[:pos] + "\n" + "\n".join(inject) + html[pos:]
+            resp.set_data(html)
+    except Exception:
+        pass
+    return resp
+
+
 # === /api/v1/* 별칭 자동 등록 — 기존 /api/* 는 유지 ===
 def _register_v1_aliases():
     seen = set()
@@ -135,6 +214,15 @@ def _register_v1_aliases():
         )
 
 _register_v1_aliases()
+
+
+# === /infra 단독 접근 → 실제 경로(/vuln/infra) 리다이렉트 (2026-06-03) ===
+from flask import redirect as _seo_redirect
+
+
+@app.route("/infra")
+def _seo_infra_redirect():
+    return _seo_redirect("/vuln/infra", code=301)
 
 
 # === SEO Routes ===

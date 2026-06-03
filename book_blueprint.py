@@ -8,7 +8,7 @@ PDF:   /opt/flask-app/static/<pdf_file>
 """
 import json
 from pathlib import Path
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, g
 
 book_bp = Blueprint("book", __name__, url_prefix="/book")
 
@@ -75,6 +75,19 @@ def index():
         })
 
     cards.sort(key=lambda x: x.get("published_at", ""), reverse=True)
+    _items = []
+    for _i, _c in enumerate(cards, 1):
+        if _c.get("is_series"):
+            _url = "https://sosig.shop/book/series/" + (_c.get("series_slug") or "")
+        else:
+            _url = "https://sosig.shop/book/" + (_c.get("slug") or "")
+        _items.append({"@type": "ListItem", "position": _i, "item": {
+            "@type": "Book", "name": _c.get("title") or "",
+            "author": {"@type": "Person", "name": _c.get("author") or "미상"},
+            "inLanguage": "ko", "url": _url}})
+    g.seo_ld = [{"@context": "https://schema.org", "@type": "ItemList",
+                 "name": "번역 선집", "numberOfItems": len(_items),
+                 "itemListElement": _items}]
     return render_template("book_index.html", books=cards)
 
 

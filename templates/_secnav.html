@@ -1,0 +1,27 @@
+{# 보안 섹션 공용 서브내비 — 전 보안 페이지 통일. active 판정은 request.path. #}
+{% set _p = request.path %}
+{% set _sec = 'kisa' if _p.startswith('/kisa')
+   else 'malware' if _p.startswith('/malware')
+   else 'infra' if _p.startswith('/vuln/infra')
+   else 'cve' if _p.startswith('/vuln')
+   else 'security' %}
+<div class="sg-secnav" role="navigation" aria-label="보안 섹션">
+  <a class="sg-sl {{ 'active' if _sec=='security' }}" href="/security">🛡️ 보안 대시보드</a>
+  <a class="sg-sl {{ 'active' if _sec=='kisa' }}" href="/kisa">KISA 권고</a>
+  <a class="sg-sl {{ 'active' if _sec=='cve' }}" href="/vuln">📊 CVE 취약점</a>
+  <a class="sg-sl {{ 'active' if _sec=='malware' }}" href="/malware">🦠 악성코드 분석</a>
+  <a class="sg-sl {{ 'active' if _sec=='infra' }}" href="/vuln/infra">🛰️ 인프라 스캔</a>
+</div>
+{% if _sec == 'cve' %}
+<div class="sg-secsub" role="navigation" aria-label="CVE 하위">
+  <a class="sg-tl {{ 'active' if _p == '/vuln' }}" href="/vuln">대시보드</a>
+  <a class="sg-tl {{ 'active' if _p.startswith('/vuln/list') or _p.startswith('/vuln/cve') }}" href="/vuln/list">목록</a>
+  <a class="sg-tl {{ 'active' if _p.startswith('/vuln/search') }}" href="/vuln/search">검색</a>
+  <a class="sg-tl {{ 'active' if _p.startswith('/vuln/about') }}" href="/vuln/about">소개</a>
+</div>
+{% elif _sec == 'infra' %}
+<div class="sg-secsub" role="navigation" aria-label="인프라 하위">
+  <a class="sg-tl {{ 'active' if _p == '/vuln/infra' or _p.startswith('/vuln/infra/host') or _p.startswith('/vuln/infra/finding') }}" href="/vuln/infra">호스트 스캔</a>
+  <a class="sg-tl {{ 'active' if _p.startswith('/vuln/infra/map') }}" href="/vuln/infra/map">네트워크 지도</a>
+</div>
+{% endif %}

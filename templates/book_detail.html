@@ -8,8 +8,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh; color: #e0e0e0; line-height: 1.7;
+            background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
+            min-height: 100vh; color: var(--c-text3); line-height: 1.7;
         }
         .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
         nav {
@@ -18,7 +18,7 @@
             display: flex; gap: 6px; flex-wrap: wrap;
         }
         nav a {
-            color: #c5e1ff; text-decoration: none;
+            color: var(--c-accent-soft); text-decoration: none;
             padding: 6px 12px; border-radius: 6px; font-size: 14px;
         }
         nav a:hover { background: rgba(255,255,255,0.08); }
@@ -33,7 +33,7 @@
         .hero h1 { font-size: 34px; color: #fff; margin-bottom: 4px; }
         .hero .subtitle { font-size: 15px; color: #a0c8ff; margin-bottom: 10px; }
         .hero .author {
-            font-size: 14px; color: #c5e1ff; font-style: italic; margin-bottom: 14px;
+            font-size: 14px; color: var(--c-accent-soft); font-style: italic; margin-bottom: 14px;
         }
         .hero .tags { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
         .tag {
@@ -57,10 +57,10 @@
         .btn-disabled {
             display: inline-block;
             padding: 14px 32px; border-radius: 10px;
-            background: rgba(255,255,255,0.08); color: #8aa4c8;
+            background: rgba(255,255,255,0.08); color: var(--c-muted3);
             font-size: 15px;
         }
-        .file-info { font-size: 12px; color: #8aa4c8; margin-top: 8px; }
+        .file-info { font-size: 12px; color: var(--c-muted3); margin-top: 8px; }
 
         section {
             background: rgba(255,255,255,0.04);
@@ -85,13 +85,13 @@
             border-left: 2px solid rgba(100,180,255,0.2);
         }
         .toc li {
-            padding: 3px 0; font-size: 14px; color: #c5e1ff;
+            padding: 3px 0; font-size: 14px; color: var(--c-accent-soft);
         }
         .toc li::before { content: "· "; color: #555; }
 
         .meta-table { width: 100%; font-size: 13px; }
         .meta-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .meta-table td:first-child { color: #8aa4c8; width: 35%; }
+        .meta-table td:first-child { color: var(--c-muted3); width: 35%; }
         .meta-table a { color: #7cb9ff; }
 
         .warning {
@@ -107,13 +107,10 @@
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_toolnav.html" %}
+
     <div class="container">
-        <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln">📊 CVE 뉴스</a>
-            <a href="/security">🛡️ 보안</a>
-        </nav>
 
         <!-- 히어로 -->
         <div class="hero">

@@ -14,9 +14,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
             min-height: 100vh;
-            color: #e0e0e0;
+            color: var(--c-text3);
         }
 
         .container {
@@ -35,7 +35,7 @@
 
         header h1 {
             font-size: 2em;
-            color: #00d4ff;
+            color: var(--c-cyan);
         }
 
         nav {
@@ -46,7 +46,7 @@
         }
 
         nav a {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
             padding: 8px 16px;
             border: 1px solid rgba(0, 212, 255, 0.3);
@@ -56,7 +56,7 @@
 
         nav a:hover {
             background: rgba(0, 212, 255, 0.1);
-            border-color: #00d4ff;
+            border-color: var(--c-cyan);
         }
 
         .search-box {
@@ -84,12 +84,12 @@
 
         .search-box input:focus {
             outline: none;
-            border-color: #00d4ff;
+            border-color: var(--c-cyan);
         }
 
         .search-box button {
             padding: 15px 30px;
-            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            background: linear-gradient(135deg, var(--c-cyan), #7c3aed);
             border: none;
             border-radius: 10px;
             color: #fff;
@@ -109,7 +109,7 @@
         }
 
         .result-info strong {
-            color: #00d4ff;
+            color: var(--c-cyan);
         }
 
         .cve-section {
@@ -134,7 +134,7 @@
 
         th {
             background: rgba(0, 0, 0, 0.3);
-            color: #00d4ff;
+            color: var(--c-cyan);
             font-weight: 600;
         }
 
@@ -180,7 +180,7 @@
         }
 
         .cve-link {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
             font-weight: 500;
         }
@@ -248,7 +248,7 @@
         }
 
         footer a {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
         }
     </style>
@@ -258,21 +258,14 @@
 </head>
 
 <body>
-    <header>
-        <h1>🔍 CVE 검색</h1>
-    </header>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+    <header class="sg-pagehead">
+  <h1>🔍 CVE 검색</h1>
+</header>
 
     <div class="container">
-                <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln">📊 CVE 뉴스</a>
-            <a href="/vuln/list">📋 목록</a>
-            <a href="/vuln/search" class="active">🔍 검색</a>
-            <a href="/vuln/infra">🏗️ 내 인프라</a>
-            <a href="/vuln/about">ℹ️ 소개</a>
-            <a href="/security">🛡️ 보안</a>
-        </nav>
 
         <div class="search-box">
             <form action="/vuln/search" method="get">

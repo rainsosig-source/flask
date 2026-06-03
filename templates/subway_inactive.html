@@ -7,20 +7,23 @@
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background: #0d1117; color: #e6edf3;
+      background: var(--c-bg); color: var(--c-text);
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center; padding: 2rem;
     }
     .emoji { font-size: 5rem; margin-bottom: 1rem; }
     h1 { font-size: 2rem; margin-bottom: 1rem; color: {{ line.color }}; }
-    p { color: #8b949e; line-height: 1.6; max-width: 500px; text-align: center; margin-bottom: 1rem; }
-    a { color: #58a6ff; text-decoration: none; }
+    p { color: var(--c-muted); line-height: 1.6; max-width: 500px; text-align: center; margin-bottom: 1rem; }
+    a { color: var(--c-accent); text-decoration: none; }
   </style>
     <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
     <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_toolnav.html" %}
+
   <div class="emoji">{{ line.emoji }}</div>
   <h1>{{ line.label }}</h1>
   <p>{{ line.description }}</p>

@@ -16,32 +16,32 @@
 
     body {
       font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
+      background: var(--c-bg);
+      color: var(--c-text);
       min-height: 100vh;
     }
 
     header {
-      background: #161b22;
-      border-bottom: 1px solid #30363d;
+      background: var(--c-bg2);
+      border-bottom: 1px solid var(--c-border);
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
-    header h1 { font-size: 1.25rem; color: #e6edf3; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: var(--c-text); }
 
     .notice {
       max-width: 1400px;
       margin: 1.5rem auto 0;
       padding: 0.75rem 1.25rem;
       background: #1c2128;
-      border: 1px solid #30363d;
+      border: 1px solid var(--c-border);
       border-left: 3px solid #f0883e;
       border-radius: 6px;
       font-size: 0.82rem;
-      color: #8b949e;
+      color: var(--c-muted);
       line-height: 1.6;
     }
 
@@ -53,11 +53,12 @@
       display: flex;
       flex-wrap: wrap;
       gap: 1.25rem;
-      align-items: flex-start;
+      align-items: stretch;
+      justify-content: center;
     }
     .calendar-box {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: var(--c-bg2);
+      border: 1px solid var(--c-border);
       border-radius: 10px;
       padding: 0.75rem;
       flex-shrink: 0;
@@ -66,9 +67,10 @@
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-      flex: 1;
-      min-width: 200px;
+      flex: 0 1 280px;
+      min-width: 220px;
       padding-top: 0.4rem;
+      justify-content: center;
     }
     .filter-row {
       display: flex;
@@ -79,38 +81,38 @@
     .filter-btn {
       padding: 6px 16px;
       border-radius: 6px;
-      border: 1px solid #30363d;
-      background: #161b22;
-      color: #8b949e;
+      border: 1px solid var(--c-border);
+      background: var(--c-bg2);
+      color: var(--c-muted);
       font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.15s;
       font-family: inherit;
     }
-    .filter-btn:hover { border-color: #58a6ff; color: #e6edf3; }
+    .filter-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
     .filter-btn.active {
-      background: #1f6feb;
-      border-color: #1f6feb;
+      background: var(--c-accent2);
+      border-color: var(--c-accent2);
       color: #fff;
     }
     .selected-info {
       font-size: 0.82rem;
-      color: #8b949e;
+      color: var(--c-muted);
       padding: 4px 0;
     }
     .selected-info .date-pill {
       display: inline-block;
       padding: 2px 10px;
       background: #1f6feb22;
-      border: 1px solid #1f6feb;
+      border: 1px solid var(--c-accent2);
       border-radius: 12px;
-      color: #58a6ff;
+      color: var(--c-accent);
       margin-left: 0.4rem;
       font-size: 0.78rem;
     }
     .video-count {
       font-size: 0.85rem;
-      color: #58a6ff;
+      color: var(--c-accent);
       font-weight: 600;
     }
 
@@ -127,10 +129,10 @@
     }
     .flatpickr-day.flatpickr-disabled,
     .flatpickr-day.flatpickr-disabled:hover {
-      color: #30363d !important;
+      color: var(--c-border) !important;
     }
     .flatpickr-day:not(.flatpickr-disabled):not(.selected) {
-      color: #58a6ff !important;
+      color: var(--c-accent) !important;
       font-weight: 600;
     }
     /* flatpickr 화살표 SVG 사이즈 강제 (특정 환경에서 base CSS 무시되는 문제 회피) */
@@ -151,8 +153,9 @@
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1.5rem;
       max-width: 1400px;
       margin: 1.5rem auto;
@@ -160,27 +163,42 @@
     }
 
     .card {
-      background: #161b22;
-      border: 1px solid #30363d;
+      flex: 0 1 420px;
+      max-width: 460px;
+      background: var(--c-bg2);
+      border: 1px solid var(--c-border);
       border-radius: 10px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       transition: border-color 0.2s;
     }
-    .card:hover { border-color: #58a6ff; }
+    .card:hover { border-color: var(--c-accent); }
     .card.hidden { display: none; }
 
     .embed-wrap {
       position: relative;
       padding-top: 56.25%;
-      background: #0d1117;
+      background: var(--c-bg);
     }
     .embed-wrap iframe {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       border: none;
+    }
+    .yt-facade {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      border: none; padding: 0; margin: 0; cursor: pointer; background: #000;
+      display: block; overflow: hidden;
+    }
+    .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; transition: opacity .15s; }
+    .yt-facade:hover img { opacity: 1; }
+    .yt-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 54px; height: 54px; border-radius: 50%; background: rgba(0,0,0,.65);
+      color: #fff; font-size: 22px; line-height: 54px; text-align: center;
+      padding-left: 4px; pointer-events: none;
     }
     .no-video {
       position: absolute;
@@ -190,7 +208,7 @@
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
-      color: #484f58;
+      color: var(--c-border2);
     }
 
     .card-body {
@@ -203,12 +221,12 @@
     .card-title {
       font-size: 1rem;
       font-weight: 600;
-      color: #e6edf3;
+      color: var(--c-text);
       line-height: 1.45;
     }
     .card-meta {
       font-size: 0.78rem;
-      color: #8b949e;
+      color: var(--c-muted);
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -216,16 +234,16 @@
     }
     .source-badge {
       background: #1c2128;
-      border: 1px solid #30363d;
+      border: 1px solid var(--c-border);
       border-radius: 12px;
       padding: 2px 8px;
       font-size: 0.74rem;
     }
     .card-reason {
       font-size: 0.78rem;
-      color: #8b949e;
+      color: var(--c-muted);
       line-height: 1.5;
-      border-top: 1px solid #21262d;
+      border-top: 1px solid var(--c-bg3);
       padding-top: 0.5rem;
       margin-top: auto;
     }
@@ -235,8 +253,8 @@
       gap: 0.35rem;
       margin-top: 0.5rem;
       padding: 5px 12px;
-      background: #21262d;
-      border: 1px solid #30363d;
+      background: var(--c-bg3);
+      border: 1px solid var(--c-border);
       border-radius: 6px;
       color: #ff4e45;
       font-size: 0.8rem;
@@ -247,10 +265,10 @@
     .yt-link:hover { background: #2d333b; }
 
     .empty {
-      grid-column: 1/-1;
+      width: 100%;
       text-align: center;
       padding: 4rem 0;
-      color: #484f58;
+      color: var(--c-border2);
     }
 
     @media (max-width: 720px) {
@@ -259,7 +277,8 @@
       .filter-controls { width: 100%; }
     }
     @media (max-width: 500px) {
-      .grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+      .grid { padding: 0 1rem 2rem; }
+      .card { flex-basis: 100%; max-width: 100%; }
       .notice { margin: 1rem; }
     }
   </style>
@@ -268,10 +287,12 @@
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_contentnav.html" %}
 
-<header>
-  <a href="/">← sosig.shop</a>
-  <h1>AI 뉴스 영상</h1>
+
+<header class="sg-pagehead">
+  <h1>📺 AI 뉴스 영상</h1>
 </header>
 
 <aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
@@ -310,12 +331,10 @@
     <div class="card" data-date="{{ v.created_at_iso }}">
       <div class="embed-wrap">
         {% if v.yt_id %}
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/{{ v.yt_id }}?rel=0&modestbranding=1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
+          <button class="yt-facade" data-id="{{ v.yt_id }}" aria-label="영상 재생">
+            <img src="https://i.ytimg.com/vi/{{ v.yt_id }}/hqdefault.jpg" alt="{{ v.ko_title }}" loading="lazy">
+            <span class="yt-play" aria-hidden="true">▶</span>
+          </button>
         {% else %}
           <div class="no-video">영상 준비 중</div>
         {% endif %}
@@ -385,6 +404,18 @@ function showAll() {
   document.getElementById('videoCount').textContent = totalCount + '개';
   document.getElementById('selectedDateLabel').innerHTML = '';
 }
+
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.yt-facade');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (!id) return;
+  const ifr = document.createElement('iframe');
+  ifr.src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&modestbranding=1&autoplay=1';
+  ifr.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+  ifr.setAttribute('allowfullscreen', '');
+  btn.replaceWith(ifr);   // .embed-wrap iframe CSS 자동 적용
+});
 </script>
 {% endif %}
 

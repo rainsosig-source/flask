@@ -54,8 +54,9 @@ def kisa_json():
                     r['audio_published_at'] = r['audio_published_at'].strftime('%Y-%m-%d %H:%M')
                 ap = r.get('audio_path')
                 if ap:
-                    if ap.startswith('/root/flask-app/'):
-                        ap = '/' + ap[len('/root/flask-app/'):]
+                    _si = ap.find('/static/')
+                    if _si != -1:
+                        ap = ap[_si:]
                     elif not ap.startswith('/'):
                         ap = '/static/' + ap
                     r['audio_path'] = ap

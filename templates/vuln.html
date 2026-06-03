@@ -14,9 +14,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
             min-height: 100vh;
-            color: #e0e0e0;
+            color: var(--c-text3);
         }
 
         .container {
@@ -35,7 +35,7 @@
 
         header h1 {
             font-size: 2em;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            background: linear-gradient(90deg, var(--c-cyan), #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -56,7 +56,7 @@
         }
 
         nav a {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
             padding: 10px 18px;
             border: 1px solid rgba(0, 212, 255, 0.3);
@@ -67,7 +67,7 @@
         nav a:hover,
         nav a.active {
             background: rgba(0, 212, 255, 0.1);
-            border-color: #00d4ff;
+            border-color: var(--c-cyan);
         }
 
         /* 전체 통계 요약 */
@@ -90,7 +90,7 @@
         .summary-item .value {
             font-size: 1.8em;
             font-weight: bold;
-            color: #00d4ff;
+            color: var(--c-cyan);
         }
 
         .summary-item .label {
@@ -118,7 +118,7 @@
         /* 프로그램 그리드 */
         .section-title {
             font-size: 1.3em;
-            color: #00d4ff;
+            color: var(--c-cyan);
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -146,7 +146,7 @@
 
         .software-card:hover {
             transform: translateY(-5px);
-            border-color: #00d4ff;
+            border-color: var(--c-cyan);
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15);
         }
 
@@ -167,7 +167,7 @@
         .software-card .cve-count {
             font-size: 2em;
             font-weight: bold;
-            color: #00d4ff;
+            color: var(--c-cyan);
             margin-bottom: 8px;
         }
 
@@ -262,7 +262,7 @@
         }
 
         .recent-list .cve-id {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
             font-weight: 500;
         }
@@ -318,7 +318,7 @@
             text-align: center;
             padding: 12px;
             margin-top: 15px;
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 8px;
@@ -348,7 +348,7 @@
         }
 
         footer a {
-            color: #00d4ff;
+            color: var(--c-cyan);
             text-decoration: none;
         }
 
@@ -369,26 +369,19 @@
 </head>
 
 <body>
-    <header>
-        <h1>🛡️ CVE 취약점 모니터링</h1>
-        <p>프로그램별 보안 취약점 현황</p>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+    <header class="sg-pagehead">
+        <h1>📊 CVE 취약점 모니터링</h1>
+        <p class="sg-sub">프로그램별 보안 취약점 현황 · NVD 2시간 주기 수집</p>
     </header>
 
     <div class="container">
-                <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln" class="active">📊 CVE 뉴스</a>
-            <a href="/vuln/list">📋 목록</a>
-            <a href="/vuln/search">🔍 검색</a>
-            <a href="/vuln/infra">🏗️ 내 인프라</a>
-            <a href="/vuln/about">ℹ️ 소개</a>
-            <a href="/security">🛡️ 보안</a>
-        </nav>
 
         <aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
           <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
-          NVD(미국 국립취약점DB)에서 주요 소프트웨어 CVE를 2시간마다 자동 수집하고 <strong>Claude Haiku</strong>로 한국어 요약·심각도·악용 가능성을 평가합니다. 단순한 CVSS 점수 나열보다는 <strong>"실제로 쓰는 도구에 어떤 영향이 가는지"</strong>를 핵심으로 잡았습니다. <strong>OpenVAS로 sosig.shop 자기 인프라를 직접 스캔한 결과(/vuln/infra)와 cross-link</strong>해, 내가 실제로 노출시킨 자산에 해당하는 CVE만 강조하도록 했습니다. 추적 대상은 운영자가 직접 쓰는 소프트웨어 위주이고, 산업·정부 인프라 전수 모니터링이 아닙니다. 다른 보안 도구·정보 출처를 대체할 의도는 없으며, "내가 쓰는 SW의 새 CVE를 한국어로 빠르게 훑는" 용도로 만들었습니다.
+          NVD(미국 국립취약점DB)에서 주요 소프트웨어 CVE를 2시간마다 자동 수집하고 <strong>GB10 로컬 vLLM Gemma 4</strong>(연속 실패 시 Claude CLI 자동 폴백)로 한국어 요약·심각도·악용 가능성을 평가합니다. 단순한 CVSS 점수 나열보다는 <strong>"실제로 쓰는 도구에 어떤 영향이 가는지"</strong>를 핵심으로 잡았습니다. <strong>OpenVAS로 sosig.shop 자기 인프라를 직접 스캔한 결과(/vuln/infra)와 cross-link</strong>해, 내가 실제로 노출시킨 자산에 해당하는 CVE만 강조하도록 했습니다. 추적 대상은 운영자가 직접 쓰는 소프트웨어 위주이고, 산업·정부 인프라 전수 모니터링이 아닙니다. 다른 보안 도구·정보 출처를 대체할 의도는 없으며, "내가 쓰는 SW의 새 CVE를 한국어로 빠르게 훑는" 용도로 만들었습니다.
         </aside>
 
         {% if error %}

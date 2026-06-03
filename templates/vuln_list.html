@@ -13,21 +13,14 @@
 </head>
 
 <body>
-    <header>
-        <h1>📋 CVE 취약점 목록</h1>
-    </header>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+    <header class="sg-pagehead">
+  <h1>📋 CVE 취약점 목록</h1>
+</header>
 
     <div class="container">
-                <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln">📊 CVE 뉴스</a>
-            <a href="/vuln/list" class="active">📋 목록</a>
-            <a href="/vuln/search">🔍 검색</a>
-            <a href="/vuln/infra">🏗️ 내 인프라</a>
-            <a href="/vuln/about">ℹ️ 소개</a>
-            <a href="/security">🛡️ 보안</a>
-        </nav>
 
         {% if error %}
         <div class="error-message">⚠️ 오류: {{ error }}</div>

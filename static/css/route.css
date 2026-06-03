@@ -22,10 +22,19 @@
             color: var(--text-primary);
             height: 100vh;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* nav 바 아래 남은 영역을 채우는 무대 — globe/sidebar의 offset 부모 */
+        .route-stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         #globe-container {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -34,11 +43,11 @@
         }
 
         .sidebar {
-            position: fixed;
+            position: absolute;
             top: 0;
             right: 0;
             width: 380px;
-            height: 100vh;
+            height: 100%;
             background: rgba(10, 10, 15, 0.9);
             backdrop-filter: blur(20px);
             border-left: 1px solid var(--border);

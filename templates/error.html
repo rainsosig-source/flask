@@ -15,13 +15,6 @@
             --accent-cyan: #4cc9f0;
             --accent-amber: #ff9e00;
         }
-        html.light-mode {
-            --bg-color: #f8f9fa;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(0, 0, 0, 0.1);
-            --text-main: #212529;
-            --text-muted: #6c757d;
-        }
         * { transition: background-color 0.3s ease, color 0.3s ease; }
         body {
             margin: 0; padding: 0;
@@ -66,8 +59,5 @@
         <p class="error-message">{{ message }}</p>
         <a href="/" class="home-btn">홈으로 돌아가기</a>
     </div>
-    <script>
-        if (localStorage.getItem("theme") === "light") document.documentElement.classList.add("light-mode");
-    </script>
 </body>
 </html>

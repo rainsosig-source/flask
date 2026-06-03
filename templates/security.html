@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보안 대시보드 - sosig.shop</title>
     <style>
+  .tscroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh; color: #e0e0e0; line-height: 1.6;
+            background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
+            min-height: 100vh; color: var(--c-text3); line-height: 1.6;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 24px 18px; }
         h1 { font-size: 26px; margin-bottom: 4px; color: #fff; }
         h2 { font-size: 18px; margin: 0 0 12px; color: #a0c8ff;
              border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
-        .subtitle { color: #8aa4c8; margin-bottom: 20px; font-size: 14px; }
+        .subtitle { color: var(--c-muted3); margin-bottom: 20px; font-size: 14px; }
 
         nav {
             background: rgba(255,255,255,0.04);
@@ -23,7 +24,7 @@
             display: flex; gap: 6px; flex-wrap: wrap;
         }
         nav a {
-            color: #c5e1ff; text-decoration: none;
+            color: var(--c-accent-soft); text-decoration: none;
             padding: 6px 12px; border-radius: 6px; font-size: 14px;
         }
         nav a:hover { background: rgba(255,255,255,0.08); }
@@ -43,7 +44,7 @@
             background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; text-align: center;
         }
         .card .num { font-size: 22px; font-weight: 700; color: #fff; }
-        .card .label { font-size: 11px; color: #8aa4c8; margin-top: 3px;
+        .card .label { font-size: 11px; color: var(--c-muted3); margin-top: 3px;
                        text-transform: uppercase; letter-spacing: 0.5px; }
         .sev-critical .num { color: #ff5c5c; }
         .sev-high     .num { color: #ffae52; }
@@ -59,12 +60,12 @@
         .mono { font-family: 'SF Mono', 'Monaco', monospace; font-size: 12px; }
         .country-tag {
             display: inline-block; padding: 2px 6px; border-radius: 3px;
-            font-size: 11px; background: rgba(255,255,255,0.08); color: #c5e1ff;
+            font-size: 11px; background: rgba(255,255,255,0.08); color: var(--c-accent-soft);
         }
         .status-4xx { color: #ffae52; }
         .status-5xx { color: #ff5c5c; }
         .status-2xx { color: #7fd996; }
-        .status-3xx { color: #8aa4c8; }
+        .status-3xx { color: var(--c-muted3); }
         .warn-row { background: rgba(255,92,92,0.05); }
 
         .two-col {
@@ -73,7 +74,7 @@
         @media (max-width: 800px) {
             .two-col { grid-template-columns: 1fr; }
         }
-        .muted { color: #8aa4c8; font-size: 12px; margin-top: 6px; }
+        .muted { color: var(--c-muted3); font-size: 12px; margin-top: 6px; }
         .pill {
             display: inline-block; padding: 3px 9px; border-radius: 12px;
             font-size: 11px; font-weight: 600;
@@ -86,24 +87,19 @@
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
-    <div class="container">
-                <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln">📊 CVE 뉴스</a>
-            <a href="/vuln/list">📋 목록</a>
-            <a href="/vuln/search">🔍 검색</a>
-            <a href="/vuln/infra">🏗️ 내 인프라</a>
-            <a href="/vuln/about">ℹ️ 소개</a>
-            <a href="/security" class="active">🛡️ 보안</a>
-        </nav>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+<header class="sg-pagehead">
+    <h1>🛡️ 보안 대시보드</h1>
+    <p class="sg-sub">최근 24시간 활동 요약 · 생성 {{ generated }}</p>
+</header>
 
-        <h1>🛡️ 보안 대시보드</h1>
-        <p class="subtitle">최근 24시간 활동 요약 · 생성 {{ generated }}</p>
+    <div class="container">
+
 
         <aside style="max-width: 1200px; margin: 1.25rem auto; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
           <div style="font-size: 0.78rem; font-weight: 600; color: #58a6ff; margin-bottom: 0.5rem; letter-spacing: 0.04em;">✍️ 운영자 노트 — TS.Song</div>
-          <strong>KISA 보안 권고</strong>(매시 스크래핑·vLLM Gemma 4 우선순위 분류·≥4 자동 팟캐스트), <strong>NVD CVE</strong>(2시간 주기·Claude Haiku 요약·악용 가능성 평가), <strong>악성코드 분석기</strong>(YARA + Capstone + vLLM Gemma 4 디컴파일), <strong>OpenVAS 자기 인프라 스캔</strong>(/vuln/infra)을 한 화면에서 훑어볼 수 있게 모은 페이지입니다. 한 출처가 놓친 위협을 다른 출처로 보완하는 <strong>"교차 검증"</strong>이 목적이고, 일반 사용자가 매시 모든 권고를 들여다볼 수 없으니 운영자가 직접 임계값(priority≥4, CVSS≥7 등)을 정해 자동 발행을 결정했습니다. 운영자 본인의 인프라(sosig.shop, GB10, 홈 네트워크) 보안 운용이 1차 목적이고, 같은 위협을 마주한 사람에게 한국어 보안 정보 접근성을 제공하는 게 2차 목적입니다.
+          <strong>KISA 보안 권고</strong>(매시 스크래핑·vLLM Gemma 4 우선순위 분류·≥4 자동 팟캐스트), <strong>NVD CVE</strong>(2시간 주기·vLLM Gemma 4 요약·악용 가능성 평가, Claude CLI 폴백), <strong>악성코드 분석기</strong>(YARA + Capstone + vLLM Gemma 4 디컴파일), <strong>OpenVAS 자기 인프라 스캔</strong>(/vuln/infra)을 한 화면에서 훑어볼 수 있게 모은 페이지입니다. 한 출처가 놓친 위협을 다른 출처로 보완하는 <strong>"교차 검증"</strong>이 목적이고, 일반 사용자가 매시 모든 권고를 들여다볼 수 없으니 운영자가 직접 임계값(priority≥4, CVSS≥7 등)을 정해 자동 발행을 결정했습니다. 운영자 본인의 인프라(sosig.shop, GB10, 홈 네트워크) 보안 운용이 1차 목적이고, 같은 위협을 마주한 사람에게 한국어 보안 정보 접근성을 제공하는 게 2차 목적입니다.
         </aside>
 
         <!-- 상단 통합 지표 -->
@@ -148,7 +144,7 @@
 
                 {% if ssh.top_attackers %}
                 <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">Top 공격자</h3>
-                <table>
+                <div class="tscroll"><table>
                     <thead><tr><th>IP</th><th>국가</th><th style="text-align:right">시도</th></tr></thead>
                     <tbody>
                         {% for a in ssh.top_attackers %}
@@ -159,12 +155,12 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                </table>
+                </table></div>
                 {% endif %}
 
                 {% if ssh.recent_accepted %}
                 <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">최근 로그인 성공</h3>
-                <table>
+                <div class="tscroll"><table>
                     <thead><tr><th>시각</th><th>IP</th><th>국가</th></tr></thead>
                     <tbody>
                         {% for a in ssh.recent_accepted %}
@@ -175,7 +171,7 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                </table>
+                </table></div>
                 {% endif %}
             </section>
 
@@ -191,19 +187,19 @@
 
                 {% if web.by_country %}
                 <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">상위 국가</h3>
-                <table>
+                <div class="tscroll"><table>
                     <thead><tr><th>국가</th><th style="text-align:right">요청</th></tr></thead>
                     <tbody>
                         {% for country, count in web.by_country.items() %}
                         <tr><td>{{ country }}</td><td style="text-align:right"><b>{{ count }}</b></td></tr>
                         {% endfor %}
                     </tbody>
-                </table>
+                </table></div>
                 {% endif %}
 
                 {% if web.top_ips %}
                 <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">Top IP</h3>
-                <table>
+                <div class="tscroll"><table>
                     <thead><tr><th>IP</th><th>국가</th><th style="text-align:right">요청</th></tr></thead>
                     <tbody>
                         {% for ip in web.top_ips[:10] %}
@@ -214,7 +210,7 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                </table>
+                </table></div>
                 {% endif %}
             </section>
         </div>
@@ -223,7 +219,7 @@
         {% if web.sensitive_hits %}
         <section>
             <h2>⚠️ 민감 경로 접근 시도 ({{ web.sensitive_count }}건)</h2>
-            <table>
+            <div class="tscroll"><table>
                 <thead>
                     <tr><th>시각</th><th>IP</th><th>국가</th><th>경로</th><th>상태</th></tr>
                 </thead>
@@ -238,7 +234,7 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table></div>
             <p class="muted">정찰 스캐너 또는 봇의 일반적 경로 탐색. 대부분 4xx로 차단됨.</p>
         </section>
         {% endif %}
@@ -254,7 +250,7 @@
 
             {% if f2b.banned %}
             <h3 style="margin-top:14px; font-size:14px; color:#c5e1ff">현재 차단 IP</h3>
-            <table>
+            <div class="tscroll"><table>
                 <thead><tr><th>IP</th><th>국가</th></tr></thead>
                 <tbody>
                     {% for b in f2b.banned %}
@@ -264,7 +260,7 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table></div>
             {% endif %}
         </section>
 

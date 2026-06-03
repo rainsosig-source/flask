@@ -6,33 +6,33 @@
   <title>운영 상태 — sosig.shop</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; }
 
-    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
-    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
-    header h1 { font-size: 1.25rem; color: #e6edf3; }
+    header { background: var(--c-bg2); border-bottom: 1px solid var(--c-border); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: var(--c-text); }
 
-    .status-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; font-size: 0.85rem; color: #8b949e; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .reload-btn { background: #21262d; border: 1px solid #30363d; color: #8b949e; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; font-family: inherit; }
-    .reload-btn:hover { color: #e6edf3; border-color: #58a6ff; }
+    .status-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; font-size: 0.85rem; color: var(--c-muted); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .reload-btn { background: var(--c-bg3); border: 1px solid var(--c-border); color: var(--c-muted); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; font-family: inherit; }
+    .reload-btn:hover { color: var(--c-text); border-color: var(--c-accent); }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1rem; max-width: 1200px; margin: 1.25rem auto; padding: 0 2rem 3rem; }
 
-    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1.25rem; transition: border-color 0.2s; }
-    .card:hover { border-color: #58a6ff; }
-    .card h3 { font-size: 0.92rem; margin-bottom: 0.6rem; color: #8b949e; display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 6px rgba(63,185,80,0.5); }
-    .status-dot.warn { background: #d29922; box-shadow: 0 0 6px rgba(210,153,34,0.5); }
-    .status-dot.error { background: #f85149; box-shadow: 0 0 6px rgba(248,81,73,0.5); }
-    .stat { font-size: 1.7rem; font-weight: 700; color: #58a6ff; margin: 0.4rem 0 0.6rem; line-height: 1.1; }
-    .stat-unit { font-size: 0.95rem; color: #8b949e; font-weight: 400; margin-left: 0.2rem; }
-    .meta { font-size: 0.78rem; color: #8b949e; margin-top: 0.35rem; display: flex; justify-content: space-between; gap: 0.5rem; }
-    .meta .v { color: #e6edf3; font-variant-numeric: tabular-nums; }
+    .card { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 10px; padding: 1.25rem; transition: border-color 0.2s; }
+    .card:hover { border-color: var(--c-accent); }
+    .card h3 { font-size: 0.92rem; margin-bottom: 0.6rem; color: var(--c-muted); display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c-good); box-shadow: 0 0 6px rgba(63,185,80,0.5); }
+    .status-dot.warn { background: var(--c-warn); box-shadow: 0 0 6px rgba(210,153,34,0.5); }
+    .status-dot.error { background: var(--c-bad); box-shadow: 0 0 6px rgba(248,81,73,0.5); }
+    .stat { font-size: 1.7rem; font-weight: 700; color: var(--c-accent); margin: 0.4rem 0 0.6rem; line-height: 1.1; }
+    .stat-unit { font-size: 0.95rem; color: var(--c-muted); font-weight: 400; margin-left: 0.2rem; }
+    .meta { font-size: 0.78rem; color: var(--c-muted); margin-top: 0.35rem; display: flex; justify-content: space-between; gap: 0.5rem; }
+    .meta .v { color: var(--c-text); font-variant-numeric: tabular-nums; }
 
-    .card-link { display: inline-block; margin-top: 0.6rem; padding: 4px 10px; font-size: 0.74rem; background: #21262d; border: 1px solid #30363d; border-radius: 6px; color: #58a6ff; text-decoration: none; }
+    .card-link { display: inline-block; margin-top: 0.6rem; padding: 4px 10px; font-size: 0.74rem; background: var(--c-bg3); border: 1px solid var(--c-border); border-radius: 6px; color: var(--c-accent); text-decoration: none; }
     .card-link:hover { background: #2d333b; }
 
-    .placeholder { color: #484f58; font-style: italic; }
+    .placeholder { color: var(--c-border2); font-style: italic; }
 
     @media (max-width: 500px) {
       .grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
@@ -44,10 +44,12 @@
   <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_etcnav.html" %}
 
-<header>
-  <a href="/">← sosig.shop</a>
-  <h1>🖥️ 운영 상태</h1>
+
+<header class="sg-pagehead">
+  <h1>📡 운영 상태</h1>
 </header>
 
 <div class="status-bar">
@@ -168,7 +170,7 @@ function renderGrid(d) {
       meta: [
         ['Load avg', g.load],
         ['GPU temp', g.gpu_temp ? `${g.gpu_temp}℃` : null],
-        ['ollama 모델', g.ollama_models],
+        ['vLLM 모델', g.vllm_models],
         ['업데이트', g.updated_at],
       ],
       ok: g.uptime !== undefined,

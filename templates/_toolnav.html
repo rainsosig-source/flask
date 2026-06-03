@@ -1,0 +1,8 @@
+{# 도구·자료 그룹 공용 섹션 탭 — active 판정은 request.path. 바 CSS는 _topnav.html. #}
+{% set _p = request.path %}
+<div class="sg-secnav" role="navigation" aria-label="도구·자료 섹션">
+  <a class="sg-sl {{ 'active' if _p.startswith('/route') }}" href="/route">🧭 네트워크 경로 추적</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/subway') }}" href="/subway">🚇 지하철 실시간</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/book') }}" href="/book">📚 번역 선집</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/chat') }}" href="/chat">💬 sosig에게 물어봐</a>
+</div>

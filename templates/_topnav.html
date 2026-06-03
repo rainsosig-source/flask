@@ -1,0 +1,102 @@
+{# 공용 상단 네비게이션 — 전 페이지 통일 이동. 스타일 격리(sg- 접두). #}
+<style>
+  /* 공용 팔레트 변수 — 다크 단일 테마. */
+  :root{
+    --c-bg:#0d1117; --c-bg2:#161b22; --c-bg3:#21262d; --c-bg-alt1:#1a1a2e; --c-bg-alt2:#16213e; --c-bg-alt3:#0f0f23;
+    --c-border:#30363d; --c-border2:#484f58;
+    --c-text:#e6edf3; --c-text2:#c9d1d9; --c-text3:#e0e0e0;
+    --c-muted:#8b949e; --c-muted2:#6e7681; --c-muted3:#8aa4c8;
+    --c-accent:#58a6ff; --c-accent2:#1f6feb; --c-accent3:#388bfd; --c-accent-soft:#c5e1ff;
+    --c-cyan:#00d4ff; --c-good:#3fb950; --c-bad:#f85149; --c-warn:#d29922;
+  }
+  /* 라이트 모드 제거 — 다크 단일 테마. 페이지별 레거시 테마 버튼은 숨김 유지. */
+  .theme-toggle,.theme-toggle-sm{display:none!important;}
+  .sg-topnav{position:sticky;top:0;z-index:9999;display:flex;align-items:center;gap:.6rem;
+    justify-content:flex-start;margin:0;
+    background:#0d1117;border-bottom:1px solid #30363d;padding:.4rem .9rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;font-size:.9rem;}
+  .sg-topnav .sg-home{color:#e6edf3;font-weight:700;text-decoration:none;white-space:nowrap;}
+  .sg-topnav .sg-home:hover{color:#58a6ff;}
+  .sg-topnav .sg-menu-btn{background:#161b22;color:#adbac7;border:1px solid #30363d;
+    border-radius:6px;padding:.3rem .7rem;font-size:.85rem;cursor:pointer;font-family:inherit;}
+  .sg-topnav .sg-menu-btn:hover{border-color:#58a6ff;color:#58a6ff;}
+  .sg-menu{position:absolute;top:100%;left:.9rem;margin-top:.35rem;display:none;
+    background:#161b22;border:1px solid #30363d;border-radius:8px;padding:.6rem .4rem;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);min-width:200px;max-height:78vh;overflow:auto;}
+  .sg-menu.open{display:block;}
+  .sg-menu .sg-grp{padding:.2rem .5rem .5rem;}
+  .sg-menu .sg-grp+.sg-grp{border-top:1px solid #21262d;margin-top:.3rem;padding-top:.55rem;}
+  .sg-menu .sg-lbl{display:block;font-size:.72rem;color:#6e7681;font-weight:600;margin:.1rem 0 .3rem;}
+  .sg-menu a{display:block;color:#adbac7;text-decoration:none;padding:.32rem .55rem;border-radius:5px;font-size:.86rem;}
+  .sg-menu a:hover{background:#1f6feb22;color:#58a6ff;}
+  /* 공용 섹션 탭 바 — 보안/콘텐츠/도구/기타 그룹 페이지 공통. 라이트/다크 변수 사용. */
+  .sg-secnav{display:flex;align-items:center;justify-content:center;gap:.4rem;flex-wrap:nowrap;
+    overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+    background:var(--c-bg2,#161b22);border-bottom:1px solid var(--c-border,#30363d);
+    padding:.45rem .9rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;}
+  .sg-secnav::-webkit-scrollbar{display:none;}
+  .sg-secnav .sg-sl{color:var(--c-muted,#8b949e);text-decoration:none;
+    padding:.34rem .72rem;border-radius:6px;font-size:.86rem;white-space:nowrap;
+    border:1px solid transparent;line-height:1;transition:all .12s;}
+  .sg-secnav .sg-sl:hover{color:var(--c-accent,#58a6ff);background:rgba(88,166,255,.08);}
+  .sg-secnav .sg-sl.active{color:#fff;background:var(--c-accent2,#1f6feb);
+    border-color:var(--c-accent2,#1f6feb);font-weight:600;}
+  .sg-secsub{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:nowrap;
+    overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+    background:var(--c-bg,#0d1117);border-bottom:1px solid var(--c-border,#30363d);
+    padding:.3rem .9rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;}
+  .sg-secsub::-webkit-scrollbar{display:none;}
+  .sg-secsub .sg-tl{color:var(--c-muted,#8b949e);text-decoration:none;
+    padding:.26rem .2rem;font-size:.8rem;white-space:nowrap;line-height:1.4;
+    border-bottom:2px solid transparent;}
+  .sg-secsub .sg-tl:hover{color:var(--c-accent,#58a6ff);}
+  .sg-secsub .sg-tl.active{color:var(--c-accent,#58a6ff);font-weight:600;
+    border-bottom-color:var(--c-accent,#58a6ff);}
+  /* 공용 페이지 타이틀 밴드 — 전 페이지 제목 구조 통일. 라이트/다크 변수 사용. */
+  header.sg-pagehead{display:block;background:var(--c-bg2,#161b22);
+    border-bottom:1px solid var(--c-border,#30363d);padding:1.25rem 1.5rem;margin:0;text-align:center;}
+  header.sg-pagehead h1{display:block;margin:0;font-size:1.5rem;font-weight:700;
+    color:var(--c-text,#e6edf3);line-height:1.25;letter-spacing:-.01em;text-align:center;
+    background:none;-webkit-text-fill-color:currentColor;-webkit-background-clip:border-box;background-clip:border-box;}
+  header.sg-pagehead .sg-sub{margin:.3rem 0 0;color:var(--c-muted,#8b949e);
+    font-size:.9rem;font-weight:400;line-height:1.5;text-align:center;}
+</style>
+<nav class="sg-topnav">
+  <a href="/" class="sg-home">🌭 sosig.shop</a>
+  <button type="button" class="sg-menu-btn" aria-haspopup="true" onclick="sgToggleMenu(event)">메뉴 ▾</button>
+  <div class="sg-menu" id="sgMenu">
+    <div class="sg-grp"><span class="sg-lbl">콘텐츠</span>
+      <a href="/podcast">팟캐스트 캘린더</a>
+      <a href="/briefing">시간대별 모음</a>
+      <a href="/news/videos">AI 뉴스 영상</a>
+      <a href="/foreign">외신이 본 한국</a>
+      <a href="/gold">금시세 · 환율</a>
+      <a href="/sentiment">뉴스 감성 대시보드</a>
+    </div>
+    <div class="sg-grp"><span class="sg-lbl">보안</span>
+      <a href="/security">보안 대시보드</a>
+      <a href="/kisa">KISA 보안 권고</a>
+      <a href="/vuln">CVE 취약점</a>
+      <a href="/malware">악성코드 분석기</a>
+      <a href="/vuln/infra">인프라 스캔</a>
+    </div>
+    <div class="sg-grp"><span class="sg-lbl">도구 · 자료</span>
+      <a href="/route">네트워크 경로 추적</a>
+      <a href="/subway">지하철 실시간</a>
+      <a href="/book">번역 선집</a>
+      <a href="/chat">sosig에게 물어봐</a>
+    </div>
+    <div class="sg-grp"><span class="sg-lbl">기타</span>
+      <a href="/about">서비스 소개</a>
+      <a href="/broadcast">방명록</a>
+      <a href="/status">운영 상태</a>
+    </div>
+  </div>
+</nav>
+<script>
+  function sgToggleMenu(e){e.stopPropagation();var m=document.getElementById('sgMenu');if(m)m.classList.toggle('open');}
+  document.addEventListener('click',function(e){var m=document.getElementById('sgMenu');
+    if(m&&!e.target.closest('.sg-topnav'))m.classList.remove('open');});
+</script>

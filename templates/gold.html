@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>금시세 · 환율 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; }
+    header { background: var(--c-bg2); border-bottom: 1px solid var(--c-border); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+    .updated { font-size: 0.78rem; color: var(--c-muted); margin-bottom: 1rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.9rem; margin-bottom: 1.5rem; }
+    .card { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 10px; padding: 1rem 1.1rem; }
+    .card .label { font-size: 0.82rem; color: var(--c-muted); margin-bottom: 0.4rem; }
+    .card .price { font-size: 1.5rem; font-weight: 700; }
+    .card .sub { font-size: 0.82rem; color: var(--c-muted); margin-top: 0.2rem; }
+    .card .chg { font-size: 0.9rem; margin-top: 0.35rem; font-weight: 600; }
+    .up { color: var(--c-bad); }     /* 상승=빨강 */
+    .down { color: var(--c-accent); }   /* 하락=파랑 */
+    .flat { color: var(--c-muted); }
+    .premium { border-left: 4px solid var(--c-warn); }
+    .toggles { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; align-items: center; }
+    .toggles .group { display: flex; gap: 0.4rem; }
+    .toggles .spacer { flex: 1; }
+    .btn { padding: 6px 14px; border-radius: 18px; border: 1px solid var(--c-border); background: var(--c-bg2); color: var(--c-muted); font-size: 0.85rem; cursor: pointer; font-family: inherit; }
+    .btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .btn.active { background: var(--c-accent2); border-color: var(--c-accent2); color: #fff; }
+    .chart-box { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 10px; padding: 1rem; }
+    #chart { width: 100%; height: 420px; }
+    .note { font-size: 0.78rem; color: var(--c-muted); margin-top: 1rem; line-height: 1.5; }
+    .loading { color: var(--c-muted); padding: 2rem; text-align: center; }
+  </style>
+</head>
+<body>
+{% include "_topnav.html" %}
+{% include "_contentnav.html" %}
+
+  <header class="sg-pagehead">
+    <h1>💰 금시세·환율</h1>
+  </header>
+  <div class="wrap">
+    <div class="updated" id="updated"></div>
+    <div class="cards" id="cards"><div class="loading">불러오는 중…</div></div>
+
+    <div class="toggles">
+      <div class="group" id="metricBtns">
+        <button class="btn active" data-metric="cmp">한국 vs 해외 (원/g)</button>
+        <button class="btn" data-metric="intl">국제 금 (USD/oz)</button>
+        <button class="btn" data-metric="fx">환율 (USD/KRW)</button>
+      </div>
+      <div class="spacer"></div>
+      <div class="group" id="rangeBtns">
+        <button class="btn" data-range="1d">1일</button>
+        <button class="btn" data-range="1w">1주</button>
+        <button class="btn active" data-range="1mo">1달</button>
+        <button class="btn" data-range="1y">1년</button>
+      </div>
+    </div>
+    <div class="chart-box"><canvas id="chart"></canvas></div>
+
+    <p class="note">
+      국제 금·환율: Yahoo Finance · 국내 금: 네이버(원/g) · 5분 캐시.
+      "한국 vs 해외"는 국제 금을 환율로 환산(USD/oz × 환율 ÷ 31.1035 = 원/g)해 국내 금과 비교합니다.
+      <strong>프리미엄(+)</strong>은 국내가 국제 환산가보다 비싸다는 뜻, <strong>(−)</strong>는 싸다는 뜻입니다.
+      투자 참고용이며 매매의 근거로 삼지 마세요.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    let state = { range: '1mo', metric: 'cmp', data: null };
+    let chart = null;
+
+    const won = n => n == null ? '—' : Math.round(n).toLocaleString('ko-KR');
+    const fix = (n, d=2) => n == null ? '—' : Number(n).toLocaleString('ko-KR', {minimumFractionDigits: d, maximumFractionDigits: d});
+    const cls = v => v == null ? 'flat' : (v > 0 ? 'up' : (v < 0 ? 'down' : 'flat'));
+    const sgn = v => v == null ? '' : (v > 0 ? '▲ ' : (v < 0 ? '▼ ' : ''));
+
+    function renderCards(c) {
+      const intl = c.intl_usd_oz || {}, fx = c.fx_usdkrw || {}, dom = c.domestic || {};
+      document.getElementById('cards').innerHTML = `
+        <div class="card"><div class="label">국제 금</div>
+          <div class="price">$${fix(intl.price)}<span class="sub"> /oz</span></div>
+          <div class="chg ${cls(intl.change)}">${sgn(intl.change)}${fix(Math.abs(intl.change||0))} (${fix(intl.ratio,2)}%)</div>
+          <div class="sub">환산 ${won(c.intl_conv_krw_g)} 원/g</div></div>
+        <div class="card"><div class="label">국내 금</div>
+          <div class="price">${won(dom.krw_g)}<span class="sub"> 원/g</span></div>
+          <div class="chg ${cls(dom.change)}">${sgn(dom.change)}${won(Math.abs(dom.change||0))} (${fix(dom.ratio,2)}%)</div>
+          <div class="sub">1돈(3.75g) ${won(dom.krw_don)} 원</div></div>
+        <div class="card"><div class="label">환율 USD/KRW</div>
+          <div class="price">${fix(fx.price)}</div>
+          <div class="chg ${cls(fx.change)}">${sgn(fx.change)}${fix(Math.abs(fx.change||0))} (${fix(fx.ratio,2)}%)</div></div>
+        <div class="card premium"><div class="label">한국 프리미엄</div>
+          <div class="price ${cls(c.premium_pct)}">${c.premium_pct==null?'—':(c.premium_pct>0?'+':'')+fix(c.premium_pct,2)+'%'}</div>
+          <div class="sub">국내가 − 국제환산가 기준</div></div>`;
+    }
+
+    function drawChart() {
+      const d = state.data; if (!d) return;
+      const ch = d.chart;
+      let datasets, yTitle;
+      if (state.metric === 'intl') {
+        datasets = [{ label: '국제 금 (USD/oz)', data: ch.intl_usd_oz.map(p=>({x:p[0],y:p[1]})), borderColor:'#d29922', backgroundColor:'rgba(210,153,34,0.1)', borderWidth:2, pointRadius:0, tension:0.15, fill:true }];
+        yTitle = 'USD/oz';
+      } else if (state.metric === 'fx') {
+        datasets = [{ label: 'USD/KRW', data: ch.fx_usdkrw.map(p=>({x:p[0],y:p[1]})), borderColor:'#3fb950', backgroundColor:'rgba(63,185,80,0.1)', borderWidth:2, pointRadius:0, tension:0.15, fill:true }];
+        yTitle = '원';
+      } else {
+        datasets = [
+          { label: '국내 금 (원/g)', data: ch.domestic_krw_g.map(p=>({x:p[0],y:p[1]})), borderColor:'#f85149', borderWidth:2, pointRadius:0, tension:0.15 },
+          { label: '국제 환산 (원/g)', data: ch.intl_krw_g.map(p=>({x:p[0],y:p[1]})), borderColor:'#58a6ff', borderWidth:2, pointRadius:0, tension:0.15 },
+        ];
+        yTitle = '원/g';
+      }
+      const intraday = state.range === '1d';
+      const cfg = {
+        type: 'line',
+        data: { datasets },
+        options: {
+          responsive: true, maintainAspectRatio: false, interaction:{mode:'index',intersect:false},
+          plugins: { legend: { labels: { color:'#e6edf3' } }, tooltip: { callbacks: {
+            title: items => { const t=new Date(items[0].parsed.x); return intraday ? t.toLocaleString('ko-KR') : t.toLocaleDateString('ko-KR'); } } } },
+          scales: {
+            x: { type:'linear', ticks: { color:'#8b949e', maxTicksLimit: 8, callback: v => {
+                   const t=new Date(v); return intraday ? `${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}` : `${t.getMonth()+1}/${t.getDate()}`; } },
+                 grid: { color:'#21262d' } },
+            y: { ticks: { color:'#8b949e' }, grid: { color:'#21262d' }, title: { display:true, text:yTitle, color:'#8b949e' } },
+          },
+        },
+      };
+      if (chart) chart.destroy();
+      chart = new Chart(document.getElementById('chart'), cfg);
+    }
+
+    async function load() {
+      try {
+        const r = await fetch(`/api/gold.json?range=${state.range}`);
+        const d = await r.json();
+        if (d.error) { document.getElementById('cards').innerHTML = `<div class="loading">데이터 오류: ${d.error}</div>`; return; }
+        state.data = d;
+        document.getElementById('updated').textContent = `업데이트: ${d.updated}`;
+        renderCards(d.current);
+        drawChart();
+      } catch (e) {
+        document.getElementById('cards').innerHTML = `<div class="loading">불러오기 실패</div>`;
+      }
+    }
+
+    document.getElementById('rangeBtns').addEventListener('click', e => {
+      if (!e.target.dataset.range) return;
+      document.querySelectorAll('#rangeBtns .btn').forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active'); state.range = e.target.dataset.range; load();
+    });
+    document.getElementById('metricBtns').addEventListener('click', e => {
+      if (!e.target.dataset.metric) return;
+      document.querySelectorAll('#metricBtns .btn').forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active'); state.metric = e.target.dataset.metric; drawChart();
+    });
+    load();
+  </script>
+</body>
+</html>

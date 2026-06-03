@@ -3739,5 +3739,1466 @@
         "ko_title": "제100회 — 徑回東土　五聖成真"
       }
     ]
+  },
+  {
+    "slug": "time_machine",
+    "title": "타임머신",
+    "subtitle": "The Time Machine",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.G. 웰스 (H.G. Wells)",
+    "author_years": "1866–1946",
+    "original_title": "The Time Machine",
+    "original_year": "1895",
+    "source": "Project Gutenberg #35",
+    "source_url": "https://www.gutenberg.org/ebooks/35",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "time_machine_20260527_2342.pdf",
+    "published_at": "2026-05-27",
+    "tags": [
+      "SF",
+      "고전"
+    ],
+    "cover_emoji": "⏳",
+    "summary": "80만 년 후 미래로 간 시간 여행자가 본 엘로이와 몰록, 인류의 황혼. 시간 여행 SF의 출발점.",
+    "description_paragraphs": [
+      "H.G. 웰스 (H.G. Wells)가 1895년 발표한 「타임머신(The Time Machine)」.",
+      "80만 년 후 미래로 간 시간 여행자가 본 엘로이와 몰록, 인류의 황혼. 시간 여행 SF의 출발점.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "moreau",
+    "title": "모로 박사의 섬",
+    "subtitle": "The Island of Doctor Moreau",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.G. 웰스 (H.G. Wells)",
+    "author_years": "1866–1946",
+    "original_title": "The Island of Doctor Moreau",
+    "original_year": "1896",
+    "source": "Project Gutenberg #159",
+    "source_url": "https://www.gutenberg.org/ebooks/159",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "moreau_20260528_0118.pdf",
+    "published_at": "2026-05-28",
+    "tags": [
+      "SF",
+      "공포"
+    ],
+    "cover_emoji": "🐆",
+    "summary": "난파한 프렌딕이 도착한 섬에서 모로 박사가 짐승을 사람으로 개조하고 있었다. 과학 윤리 공포의 고전.",
+    "description_paragraphs": [
+      "H.G. 웰스 (H.G. Wells)가 1896년 발표한 「모로 박사의 섬(The Island of Doctor Moreau)」.",
+      "난파한 프렌딕이 도착한 섬에서 모로 박사가 짐승을 사람으로 개조하고 있었다. 과학 윤리 공포의 고전.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "frankenstein",
+    "title": "프랑켄슈타인",
+    "subtitle": "Frankenstein; or, The Modern Prometheus",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "메리 셸리 (Mary Shelley)",
+    "author_years": "1797–1851",
+    "original_title": "Frankenstein; or, The Modern Prometheus",
+    "original_year": "1818",
+    "source": "Project Gutenberg #84",
+    "source_url": "https://www.gutenberg.org/ebooks/84",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "frankenstein_20260528_0330.pdf",
+    "published_at": "2026-05-28",
+    "tags": [
+      "고딕소설",
+      "SF",
+      "공포"
+    ],
+    "cover_emoji": "⚡",
+    "summary": "생명을 창조한 빅터 프랑켄슈타인과 버림받은 피조물의 비극. SF·고딕의 원형.",
+    "description_paragraphs": [
+      "메리 셸리 (Mary Shelley)가 1818년 발표한 「프랑켄슈타인(Frankenstein; or, The Modern Prometheus)」.",
+      "생명을 창조한 빅터 프랑켄슈타인과 버림받은 피조물의 비극. SF·고딕의 원형.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "war_of_the_worlds",
+    "title": "우주 전쟁",
+    "subtitle": "The War of the Worlds",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.G. 웰스 (H.G. Wells)",
+    "author_years": "1866–1946",
+    "original_title": "The War of the Worlds",
+    "original_year": "1898",
+    "source": "Project Gutenberg #36",
+    "source_url": "https://www.gutenberg.org/ebooks/36",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "war_of_the_worlds_20260528_0629.pdf",
+    "published_at": "2026-05-28",
+    "tags": [
+      "SF",
+      "고전"
+    ],
+    "cover_emoji": "👽",
+    "summary": "화성인의 지구 침공과 인류 문명의 붕괴를 목격자가 기록한다. 외계 침공 SF의 원형.",
+    "description_paragraphs": [
+      "H.G. 웰스 (H.G. Wells)가 1898년 발표한 「우주 전쟁(The War of the Worlds)」.",
+      "화성인의 지구 침공과 인류 문명의 붕괴를 목격자가 기록한다. 외계 침공 SF의 원형.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "invisible_man",
+    "title": "투명인간",
+    "subtitle": "The Invisible Man",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "H.G. 웰스 (H.G. Wells)",
+    "author_years": "1866–1946",
+    "original_title": "The Invisible Man",
+    "original_year": "1897",
+    "source": "Project Gutenberg #5230",
+    "source_url": "https://www.gutenberg.org/ebooks/5230",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "invisible_man_20260528_0857.pdf",
+    "published_at": "2026-05-28",
+    "tags": [
+      "SF",
+      "스릴러"
+    ],
+    "cover_emoji": "🫥",
+    "summary": "투명해지는 데 성공했으나 되돌릴 수 없게 된 과학자 그리핀의 광기와 파멸.",
+    "description_paragraphs": [
+      "H.G. 웰스 (H.G. Wells)가 1897년 발표한 「투명인간(The Invisible Man)」.",
+      "투명해지는 데 성공했으나 되돌릴 수 없게 된 과학자 그리핀의 광기와 파멸.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "dracula",
+    "title": "드라큘라",
+    "subtitle": "Dracula",
+    "series_slug": "sf_classics",
+    "series_title": "SF·고딕 명작 선집",
+    "series_subtitle": "근대 SF·고딕 고전 · 퍼블릭 도메인",
+    "series_summary": "프랑켄슈타인·드라큘라부터 H.G. 웰스의 과학소설까지, 근대 SF·고딕 호러의 원형이 된 명작들을 한국어로 옮긴 선집. GB10 로컬 vLLM Gemma 4로 번역하고 Claude Opus로 검수했다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "브램 스토커 (Bram Stoker)",
+    "author_years": "1847–1912",
+    "original_title": "Dracula",
+    "original_year": "1897",
+    "source": "Project Gutenberg #345",
+    "source_url": "https://www.gutenberg.org/ebooks/345",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "dracula_20260528_1949.pdf",
+    "published_at": "2026-05-28",
+    "tags": [
+      "고딕소설",
+      "공포",
+      "흡혈귀"
+    ],
+    "cover_emoji": "🧛",
+    "summary": "트란실바니아의 흡혈귀 드라큘라 백작과 그를 쫓는 이들의 사투. 흡혈귀 호러의 결정판.",
+    "description_paragraphs": [
+      "브램 스토커 (Bram Stoker)가 1897년 발표한 「드라큘라(Dracula)」.",
+      "트란실바니아의 흡혈귀 드라큘라 백작과 그를 쫓는 이들의 사투. 흡혈귀 호러의 결정판.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역하고 <strong>Claude Opus</strong>로 검수했다. 가독성을 우선해 옮기되 원작의 분위기를 살렸고, 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "suhoji_vol01",
+    "title": "수호전 제1권",
+    "subtitle": "120회본(충의수호전) 제0회 ~ 제12회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol01.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제0회부터 제12회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제0회부터 제12회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "引首(서두)"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제1회 — 張天師祈禳瘟疫 洪太尉誤走妖魔"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제2회 — 王教頭私走延安府 九紋龍大鬧史家村"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제3회 — 史大郎夜走華陰縣 魯提轄拳打鎮關西"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제4회 — 趙員外重修文殊院 魯智深大鬧五臺山"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제5회 — 小霸王醉入銷金帳 花和尚大鬧桃花村"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제6회 — 九紋龍剪徑赤松林 魯智深火燒瓦罐寺"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제7회 — 花和尚倒拔垂楊柳 豹子頭誤入白虎堂"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제8회 — 林教頭刺配滄州道 魯智深大鬧野豬林"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제9회 — 柴進門招天下客 林沖棒打洪教頭"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제10회 — 林教頭風雪山神廟 陸虞候火燒草料場"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제11회 — 朱貴水亭施號箭 林沖雪夜上梁山"
+      },
+      {
+        "part": 1,
+        "part_title": "제1권",
+        "ko_title": "제12회 — 梁山泊林沖落草 汴京城楊志賣刀"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol02",
+    "title": "수호전 제2권",
+    "subtitle": "120회본(충의수호전) 제13회 ~ 제24회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol02.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제13회부터 제24회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제13회부터 제24회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제13회 — 急先鋒東郭爭功 青面獸北京鬥武"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제14회 — 赤髮鬼醉臥靈官殿 晁天王認義東溪村"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제15회 — 吳學究說三阮撞籌 公孫勝應七星聚義"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제16회 — 楊志押送金銀擔 吳用智取生辰綱"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제17회 — 花和尚單打二龍山 青面獸雙奪寶珠寺"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제18회 — 美髯公智穩插翅虎 宋公明私放晁天王"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제19회 — 林沖水寨大併火 晁蓋梁山小奪泊"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제20회 — 梁山泊義士尊晁蓋 鄆城縣月夜走劉唐"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제21회 — 虔婆醉打唐牛兒 宋江怒殺閻婆惜"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제22회 — 閻婆大鬧鄆城縣 朱仝義釋宋公明"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제23회 — 橫海郡柴進留賓 景陽岡武松打虎"
+      },
+      {
+        "part": 2,
+        "part_title": "제2권",
+        "ko_title": "제24회 — 王婆貪賄說風情 鄆哥不忿鬧茶肆"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol03",
+    "title": "수호전 제3권",
+    "subtitle": "120회본(충의수호전) 제25회 ~ 제36회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol03.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제25회부터 제36회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제25회부터 제36회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제25회 — 王婆計啜西門慶 淫婦藥鴆武大郎"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제26회 — 偷骨殖何九叔送喪 供人頭武二郎設祭"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제27회 — 母夜叉孟州道賣人肉 武都頭十字坡遇張青"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제28회 — 武松威鎮安平寨 施恩義奪快活林"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제29회 — 施恩重霸孟州道 武松醉打蔣門神"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제30회 — 施恩三入死囚牢 武松大鬧飛雲浦"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제31회 — 張都監血濺鴛鴦樓 武行者夜走蜈蚣嶺"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제32회 — 武行者醉打孔亮 錦毛虎義釋宋江"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제33회 — 宋江夜看小鰲山 花榮大鬧清風寨"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제34회 — 鎮三山大鬧青州道 霹靂火夜走瓦礫場"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제35회 — 石將軍村店寄書 小李廣梁山射雁"
+      },
+      {
+        "part": 3,
+        "part_title": "제3권",
+        "ko_title": "제36회 — 梁山泊吳用舉戴宗 揭陽嶺宋江逢李俊"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol04",
+    "title": "수호전 제4권",
+    "subtitle": "120회본(충의수호전) 제37회 ~ 제48회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol04.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제37회부터 제48회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제37회부터 제48회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제37회 — 沒遮攔追趕及時雨 船火兒大鬧潯陽江"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제38회 — 及時雨會神行太保 黑旋風鬥浪裏白條"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제39회 — 潯陽樓宋江吟反詩 梁山泊戴宗傳假信"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제40회 — 梁山泊好漢劫法場 白龍廟英雄小聚義"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제41회 — 宋江智取無為軍 張順活捉黃文炳"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제42회 — 還道村受三卷天書 宋公明遇九天玄女"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제43회 — 假李逵剪徑劫單人 黑旋風沂嶺殺四虎"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제44회 — 錦豹子小徑逢戴宗 病關索長街遇石秀"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제45회 — 楊雄醉罵潘巧雲 石秀智殺裴如海"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제46회 — 病關索大鬧翠屏山 拚命三火燒祝家店"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제47회 — 撲天鵰兩修生死書 宋公明一打祝家莊"
+      },
+      {
+        "part": 4,
+        "part_title": "제4권",
+        "ko_title": "제48회 — 一丈青單捉王矮虎 宋公明兩打祝家莊"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol05",
+    "title": "수호전 제5권",
+    "subtitle": "120회본(충의수호전) 제49회 ~ 제60회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol05.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제49회부터 제60회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제49회부터 제60회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제49회 — 解珍解寶雙越獄 孫立孫新大劫牢"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제50회 — 吳學究雙掌連環計 宋公明三打祝家莊"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제51회 — 插翅虎枷打白秀英 美髯公誤失小衙內"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제52회 — 李逵打死殷天錫 柴進失陷高唐州"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제53회 — 戴宗智取公孫勝 李逵斧劈羅真人"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제54회 — 入雲龍鬥法破高廉 黑旋風探穴救柴進"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제55회 — 高太尉大興三路兵 呼延灼擺布連環馬"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제56회 — 吳用使時遷盜甲 湯隆賺徐寧上山"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제57회 — 徐寧教使鉤鐮鎗 宋江大破連環馬"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제58회 — 三山聚義打青州 眾虎同心歸水泊"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제59회 — 吳用賺金鈴弔掛 宋江鬧西嶽華山"
+      },
+      {
+        "part": 5,
+        "part_title": "제5권",
+        "ko_title": "제60회 — 公孫勝芒碭山降魔 晁天王曾頭市中箭"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol06",
+    "title": "수호전 제6권",
+    "subtitle": "120회본(충의수호전) 제61회 ~ 제72회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol06.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제61회부터 제72회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제61회부터 제72회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제61회 — 吳用智賺玉麒麟 張順夜鬧金沙渡"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제62회 — 放冷箭燕青救主 劫法場石秀跳樓"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제63회 — 宋江兵打北京城 關勝議取梁山泊"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제64회 — 呼延灼月夜賺關勝 宋公明雪天擒索超"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제65회 — 托塔天王夢中顯聖 浪裏白條水上報冤"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제66회 — 時遷火燒翠雲樓 吳用智取大名府"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제67회 — 宋江賞馬步三軍 關勝降水火二將"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제68회 — 宋公明夜打曾頭市 盧俊義活捉史文恭"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제69회 — 東平府誤陷九紋龍 宋公明義釋雙鎗將"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제70회 — 沒羽箭飛石打英雄 宋公明棄糧擒壯士"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제71회 — 忠義堂石碣受天文 梁山泊英雄排座次"
+      },
+      {
+        "part": 6,
+        "part_title": "제6권",
+        "ko_title": "제72회 — 柴進簪花入禁院 李逵元夜鬧東京"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol07",
+    "title": "수호전 제7권",
+    "subtitle": "120회본(충의수호전) 제73회 ~ 제84회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol07.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제73회부터 제84회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제73회부터 제84회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제73회 — 黑旋風喬捉鬼 梁山泊雙獻頭"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제74회 — 燕青智撲擎天柱 李逵壽張喬坐衙"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제75회 — 活閻羅倒船偷御酒 黑旋風扯詔罵欽差"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제76회 — 吳加亮布四斗五方旗 宋公明排九宮八卦陣"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제77회 — 梁山泊十面埋伏 宋公明兩贏童貫"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제78회 — 十節度議取梁山泊 宋公明一敗高太尉"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제79회 — 劉唐放火燒戰船 宋江兩敗高太尉"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제80회 — 張順鑿漏海鰍船 宋江三敗高太尉"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제81회 — 燕青月夜遇道君 戴宗定計出樂和"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제82회 — 梁山泊分金大買市 宋公明全夥受招安"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제83회 — 宋公明奉詔破大遼 陳橋驛滴淚斬小卒"
+      },
+      {
+        "part": 7,
+        "part_title": "제7권",
+        "ko_title": "제84회 — 宋公明兵打薊州城 盧俊義大戰玉田縣"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol08",
+    "title": "수호전 제8권",
+    "subtitle": "120회본(충의수호전) 제85회 ~ 제96회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol08.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제85회부터 제96회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제85회부터 제96회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제85회 — 宋公明夜度益津關 吳學究智取文安縣"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제86회 — 宋公明大戰獨鹿山 盧俊義兵陷青石峪"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제87회 — 宋公明大戰幽州 呼延灼力擒番將"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제88회 — 顏統軍陣列混天象 宋公明夢授玄女法"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제89회 — 宋公明破陣成功 宿太尉頒恩降詔"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제90회 — 五臺山宋江參禪 雙林鎮燕青遇故"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제91회 — 宋公明兵渡黃河 盧俊義賺城黑夜"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제92회 — 振軍威小李廣神箭 打蓋郡智多星密籌"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제93회 — 李逵夢鬧天池 宋江兵分兩路"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제94회 — 關勝義降三將 李逵莽陷眾人"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제95회 — 宋公明忠感后土 喬道清術敗宋兵"
+      },
+      {
+        "part": 8,
+        "part_title": "제8권",
+        "ko_title": "제96회 — 幻魔君術窘五龍山 入雲龍頭圍百谷嶺"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol09",
+    "title": "수호전 제9권",
+    "subtitle": "120회본(충의수호전) 제97회 ~ 제108회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol09.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제97회부터 제108회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제97회부터 제108회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제97회 — 陳瓘諫官陞安撫 瓊英處女做先鋒"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제98회 — 張清緣配瓊英 吳用計鴆鄔梨"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제99회 — 花和尚解脫緣纏井 混江龍水灌太原城"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제100회 — 張清瓊英雙建功 陳瓘宋江同奏捷"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제101회 — 謀墳地陰險產逆 蹈春陽妖艷生奸"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제102회 — 王慶因姦喫官司 龔端被打師軍犯"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제103회 — 張管營因妾弟喪身 范節級為表兄醫臉"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제104회 — 段家莊重招新女婿 房山寨雙併舊強人"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제105회 — 宋公明避暑療軍兵 喬道清回風燒賊寇"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제106회 — 書生談笑卻強敵 水軍汨沒破堅城"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제107회 — 宋江大勝紀山軍 朱武打破六花陣"
+      },
+      {
+        "part": 9,
+        "part_title": "제9권",
+        "ko_title": "제108회 — 喬道清興霧取城 小旋風藏炮擊賊"
+      }
+    ]
+  },
+  {
+    "slug": "suhoji_vol10",
+    "title": "수호전 제10권",
+    "subtitle": "120회본(충의수호전) 제109회 ~ 제120회",
+    "series_slug": "suhoji",
+    "series_title": "수호전",
+    "series_subtitle": "水滸傳 · 120회본(충의수호전) · 전 10권",
+    "series_summary": "시내암 『수호전』 120회본(충의수호전) 引首 + 120회 전체를 GB10 로컬 vLLM Gemma 4로 번역한 선집. 12회씩 10권으로 묶었다.",
+    "author": "시내암 (施耐庵)",
+    "author_years": "약 1296–1372",
+    "original_title": "水滸傳 (120回本)",
+    "original_year": "명대 (袁無涯 간행본 계열)",
+    "source": "Wikisource 中文",
+    "source_url": "https://zh.wikisource.org/wiki/水滸傳_(120回本)",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "suhoji_vol10.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "고전소설",
+      "중국 고전",
+      "수호전"
+    ],
+    "cover_emoji": "⚔️",
+    "summary": "시내암 『수호전』 120회본의 제109회부터 제120회까지를 vLLM Gemma 4로 2-pass 번역하여 묶은 권.",
+    "description_paragraphs": [
+      "시내암(施耐庵, 약 1296–1372)의 『수호전(水滸傳)』 120회본(충의수호전) 중 제109회부터 제120회를 모은 본 권은, 명대 袁無涯 간행본 계열을 저본으로 한다.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>가 회별로 인물·사건 사실 시트를 먼저 추출하고(Pass 1), 그 사실을 참고하여 본문을 번역(Pass 2)하는 2-pass 방식을 적용했다. 누적되는 등장 사전으로 인명·지명 표기를 강제 일관화했다.",
+      "현대 한국어 풀어쓰기를 원칙으로 하며, 인명·지명은 한국 한자음을 따른다(宋江 → 송강, 林沖 → 임충). 별호(綽號)·관직·자로 등장하더라도 본명으로 통일하여(及時雨 → 송강, 黑旋風 → 이규, 花和尚 → 노지심) 같은 인물이 한 단락 안에서 다른 이름으로 등장해 독자를 혼란스럽게 하는 일이 없도록 했다. 시·사(詞)는 본문 중간에 자주 삽입되며 행을 보존해 옮긴다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 학술 번역본의 대체가 아닌 \"읽을거리 한 권 더\"의 위치로 봐주시면 좋겠다."
+    ],
+    "chapters": [
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제109회 — 王慶渡江被捉 宋江剿寇成功"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제110회 — 燕青秋林渡射雁 宋江東京城獻俘"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제111회 — 張順夜伏金山寺 宋江智取潤州城"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제112회 — 盧俊義分兵宣州道 宋公明大戰毘陵郡"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제113회 — 混江龍太湖小結義 宋公明蘇州大會垓"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제114회 — 寧海軍宋江弔孝 涌金門張順歸神"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제115회 — 張順魂捉方天定 宋江智取寧海軍"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제116회 — 盧俊義分兵歙州道 宋公明大戰烏龍嶺"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제117회 — 睦州城箭射鄧元覺 烏龍嶺神助宋公明"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제118회 — 盧俊義大戰昱嶺關 宋公明智取清溪洞"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제119회 — 魯智深浙江坐化 宋公明衣錦還鄉"
+      },
+      {
+        "part": 10,
+        "part_title": "제10권",
+        "ko_title": "제120회 — 宋公明神聚蓼兒洼 徽宗帝夢游梁山泊"
+      }
+    ]
+  },
+  {
+    "slug": "study_in_scarlet",
+    "title": "주홍색 연구",
+    "subtitle": "A Study in Scarlet",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "A Study in Scarlet",
+    "original_year": "1887",
+    "source": "Project Gutenberg #244",
+    "source_url": "https://www.gutenberg.org/ebooks/244",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "study_in_scarlet_20260603_0101.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "🔍",
+    "summary": "왓슨과 홈즈의 첫 만남, 그리고 베이커가 하숙. 런던의 기묘한 살인과 모르몬 복수극을 추적하는 정전 첫 장편.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1887년 발표한 셜록 홈즈 「주홍색 연구(A Study in Scarlet)」.",
+      "왓슨과 홈즈의 첫 만남, 그리고 베이커가 하숙. 런던의 기묘한 살인과 모르몬 복수극을 추적하는 정전 첫 장편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "sign_of_four",
+    "title": "네 사람의 서명",
+    "subtitle": "The Sign of the Four",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Sign of the Four",
+    "original_year": "1890",
+    "source": "Project Gutenberg #2097",
+    "source_url": "https://www.gutenberg.org/ebooks/2097",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "sign_of_four_20260603_0144.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "💎",
+    "summary": "사라진 아그라 보물과 네 사람의 밀약, 메리 모스턴 사건. 홈즈의 추리와 템스강 추격전.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1890년 발표한 셜록 홈즈 「네 사람의 서명(The Sign of the Four)」.",
+      "사라진 아그라 보물과 네 사람의 밀약, 메리 모스턴 사건. 홈즈의 추리와 템스강 추격전.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "adventures",
+    "title": "셜록 홈즈의 모험",
+    "subtitle": "The Adventures of Sherlock Holmes",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Adventures of Sherlock Holmes",
+    "original_year": "1892",
+    "source": "Project Gutenberg #1661",
+    "source_url": "https://www.gutenberg.org/ebooks/1661",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "adventures_20260603_0337.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "🎩",
+    "summary": "「보헤미아 왕국 스캔들」「빨강머리 연맹」「얼룩 끈」 등 단편 12편. 홈즈 단편의 황금기.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1892년 발표한 셜록 홈즈 「셜록 홈즈의 모험(The Adventures of Sherlock Holmes)」.",
+      "「보헤미아 왕국 스캔들」「빨강머리 연맹」「얼룩 끈」 등 단편 12편. 홈즈 단편의 황금기.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "memoirs",
+    "title": "셜록 홈즈의 회상록",
+    "subtitle": "The Memoirs of Sherlock Holmes",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Memoirs of Sherlock Holmes",
+    "original_year": "1894",
+    "source": "Project Gutenberg #834",
+    "source_url": "https://www.gutenberg.org/ebooks/834",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "memoirs_20260603_0526.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "📓",
+    "summary": "「실버 블레이즈」「그리스어 통역관」, 그리고 모리아티와의 라이헨바흐 폭포 대결 「마지막 사건」까지.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1894년 발표한 셜록 홈즈 「셜록 홈즈의 회상록(The Memoirs of Sherlock Holmes)」.",
+      "「실버 블레이즈」「그리스어 통역관」, 그리고 모리아티와의 라이헨바흐 폭포 대결 「마지막 사건」까지.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "hound_baskervilles",
+    "title": "바스커빌 가의 개",
+    "subtitle": "The Hound of the Baskervilles",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Hound of the Baskervilles",
+    "original_year": "1902",
+    "source": "Project Gutenberg #2852",
+    "source_url": "https://www.gutenberg.org/ebooks/2852",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "hound_baskervilles_20260603_0627.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "🐕‍🦺",
+    "summary": "다트무어 황야에 드리운 바스커빌 가문의 저주와 거대한 사냥개 전설. 홈즈 정전 최고 인기 장편.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1902년 발표한 셜록 홈즈 「바스커빌 가의 개(The Hound of the Baskervilles)」.",
+      "다트무어 황야에 드리운 바스커빌 가문의 저주와 거대한 사냥개 전설. 홈즈 정전 최고 인기 장편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "return",
+    "title": "셜록 홈즈의 귀환",
+    "subtitle": "The Return of Sherlock Holmes",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Return of Sherlock Holmes",
+    "original_year": "1905",
+    "source": "Project Gutenberg #108",
+    "source_url": "https://www.gutenberg.org/ebooks/108",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "return_20260603_0826.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "🔙",
+    "summary": "죽은 줄 알았던 홈즈의 귀환. 「빈집의 모험」「춤추는 인형」「여섯 점의 나폴레옹상」 등 단편 13편.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1905년 발표한 셜록 홈즈 「셜록 홈즈의 귀환(The Return of Sherlock Holmes)」.",
+      "죽은 줄 알았던 홈즈의 귀환. 「빈집의 모험」「춤추는 인형」「여섯 점의 나폴레옹상」 등 단편 13편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "valley_of_fear",
+    "title": "공포의 계곡",
+    "subtitle": "The Valley of Fear",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Valley of Fear",
+    "original_year": "1915",
+    "source": "Project Gutenberg #3289",
+    "source_url": "https://www.gutenberg.org/ebooks/3289",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "valley_of_fear_20260603_0931.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "⛏️",
+    "summary": "벌스턴 저택 살인과 암호, 그리고 미국 탄광촌 '스카우러스' 비밀결사의 과거. 모리아티가 얽힌 마지막 장편.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1915년 발표한 셜록 홈즈 「공포의 계곡(The Valley of Fear)」.",
+      "벌스턴 저택 살인과 암호, 그리고 미국 탄광촌 '스카우러스' 비밀결사의 과거. 모리아티가 얽힌 마지막 장편.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "his_last_bow",
+    "title": "셜록 홈즈의 마지막 인사",
+    "subtitle": "His Last Bow",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "His Last Bow",
+    "original_year": "1917",
+    "source": "Project Gutenberg #2350",
+    "source_url": "https://www.gutenberg.org/ebooks/2350",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "his_last_bow_20260603_1045.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "🕵️",
+    "summary": "「붉은 원」「브루스파팅턴호 설계도」, 그리고 1차 대전 전야 독일 첩자를 잡는 표제작 「마지막 인사」 등 단편집.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1917년 발표한 셜록 홈즈 「셜록 홈즈의 마지막 인사(His Last Bow)」.",
+      "「붉은 원」「브루스파팅턴호 설계도」, 그리고 1차 대전 전야 독일 첩자를 잡는 표제작 「마지막 인사」 등 단편집.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
+  },
+  {
+    "slug": "casebook",
+    "title": "셜록 홈즈의 사건집",
+    "subtitle": "The Case-Book of Sherlock Holmes",
+    "series_slug": "sherlock",
+    "series_title": "셜록 홈즈 정전",
+    "series_subtitle": "Arthur Conan Doyle · 1859–1930 · 셜록 홈즈 전집",
+    "series_summary": "아서 코난 도일의 셜록 홈즈 정전(장편 4 + 단편집 5)을 한국어로 옮긴 전집. 베이커가 221B의 명탐정 홈즈와 왓슨의 모든 사건을 GB10 로컬 vLLM Gemma 4로 번역해 한곳에 모았다. 작품은 앞으로 계속 추가됩니다. 원전은 Project Gutenberg 퍼블릭 도메인.",
+    "author": "아서 코난 도일 (Arthur Conan Doyle)",
+    "author_years": "1859–1930",
+    "original_title": "The Case-Book of Sherlock Holmes",
+    "original_year": "1927",
+    "source": "Project Gutenberg #69700",
+    "source_url": "https://www.gutenberg.org/ebooks/69700",
+    "license": "Public Domain (원전)",
+    "editor": "vLLM Gemma 4 26B-A4B",
+    "translator": "vLLM Gemma 4 26B-A4B",
+    "pdf_file": "casebook_20260603_1210.pdf",
+    "published_at": "2026-06-03",
+    "tags": [
+      "추리소설",
+      "셜록 홈즈",
+      "고전"
+    ],
+    "cover_emoji": "📁",
+    "summary": "홈즈 정전을 닫는 마지막 단편집 12편. 「세 박공집」「서식스의 흡혈귀」「기어다니는 남자」 등.",
+    "description_paragraphs": [
+      "아서 코난 도일(1859–1930)이 1927년 발표한 셜록 홈즈 「셜록 홈즈의 사건집(The Case-Book of Sherlock Holmes)」.",
+      "홈즈 정전을 닫는 마지막 단편집 12편. 「세 박공집」「서식스의 흡혈귀」「기어다니는 남자」 등.",
+      "GB10 로컬의 <strong>vLLM Gemma 4 26B-A4B</strong>로 번역했으며, 가독성을 우선해 옮기되 빅토리아 시대 추리소설의 격조와 긴장을 살렸다. 고유명사·핵심 표현은 작품 내내 일관되게 옮겼다.",
+      "AI 번역의 한계상 어조 흔들림·세부 오역 가능성이 남아 있다. 정식 번역본의 대체가 아닌 \"쉽게 읽는 한 편\"으로 봐주시면 좋겠다."
+    ],
+    "chapters": []
   }
 ]

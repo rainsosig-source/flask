@@ -9,17 +9,17 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, var(--c-bg-alt3) 0%, var(--c-bg-alt1) 50%, var(--c-bg-alt2) 100%);
             min-height: 100vh;
-            color: #e0e0e0;
+            color: var(--c-text3);
             line-height: 1.65;
         }
         .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
         h1 { font-size: 28px; margin-bottom: 8px; color: #fff; }
         h2 { font-size: 20px; margin: 0 0 14px; color: #a0c8ff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
-        h3 { font-size: 15px; margin: 16px 0 8px; color: #c5e1ff; }
+        h3 { font-size: 15px; margin: 16px 0 8px; color: var(--c-accent-soft); }
         p  { margin: 0 0 10px; }
-        .subtitle { color: #8aa4c8; margin-bottom: 24px; }
+        .subtitle { color: var(--c-muted3); margin-bottom: 24px; }
 
         nav {
             background: rgba(255,255,255,0.04);
@@ -31,7 +31,7 @@
             flex-wrap: wrap;
         }
         nav a {
-            color: #c5e1ff;
+            color: var(--c-accent-soft);
             text-decoration: none;
             padding: 6px 12px;
             border-radius: 6px;
@@ -67,7 +67,7 @@
         }
         .card .label {
             font-size: 12px;
-            color: #8aa4c8;
+            color: var(--c-muted3);
             margin-top: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -96,7 +96,7 @@
         .node .tag {
             display: block;
             font-size: 11px;
-            color: #8aa4c8;
+            color: var(--c-muted3);
             margin-top: 3px;
         }
         .node.source { background: rgba(127,217,150,0.1); border-color: rgba(127,217,150,0.3); }
@@ -106,7 +106,7 @@
         .arrow {
             display: flex;
             align-items: center;
-            color: #8aa4c8;
+            color: var(--c-muted3);
             font-size: 18px;
         }
 
@@ -122,7 +122,7 @@
             color: #ffd666;
         }
         a.link { color: #7cb9ff; }
-        .muted { color: #8aa4c8; font-size: 13px; }
+        .muted { color: var(--c-muted3); font-size: 13px; }
     </style>
     <link rel="icon" type="image/png" sizes="32x32" href="/static/logo/sosig_logo_32.png">
     <link rel="icon" type="image/png" sizes="64x64" href="/static/logo/sosig_logo_64.png">
@@ -130,20 +130,15 @@
 </head>
 
 <body>
-    <div class="container">
-                <nav>
-            <a href="/">🏠 홈</a>
-            <a href="/book">📚 선집</a>
-            <a href="/vuln">📊 CVE 뉴스</a>
-            <a href="/vuln/list">📋 목록</a>
-            <a href="/vuln/search">🔍 검색</a>
-            <a href="/vuln/infra">🏗️ 내 인프라</a>
-            <a href="/vuln/about" class="active">ℹ️ 소개</a>
-            <a href="/security">🛡️ 보안</a>
-        </nav>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+<header class="sg-pagehead">
+    <h1>🛡️ 취약점 모니터링</h1>
+    <p class="sg-sub">CVE 뉴스 피드 + 내 인프라 실측 진단, 두 관점을 교차하는 개인 SOC.</p>
+</header>
 
-        <h1>🛡️ 취약점 모니터링</h1>
-        <p class="subtitle">CVE 뉴스 피드 + 내 인프라 실측 진단, 두 관점을 교차하는 개인 SOC.</p>
+    <div class="container">
+
 
         <!-- ========== 개요 ========== -->
         <section>
@@ -220,7 +215,7 @@
                 <div class="arrow">→</div>
                 <div class="node">크롤러<span class="tag">GB10 · 2h 주기</span></div>
                 <div class="arrow">→</div>
-                <div class="node">LLM<span class="tag">Claude Haiku / Qwen3</span></div>
+                <div class="node">LLM<span class="tag">vLLM Gemma 4 · Claude 폴백</span></div>
                 <div class="arrow">→</div>
                 <div class="node store">MySQL<span class="tag">cve_entries</span></div>
                 <div class="arrow">→</div>
@@ -250,7 +245,7 @@
                     <tr><td>데이터 소스</td><td>NVD Feed, Greenbone Community Feed</td></tr>
                     <tr><td>스캐너</td><td>OpenVAS / Greenbone Community Edition (Docker)</td></tr>
                     <tr><td>수집기</td><td>Python · python-gvm · pymysql</td></tr>
-                    <tr><td>AI 분석</td><td>Claude Haiku (기본) + Ollama Qwen3/Gemma (로컬 폴백)</td></tr>
+                    <tr><td>AI 분석</td><td>로컬 vLLM Gemma 4 26B-A4B (기본) + Claude CLI (자동 폴백)</td></tr>
                     <tr><td>저장소</td><td>MySQL (Gabia) — <code>cve_entries</code>, <code>openvas_findings</code></td></tr>
                     <tr><td>웹</td><td>Flask + Gunicorn, Cloudflare Tunnel(선택), HTTPS</td></tr>
                     <tr><td>네트워크</td><td>Tailscale (GB10 ↔ sosig.shop, MySQL은 외부 미노출)</td></tr>

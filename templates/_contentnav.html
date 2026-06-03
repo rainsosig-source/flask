@@ -1,0 +1,10 @@
+{# 콘텐츠 그룹 공용 섹션 탭 — active 판정은 request.path. 바 CSS는 _topnav.html. #}
+{% set _p = request.path %}
+<div class="sg-secnav" role="navigation" aria-label="콘텐츠 섹션">
+  <a class="sg-sl {{ 'active' if _p.startswith('/podcast') }}" href="/podcast">🎙️ 팟캐스트</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/briefing') }}" href="/briefing">🕐 시간대별 모음</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/news') }}" href="/news/videos">📺 AI 뉴스 영상</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/foreign') }}" href="/foreign">🌏 외신이 본 한국</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/gold') }}" href="/gold">💰 금시세·환율</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/sentiment') }}" href="/sentiment">📊 뉴스 감성</a>
+</div>

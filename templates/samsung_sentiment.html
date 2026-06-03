@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>삼성전자 뉴스 감성 — sosig.shop</title>
+  <meta name="description" content="삼성전자 종목 뉴스의 호재·악재 감성을 국내·외신으로 나눠 특별 관리하고, 일별 감성 포인트와 주가 추이를 함께 보는 분석 대시보드. 팟캐스트 없이 수집·분석 전용.">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root { --pos:#16a34a; --neg:#dc2626; --neu:#6b7280; --bg:#f7f8fa; --card:#fff; --line:#e5e7eb; --price:#2563eb; }
+    * { box-sizing: border-box; }
+    html,body { max-width:100%; overflow-x:hidden; }
+    body { font-family: "Pretendard","Apple SD Gothic Neo",-apple-system,sans-serif; margin:0;
+           background:var(--bg); color:#111; line-height:1.6; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
+    .top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    h1 { font-size: 22px; margin: 4px 0 2px; }
+    .sub { color:#666; font-size: 13px; margin-bottom: 18px; }
+    .note { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; font-size:12px;
+            padding:8px 12px; border-radius:8px; margin: 10px 0 20px; }
+    .cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:8px; }
+    .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; }
+    .stat .n { font-size: 30px; font-weight: 800; }
+    .stat .l { font-size: 13px; color:#666; }
+    .pos .n{color:var(--pos);} .neg .n{color:var(--neg);} .neu .n{color:var(--neu);}
+    .bar { height: 14px; border-radius: 8px; overflow: hidden; display:flex; margin: 14px 0 6px; border:1px solid var(--line); }
+    .bar .p{background:var(--pos);} .bar .g{background:var(--neu);} .bar .n{background:var(--neg);}
+    .srcrow { display:flex; gap:18px; font-size:13px; color:#444; margin-bottom:18px; flex-wrap:wrap;}
+    .chart-box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:24px; }
+    .chart-box h2 { font-size:15px; margin:0 0 4px; }
+    .chart-box .cap { font-size:12px; color:#888; margin-bottom:8px; }
+    .chart-wrap { position:relative; width:100%; height:320px; }
+    #priceSentChart { display:block; max-width:100%; }
+    .cols { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    @media(max-width:720px){ .cols{grid-template-columns:1fr;} }
+    .col h2 { font-size:16px; margin:0 0 10px; padding-bottom:6px; border-bottom:2px solid; }
+    .col.pos h2{ color:var(--pos); border-color:var(--pos);}
+    .col.neg h2{ color:var(--neg); border-color:var(--neg);}
+    .item { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+    .item a { color:#111; text-decoration:none; font-weight:600; font-size:14px; }
+    .item a:hover { text-decoration:underline; }
+    .meta { font-size:12px; color:#777; margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+    .tag { background:#eef2ff; color:#3730a3; border-radius:6px; padding:1px 6px; font-size:11px; }
+    .badge-f { background:#e0f2fe; color:#075985; border-radius:6px; padding:1px 6px; font-size:11px;}
+    .badge-d { background:#f1f5f9; color:#334155; border-radius:6px; padding:1px 6px; font-size:11px;}
+    .sc-pos{color:var(--pos);font-weight:700;} .sc-neg{color:var(--neg);font-weight:700;}
+    .empty{color:#999;font-size:13px;padding:10px;}
+    .back { font-size:13px; color:#2563eb; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/sentiment">← 감성 대시보드</a>
+    <div class="top"><h1>📊 삼성전자 뉴스 감성 특별관리</h1></div>
+    <div class="sub" id="sub">국내·외신 뉴스의 호재/악재 감성 — 수집·분석 전용 (팟캐스트 미생성)</div>
+    <div class="note">※ 뉴스 분위기 집계이며 투자 예측이 아닙니다. 감성 포인트와 주가는 인과가 아닌 참고용 병행 표시입니다.</div>
+
+    <div class="cards">
+      <div class="stat pos"><div class="n" id="cPos">–</div><div class="l">호재 👍</div></div>
+      <div class="stat neg"><div class="n" id="cNeg">–</div><div class="l">악재 👎</div></div>
+      <div class="stat neu"><div class="n" id="cNeu">–</div><div class="l">중립</div></div>
+      <div class="stat"><div class="n" id="cRatio">–</div><div class="l">호재 비율(호재/호악재)</div></div>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="srcrow" id="srcrow"></div>
+
+    <div class="chart-box">
+      <h2>📈 감성 포인트 × 주가 추이</h2>
+      <div class="cap">파란선=삼성전자 주가(원, 좌축) · 초록점=일별 감성점수(-1~1, 우축). 감성 데이터는 수집 시작 이후 날짜별로 누적됩니다.</div>
+      <div class="chart-wrap"><canvas id="priceSentChart"></canvas></div>
+    </div>
+
+    <div class="cols">
+      <div class="col pos"><h2>최근 호재</h2><div id="posList"><div class="empty">불러오는 중…</div></div></div>
+      <div class="col neg"><h2>최근 악재</h2><div id="negList"><div class="empty">불러오는 중…</div></div></div>
+    </div>
+  </div>
+
+  <script>
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function srcBadge(s){ return s==='foreign' ? '<span class="badge-f">외신</span>' : '<span class="badge-d">국내</span>'; }
+  function renderItem(it, cls){
+    const kws = (it.keywords||[]).map(k=>'<span class="tag">'+esc(k)+'</span>').join(' ');
+    const sc = (it.score>=0?'+':'')+it.score;
+    return '<div class="item">'
+      + '<a href="'+esc(it.link)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>'
+      + '<div class="meta">'+srcBadge(it.source)
+      + (it.press?'<span>'+esc(it.press)+'</span>':'')
+      + '<span>'+esc(it.date)+'</span>'
+      + '<span class="'+cls+'">'+sc+'</span>'
+      + (it.event?'<span>· '+esc(it.event)+'</span>':'')
+      + '</div>' + (kws?'<div class="meta">'+kws+'</div>':'') + '</div>';
+  }
+  function drawChart(price, daily){
+    const labels = (price||[]).map(p=>p.date);
+    const priceData = (price||[]).map(p=>p.close);
+    const sm = {}; (daily||[]).forEach(s=>{ sm[s.date]=s.score; });
+    const sentData = labels.map(d=> (d in sm) ? sm[d] : null);
+    const ptColors = sentData.map(v=> v===null?'#0000':(v>=0.05?'#16a34a':(v<=-0.05?'#dc2626':'#6b7280')));
+    new Chart(document.getElementById('priceSentChart'), {
+      data:{ labels, datasets:[
+        { type:'line', label:'주가(원)', data:priceData, yAxisID:'y',
+          borderColor:'#2563eb', borderWidth:1.6, pointRadius:0, tension:.25, spanGaps:true },
+        { type:'line', label:'감성점수', data:sentData, yAxisID:'y1',
+          borderColor:'#16a34a', backgroundColor:'#16a34a', borderWidth:1.2,
+          pointRadius:4, pointBackgroundColor:ptColors, spanGaps:true, tension:0 }
+      ]},
+      options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+        plugins:{ legend:{labels:{boxWidth:12,font:{size:11}}} },
+        scales:{
+          x:{ ticks:{maxTicksLimit:10,font:{size:10}}, grid:{display:false} },
+          y:{ position:'left', title:{display:true,text:'주가(원)'}, ticks:{font:{size:10}} },
+          y1:{ position:'right', min:-1, max:1, title:{display:true,text:'감성(-1~1)'},
+               grid:{drawOnChartArea:false}, ticks:{font:{size:10}} }
+        } }
+    });
+  }
+  fetch('/api/sentiment/samsung.json?days=120')
+    .then(r=>r.json()).then(d=>{
+      const c=d.counts||{};
+      document.getElementById('cPos').textContent=c['호재']||0;
+      document.getElementById('cNeg').textContent=c['악재']||0;
+      document.getElementById('cNeu').textContent=c['중립']||0;
+      document.getElementById('cRatio').textContent=Math.round((d.pos_ratio||0)*100)+'%';
+      document.getElementById('sub').textContent='최근 '+d.days+'일 · 총 '+d.total+'건 (국내·외신, 팟캐스트 미생성)';
+      const tot=(c['호재']||0)+(c['악재']||0)+(c['중립']||0)||1;
+      document.getElementById('bar').innerHTML=
+        '<div class="p" style="width:'+(100*(c['호재']||0)/tot)+'%"></div>'+
+        '<div class="g" style="width:'+(100*(c['중립']||0)/tot)+'%"></div>'+
+        '<div class="n" style="width:'+(100*(c['악재']||0)/tot)+'%"></div>';
+      const bs=d.by_source||{};
+      function srcTxt(k,label){const o=bs[k]||{};return label+' 👍'+(o['호재']||0)+' 👎'+(o['악재']||0)+' ·중립'+(o['중립']||0);}
+      document.getElementById('srcrow').innerHTML='<span>'+srcTxt('domestic','🇰🇷 국내')+'</span><span>'+srcTxt('foreign','🌐 외신')+'</span>';
+      try { drawChart(d.price, d.sentiment_daily); } catch(e){}
+      const pl=document.getElementById('posList'), nl=document.getElementById('negList');
+      pl.innerHTML=(d.positive||[]).length?d.positive.map(it=>renderItem(it,'sc-pos')).join(''):'<div class="empty">호재 기사 없음</div>';
+      nl.innerHTML=(d.negative||[]).length?d.negative.map(it=>renderItem(it,'sc-neg')).join(''):'<div class="empty">악재 기사 없음</div>';
+    })
+    .catch(e=>{ document.getElementById('posList').innerHTML='<div class="empty">불러오기 실패</div>'; });
+  </script>
+</body>
+</html>

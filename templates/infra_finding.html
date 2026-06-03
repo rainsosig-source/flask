@@ -6,22 +6,22 @@
 <title>Finding #{{ f.id }} - sosig.shop</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Segoe UI',sans-serif; background: linear-gradient(135deg,#0f0f23,#1a1a2e,#16213e); min-height:100vh; color:#e0e0e0; line-height:1.55; }
+body { font-family:'Segoe UI',sans-serif; background: linear-gradient(135deg,var(--c-bg-alt3),var(--c-bg-alt1),var(--c-bg-alt2)); min-height:100vh; color:var(--c-text3); line-height:1.55; }
 .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 header { text-align:center; padding:25px 0; background:rgba(0,0,0,0.3); border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:25px; }
-header h1 { font-size:1.5em; color:#00d4ff; }
+header h1 { font-size:1.5em; color:var(--c-cyan); }
 .sub { color:#888; margin-top:6px; font-size:0.9em; }
 nav { margin-bottom:18px; }
-nav a { color:#00d4ff; text-decoration:none; padding:6px 12px; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:0.9em; }
+nav a { color:var(--c-cyan); text-decoration:none; padding:6px 12px; border:1px solid rgba(0,212,255,0.3); border-radius:6px; font-size:0.9em; }
 .card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px 22px; margin-bottom:18px; }
-.card h2 { color:#00d4ff; font-size:1.1em; margin-bottom:10px; }
+.card h2 { color:var(--c-cyan); font-size:1.1em; margin-bottom:10px; }
 .card h2 + .meta { color:#888; font-size:0.85em; margin-bottom:10px; }
 .meta-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
 .meta-grid .m { background:rgba(0,0,0,0.2); padding:10px 12px; border-radius:8px; }
 .meta-grid .m .k { color:#888; font-size:0.8em; }
 .meta-grid .m .v { color:#fff; font-size:1em; margin-top:3px; }
 .writeup { white-space: pre-wrap; }
-.writeup h2 { color:#00d4ff; margin-top:10px; }
+.writeup h2 { color:var(--c-cyan); margin-top:10px; }
 pre { background:rgba(0,0,0,0.3); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; }
 .badge { display:inline-block; padding:3px 9px; border-radius:10px; font-size:0.85em; font-weight:600; }
 .badge.c { background:rgba(255,71,87,0.2); color:#ff4757; }
@@ -36,20 +36,14 @@ pre { background:rgba(0,0,0,0.3); padding:14px; border-radius:8px; overflow-x:au
     <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
-<header>
-  <div class="container">
-    <h1>🔎 {{ f.nvt_name or 'Finding #' ~ f.id }}</h1>
-    <div class="sub">{{ f.host_label }}{% if f.display_ip %} ({{ f.display_ip }}){% endif %} · {{ f.port or 'n/a' }}</div>
-  </div>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
+
+<header class="sg-pagehead">
+  <h1>🔎 {{ f.nvt_name or 'Finding #' ~ f.id }}</h1>
+  <p class="sg-sub">{{ f.host_label }}{% if f.display_ip %} ({{ f.display_ip }}){% endif %} · {{ f.port or 'n/a' }}</p>
 </header>
 <div class="container">
-  <nav>
-    <a href="/vuln">📊 대시보드</a>
-    <a href="/vuln/list">📋 CVE 취약점 목록</a>
-    <a href="/vuln/search">🔍 검색</a>
-    <a href="/vuln/infra" class="active">🛰️ 내 인프라 취약점</a>
-    <a href="/vuln/infra/map">🗺️ 네트워크 지도</a>
-  </nav>
   <p style="margin:8px 0 16px; font-size:0.85em;"><a href="/vuln/infra/host/{{ f.host_slug }}" style="color:#888; text-decoration:none;">← {{ f.host_label }} finding 목록으로</a></p>
 
   <div class="card">

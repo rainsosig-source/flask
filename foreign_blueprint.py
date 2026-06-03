@@ -18,8 +18,9 @@ SOURCE_LABELS = {
 def _audio_url(path: str | None) -> str | None:
     if not path:
         return None
-    if path.startswith('/root/flask-app/'):
-        return '/' + path[len('/root/flask-app/'):]
+    _si = path.find('/static/')
+    if _si != -1:
+        return path[_si:]
     if not path.startswith('/'):
         return '/static/' + path
     return path
@@ -89,6 +90,7 @@ def foreign_json():
     limit = min(int(request.args.get('limit', 50)), 200)
     source = request.args.get('source', 'all')
     date = request.args.get('date')   # "YYYY-MM-DD" 발행일 필터 (선택)
+    verdict = request.args.get('verdict', 'all')   # 호재/악재/중립 필터 (선택)
 
     where = "ai_status='done'"
     params: list = []
@@ -98,6 +100,9 @@ def foreign_json():
     if date:
         where += " AND DATE(audio_published_at)=%s"
         params.append(date)
+    if verdict in ('호재', '악재', '중립'):
+        where += " AND kr_verdict=%s"
+        params.append(verdict)
     params.append(limit)
 
     conn = get_db_connection()
@@ -106,7 +111,8 @@ def foreign_json():
             cur.execute(f"""
                 SELECT id, source, original_url, original_title, original_summary,
                        posted_at, audio_path, audio_published_at, naver_match_count,
-                       published_episode_id, created_at
+                       published_episode_id, created_at,
+                       kr_verdict, kr_score, kr_axis, kr_reason
                 FROM foreign_news
                 WHERE {where}
                 ORDER BY audio_published_at DESC
@@ -129,6 +135,15 @@ def foreign_json():
                 GROUP BY source
             """)
             counts = {row['source']: int(row['n']) for row in cur.fetchall()}
+
+            # 한국 호재/악재 판정별 카운트 (칩용)
+            cur.execute("""
+                SELECT kr_verdict, COUNT(*) AS n
+                FROM foreign_news
+                WHERE ai_status='done' AND kr_verdict IS NOT NULL
+                GROUP BY kr_verdict
+            """)
+            verdict_counts = {row['kr_verdict']: int(row['n']) for row in cur.fetchall()}
 
             # 최근 7일 발행 수 (메인 카드용)
             cur.execute("""
@@ -158,6 +173,7 @@ def foreign_json():
     return jsonify({
         'articles': rows,
         'counts': counts,
+        'verdict_counts': verdict_counts,
         'recent7': recent7,
         'dates': dates,
         '_now': datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S'),
@@ -173,7 +189,8 @@ def foreign_detail(article_id: int):
                 SELECT id, source, original_url, original_title, original_summary,
                        original_content, ai_translated_dialogue, ai_translated_article,
                        ai_korean_keywords, naver_match_count,
-                       posted_at, audio_path, audio_published_at
+                       posted_at, audio_path, audio_published_at,
+                       kr_verdict, kr_score, kr_axis, kr_reason
                 FROM foreign_news WHERE id=%s AND ai_status='done'
             """, (article_id,))
             r = cur.fetchone()

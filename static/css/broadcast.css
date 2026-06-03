@@ -28,6 +28,9 @@ body {
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
+}
+
+.bc-wrap {
     padding: 20px;
     max-width: 720px;
     margin: 0 auto;

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>뉴스 감성 대시보드 — sosig.shop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; }
+    header { background: var(--c-bg2); border-bottom: 1px solid var(--c-border); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+    .updated { font-size: 0.78rem; color: var(--c-muted); }
+    .btn { padding: 6px 14px; border-radius: 18px; border: 1px solid var(--c-border); background: var(--c-bg2); color: var(--c-muted); font-size: 0.85rem; cursor: pointer; font-family: inherit; }
+    .btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .btn.active { background: var(--c-accent2); border-color: var(--c-accent2); color: #fff; }
+    .up { color: var(--c-bad); } .down { color: var(--c-accent); } .flat { color: var(--c-muted); }
+    .section { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
+    .section h2 { font-size: 1rem; margin-bottom: 0.8rem; color: var(--c-text); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; }
+    .card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 8px; padding: 0.8rem; text-align: center; }
+    .card .v { font-size: 1.6rem; font-weight: 700; } .card .l { font-size: 0.78rem; color: var(--c-muted); }
+    .bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin: 0.6rem 0; font-size: 0.72rem; }
+    .bar .p { background: #b62324; } .bar .n { background: #1f4f8b; } .bar .z { background: var(--c-border); }
+    .bar span { display: flex; align-items: center; justify-content: center; color: #fff; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--c-bg3); }
+    th { color: var(--c-muted); font-weight: 600; font-size: 0.78rem; }
+    td.num { text-align: right; }
+    .sec-row { display: flex; align-items: center; gap: 0.6rem; padding: 5px 0; font-size: 0.85rem; }
+    .sec-row .name { width: 110px; flex-shrink: 0; }
+    .sec-row .track { flex: 1; height: 14px; background: var(--c-bg3); border-radius: 7px; position: relative; }
+    .sec-row .fill { position: absolute; top: 0; bottom: 0; left: 50%; border-radius: 7px; }
+    .sec-row .cnt { width: 70px; text-align: right; color: var(--c-muted); font-size: 0.78rem; flex-shrink: 0; }
+    .chartbox { position: relative; height: 340px; }
+    #trend { width: 100%; height: 100%; }
+    .art { border-bottom: 1px solid var(--c-bg3); padding: 0.6rem 0; }
+    .art .row1 { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.25rem; }
+    .badge { font-size: 0.72rem; padding: 1px 8px; border-radius: 10px; font-weight: 600; }
+    .b-pos { background: #3d1a1a; color: var(--c-bad); border: 1px solid #b62324; }
+    .b-neg { background: #16243d; color: var(--c-accent); border: 1px solid var(--c-accent2); }
+    .b-neu { background: var(--c-bg3); color: var(--c-muted); }
+    .art .meta { font-size: 0.74rem; color: var(--c-muted); }
+    .art a { color: var(--c-text); text-decoration: none; font-size: 0.9rem; }
+    .art a:hover { color: var(--c-accent); }
+    .note { font-size: 0.78rem; color: var(--c-muted); line-height: 1.5; }
+    .loading { color: var(--c-muted); padding: 1.5rem; text-align: center; }
+    .wc-box { position: relative; height: 320px; }
+    #wcCanvas { width: 100%; height: 100%; display: block; }
+    .kw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    @media (max-width: 640px) { .kw-grid { grid-template-columns: 1fr; } }
+    .kw-head { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .kw-head.pos { color: #f85149; } .kw-head.neg { color: #58a6ff; }
+    .kw-row { display: flex; align-items: center; gap: 0.5rem; padding: 3px 0; font-size: 0.83rem; }
+    .kw-row .kw-w { width: 96px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .kw-row .kw-bar { flex: 1; height: 12px; background: var(--c-bg3); border-radius: 6px; overflow: hidden; }
+    .kw-row .kw-fill { display: block; height: 100%; border-radius: 6px; }
+    .kw-fill.pos { background: #b62324; } .kw-fill.neg { background: #1f4f8b; }
+    .kw-row .kw-n { width: 28px; text-align: right; color: var(--c-muted); font-size: 0.78rem; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+{% include "_topnav.html" %}
+{% include "_contentnav.html" %}
+
+  <header class="sg-pagehead"><h1>📊 뉴스 감성 대시보드</h1></header>
+  <div style="text-align:center;margin:6px 0 14px"><a href="/sentiment/samsung" style="display:inline-block;background:#111;color:#fff;padding:7px 16px;border-radius:20px;font-size:13px;text-decoration:none">📊 삼성전자 뉴스 감성 특별관리 →</a></div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="updated" id="updated"></div>
+      <div id="rangeBtns">
+        <button class="btn" data-days="3">3일</button>
+        <button class="btn active" data-days="7">7일</button>
+        <button class="btn" data-days="14">14일</button>
+      </div>
+    </div>
+
+    <div class="section"><h2>전체 분위기</h2><div id="overall"><div class="loading">불러오는 중…</div></div></div>
+    <div class="section"><h2>섹터별 감성 추이 (일별 평균, +호재 / −악재)</h2><div class="chartbox"><canvas id="trend"></canvas></div></div>
+    <div class="section"><h2>섹터별 분위기 · 뉴스량</h2><div id="sectors"></div></div>
+    <div class="section"><h2>종목 랭킹 (언급 많은 순)</h2><div id="tickers"></div></div>
+    <div class="section"><h2>키워드 워드클라우드 (크기=빈도 · 색=감성, 🔴 호재 / 🔵 악재)</h2><div class="wc-box" id="wordcloud"><div class="loading">불러오는 중…</div></div></div>
+    <div class="section"><h2>호재 · 악재 키워드 비교</h2><div id="kwCompare"><div class="loading">불러오는 중…</div></div></div>
+    <div class="section"><h2>최근 기사</h2><div id="recent"></div></div>
+
+    <p class="note">로컬 Gemma가 기사 제목·요약을 분석해 감성(호재/악재/중립)·섹터·종목을 태깅한 결과를 집계한 것입니다.
+      <strong>주가 예측이 아니라 "현재 뉴스 분위기"</strong>를 보여주는 대시보드이며, 투자 판단의 근거로 삼지 마세요.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.3/src/wordcloud2.min.js"></script>
+  <script>
+    let days = 7, chart = null;
+    const PAL = ['#f85149','#58a6ff','#3fb950','#d29922','#bc8cff','#ff7b72','#79c0ff'];
+
+    function pct(n, t) { return t ? Math.round(n / t * 100) : 0; }
+
+    function renderOverall(o) {
+      const t = o.total || 1;
+      const moodCls = o.avg > 0.05 ? 'up' : (o.avg < -0.05 ? 'down' : 'flat');
+      const mood = o.avg > 0.05 ? '긍정 우위' : (o.avg < -0.05 ? '부정 우위' : '중립');
+      document.getElementById('overall').innerHTML = `
+        <div class="cards">
+          <div class="card"><div class="v">${o.total}</div><div class="l">분석 기사</div></div>
+          <div class="card"><div class="v up">${o['호재']}</div><div class="l">호재</div></div>
+          <div class="card"><div class="v down">${o['악재']}</div><div class="l">악재</div></div>
+          <div class="card"><div class="v flat">${o['중립']}</div><div class="l">중립</div></div>
+          <div class="card"><div class="v ${moodCls}">${o.avg>0?'+':''}${o.avg}</div><div class="l">평균 점수 · ${mood}</div></div>
+        </div>
+        <div class="bar">
+          <span class="p" style="width:${pct(o['호재'],t)}%">${pct(o['호재'],t)}%</span>
+          <span class="z" style="width:${pct(o['중립'],t)}%">${pct(o['중립'],t)}%</span>
+          <span class="n" style="width:${pct(o['악재'],t)}%">${pct(o['악재'],t)}%</span>
+        </div>`;
+    }
+
+    function renderSectors(secs) {
+      const max = Math.max(1, ...secs.map(s => s.count));
+      document.getElementById('sectors').innerHTML = secs.map(s => {
+        const w = Math.abs(s.avg) * 50, col = s.avg >= 0 ? '#b62324' : '#1f4f8b';
+        const left = s.avg >= 0 ? 50 : (50 - w);
+        return `<div class="sec-row"><div class="name">${s.sector}</div>
+          <div class="track"><div class="fill" style="left:${left}%;width:${w}%;background:${col}"></div></div>
+          <div class="cnt">${s.count}건 <span class="${s.avg>=0?'up':'down'}">${s.avg>0?'+':''}${s.avg}</span></div></div>`;
+      }).join('') || '<div class="loading">데이터 없음</div>';
+    }
+
+    function renderTickers(tics) {
+      if (!tics.length) { document.getElementById('tickers').innerHTML = '<div class="loading">집계된 종목 없음</div>'; return; }
+      document.getElementById('tickers').innerHTML = `<table>
+        <tr><th>종목</th><th class="num">언급</th><th class="num">호재</th><th class="num">악재</th><th class="num">평균</th></tr>
+        ${tics.map(t => `<tr><td>${t.ticker}</td><td class="num">${t.count}</td>
+          <td class="num up">${t.pos}</td><td class="num down">${t.neg}</td>
+          <td class="num ${t.avg>=0?'up':'down'}">${t.avg>0?'+':''}${t.avg}</td></tr>`).join('')}
+      </table>`;
+    }
+
+    function renderRecent(arts) {
+      document.getElementById('recent').innerHTML = arts.map(a => {
+        const cls = a.sentiment==='호재'?'b-pos':(a.sentiment==='악재'?'b-neg':'b-neu');
+        return `<div class="art"><div class="row1">
+          <span class="badge ${cls}">${a.sentiment} ${a.score>0?'+':''}${a.score}</span>
+          <span class="meta">${a.sectors.join(' · ')}${a.event?' · '+a.event:''}</span></div>
+          ${a.link?`<a href="${a.link}" target="_blank" rel="noopener">${a.title}</a>`:`<span>${a.title}</span>`}
+          <div class="meta">${a.press} · ${a.date}</div></div>`;
+      }).join('') || '<div class="loading">데이터 없음</div>';
+    }
+
+    function renderTrend(tr) {
+      const datasets = Object.keys(tr.series).map((sec, i) => ({
+        label: sec, data: tr.series[sec], borderColor: PAL[i % PAL.length],
+        borderWidth: 2, pointRadius: 0, tension: 0.2, spanGaps: true }));
+      const cfg = { type: 'line', data: { labels: tr.labels, datasets },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color:'#e6edf3', boxWidth: 12, font:{size:11} } } },
+          scales: { x: { ticks:{color:'#8b949e', maxTicksLimit:10}, grid:{color:'#21262d'} },
+                    y: { ticks:{color:'#8b949e'}, grid:{color:'#21262d'}, suggestedMin:-1, suggestedMax:1,
+                         title:{display:true,text:'평균 감성(+호재 / −악재)', color:'#8b949e'} } } } };
+      if (chart) chart.destroy();
+      chart = new Chart(document.getElementById('trend'), cfg);
+    }
+
+    function renderWordcloud(wc) {
+      const box = document.getElementById('wordcloud');
+      if (!wc || !wc.length) { box.innerHTML = '<div class="loading">키워드 집계 중…</div>'; return; }
+      box.innerHTML = '<canvas id="wcCanvas"></canvas>';
+      const cv = document.getElementById('wcCanvas');
+      const w = box.clientWidth || 800;
+      cv.width = w; cv.height = 320;
+      const narrow = w < 520;                       // 모바일: 좁은 캔버스
+      const list = narrow ? wc.slice(0, 30) : wc;   // 단어 수 제한 → 배치 재귀 폭주 방지
+      const avg = {}; wc.forEach(x => avg[x.word] = x.avg);
+      const maxC = Math.max(...list.map(x => x.count));
+      // 색: 호재=빨강 / 악재=파랑 / 중립=회색 (한국 증시 관례)
+      try {
+        WordCloud(cv, {
+          list: list.map(x => [x.word, x.count]),
+          gridSize: narrow ? 10 : 7,
+          weightFactor: c => (narrow ? 9 : 13) + (c / maxC) * (narrow ? 26 : 46),
+          fontFamily: "'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif",
+          color: (word) => { const a = avg[word] || 0;
+            return a > 0.08 ? '#f85149' : (a < -0.08 ? '#58a6ff' : '#8b949e'); },
+          backgroundColor: 'transparent',
+          rotateRatio: 0.18, minRotation: 0, maxRotation: 0,
+          drawOutOfBound: false, shrinkToFit: false,
+        });
+      } catch (e) { box.innerHTML = '<div class="loading">워드클라우드 생략(화면 폭)</div>'; }
+    }
+
+    function renderKwCompare(kc) {
+      const box = document.getElementById('kwCompare');
+      const pos = (kc && kc.pos) || [], neg = (kc && kc.neg) || [];
+      if (!pos.length && !neg.length) { box.innerHTML = '<div class="loading">키워드 집계 중…</div>'; return; }
+      const maxP = Math.max(1, ...pos.map(k => k.pos)), maxN = Math.max(1, ...neg.map(k => k.neg));
+      const col = (arr, key, max, cls, label) => `<div><div class="kw-head ${cls}">${label}</div>` +
+        (arr.map(k => `<div class="kw-row"><span class="kw-w">${k.word}</span>
+          <span class="kw-bar"><span class="kw-fill ${cls}" style="width:${Math.round(k[key] / max * 100)}%"></span></span>
+          <span class="kw-n">${k[key]}</span></div>`).join('') || '<div class="loading">없음</div>') + '</div>';
+      box.innerHTML = `<div class="kw-grid">${col(pos, 'pos', maxP, 'pos', '📈 호재 키워드')}${col(neg, 'neg', maxN, 'neg', '📉 악재 키워드')}</div>`;
+    }
+
+    async function load() {
+      try {
+        const d = await (await fetch(`/api/sentiment.json?days=${days}`)).json();
+        document.getElementById('updated').textContent = `업데이트: ${d.updated} · 최근 ${d.days}일`;
+        renderOverall(d.overall); renderTrend(d.trend); renderSectors(d.sectors);
+        renderTickers(d.tickers);
+        try { renderWordcloud(d.wordcloud); } catch (e) {}
+        try { renderKwCompare(d.keyword_compare); } catch (e) {}
+        renderRecent(d.recent);
+      } catch (e) { document.getElementById('overall').innerHTML = '<div class="loading">불러오기 실패</div>'; }
+    }
+    document.getElementById('rangeBtns').addEventListener('click', e => {
+      if (!e.target.dataset.days) return;
+      document.querySelectorAll('#rangeBtns .btn').forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active'); days = +e.target.dataset.days; load();
+    });
+    load();
+  </script>
+</body>
+</html>

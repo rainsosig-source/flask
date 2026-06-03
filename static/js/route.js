@@ -25,6 +25,12 @@
         // 추적 결과 저장용 (내보내기 기능)
         let traceResults = [];
 
+        // DOM 참조 (스크립트는 body 끝에서 로드되므로 즉시 해석 가능)
+        var traceBtn = document.getElementById('traceBtn');
+        var resultsDiv = document.getElementById('results');
+        var maxHopsInput = document.getElementById('maxHops');
+        var probesInput = document.getElementById('probes');
+
         var colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
         var colorIdx = 1;
 
@@ -52,78 +58,172 @@
                     list.appendChild(row);
                 };
             }
+            initGlobe();   // 로드 시 기본 레이더(동심원+중심 노드) 표시 — 추적 전에도 보이게
         });
 
         // 지구본(반지름 1) 전체가 화면에 들어가도록 카메라 거리 계산.
 
-        // ─── SVG 방사형 경로 시각화 (지구본 대체) ───
-        const SVG_NS = "http://www.w3.org/2000/svg";
-        let svgRoot = null;
-        let traceAngleCount = 0;
+        // ─── 3D 지구본 (Three.js) ───
+        const GLOBE_R = 5, BORDER_R = 5.05;
+        const ORIGIN = { lat: 37.49, lon: 127.03 };   // sosig.shop 서버(서울) 근사 — 경로 시작점
 
-        function fitCameraToGlobe() { /* no-op for SVG */ }
+        function latLonToVector3(lat, lon, r) {
+            const phi = (90 - lat) * Math.PI / 180;
+            const theta = (lon + 180) * Math.PI / 180;
+            return new THREE.Vector3(
+                -(r * Math.sin(phi) * Math.cos(theta)),
+                r * Math.cos(phi),
+                r * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+
+        function fitCameraToGlobe() { /* OrbitControls가 처리 */ }
 
         function initGlobe() {
+            if (scene) return;  // 1회만 초기화
             const container = document.getElementById('globe-container');
+            const W = container.clientWidth || window.innerWidth;
+            const H = container.clientHeight || window.innerHeight;
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050510);
+            camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 1000);
+            camera.position.set(0, 5, 15);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio || 1);
+            renderer.setSize(W, H);
             container.innerHTML = '';
-            svgRoot = document.createElementNS(SVG_NS, 'svg');
-            svgRoot.setAttribute('viewBox', '-500 -500 1000 1000');
-            svgRoot.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-            svgRoot.style.width = '100%';
-            svgRoot.style.height = '100%';
-            svgRoot.style.display = 'block';
-            // 동심원 8개 (TTL 단계 — 4 TTL 당 1 ring)
-            for (let i = 1; i <= 8; i++) {
-                const r = i * 55;
-                const ring = document.createElementNS(SVG_NS, 'circle');
-                ring.setAttribute('cx', 0); ring.setAttribute('cy', 0); ring.setAttribute('r', r);
-                ring.setAttribute('fill', 'none');
-                ring.setAttribute('stroke', '#1f2937');
-                ring.setAttribute('stroke-width', 0.5);
-                ring.setAttribute('stroke-dasharray', i % 2 === 0 ? '0' : '4 4');
-                ring.setAttribute('opacity', 0.55);
-                svgRoot.appendChild(ring);
-                // TTL 표시 (4 단위)
-                if (i % 2 === 0) {
-                    const lab = document.createElementNS(SVG_NS, 'text');
-                    lab.setAttribute('x', 4); lab.setAttribute('y', -r + 3);
-                    lab.setAttribute('fill', '#6e7681'); lab.setAttribute('font-size', 9);
-                    lab.textContent = 'TTL ' + (i * 2);
-                    svgRoot.appendChild(lab);
-                }
-            }
-            // 중심 노드 (내 LAN / sosig.shop 서버)
-            const centerGlow = document.createElementNS(SVG_NS, 'circle');
-            centerGlow.setAttribute('cx', 0); centerGlow.setAttribute('cy', 0); centerGlow.setAttribute('r', 22);
-            centerGlow.setAttribute('fill', '#58a6ff'); centerGlow.setAttribute('opacity', 0.18);
-            svgRoot.appendChild(centerGlow);
-            const center = document.createElementNS(SVG_NS, 'circle');
-            center.setAttribute('cx', 0); center.setAttribute('cy', 0); center.setAttribute('r', 9);
-            center.setAttribute('fill', '#58a6ff');
-            svgRoot.appendChild(center);
-            const cLabel = document.createElementNS(SVG_NS, 'text');
-            cLabel.setAttribute('x', 0); cLabel.setAttribute('y', 26);
-            cLabel.setAttribute('text-anchor', 'middle');
-            cLabel.setAttribute('fill', '#c9d1d9'); cLabel.setAttribute('font-size', 11);
-            cLabel.setAttribute('font-weight', 600);
-            cLabel.textContent = '내 LAN / sosig.shop';
-            svgRoot.appendChild(cLabel);
-            container.appendChild(svgRoot);
-            traceAngleCount = 0;
+            container.appendChild(renderer.domElement);
+
+            globe = new THREE.Mesh(
+                new THREE.SphereGeometry(GLOBE_R, 64, 64),
+                new THREE.MeshPhongMaterial({ color: 0x2a5f8a, specular: new THREE.Color(0x333333), shininess: 5 })
+            );
+            scene.add(globe);
+            new THREE.TextureLoader().load('/static/earth_texture.jpg',
+                (t) => { globe.material.map = t; globe.material.color.setHex(0xffffff); globe.material.needsUpdate = true; },
+                undefined, () => {});
+
+            // 구름 레이어 (지구 위 살짝 큰 구체, 반투명) — animate에서 천천히 회전
+            cloudsMesh = new THREE.Mesh(
+                new THREE.SphereGeometry(GLOBE_R + 0.08, 64, 64),
+                new THREE.MeshPhongMaterial({ transparent: true, opacity: 0.85, depthWrite: false })
+            );
+            new THREE.TextureLoader().load('/static/earth_clouds.png',
+                (t) => { cloudsMesh.material.map = t; cloudsMesh.material.needsUpdate = true; },
+                undefined, () => {});
+            cloudsMesh.visible = cloudsEnabled;
+            globe.add(cloudsMesh);
+
+            loadBorders();
+            scene.add(new THREE.AmbientLight(0x888888));
+            sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            sunLight.position.set(5, 3, 5); scene.add(sunLight);
+            addStars();
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true; controls.dampingFactor = 0.05;
+            controls.minDistance = 7; controls.maxDistance = 40;
+            globe.rotation.y = -1.5; globe.rotation.x = 0.2;
+
+            // 시작점(서버) 마커
+            const origin = new THREE.Mesh(
+                new THREE.SphereGeometry(0.1, 16, 16),
+                new THREE.MeshBasicMaterial({ color: 0x58a6ff, depthTest: false })
+            );
+            origin.position.copy(latLonToVector3(ORIGIN.lat, ORIGIN.lon, BORDER_R + 0.02));
+            origin.renderOrder = 1000; globe.add(origin);
+
+            window.addEventListener('resize', onGlobeResize);
+            animate();
         }
 
-        function animate() { /* no-op */ }
-        function toggleClouds() { /* no-op */ }
-        function toggleAnimation() { /* no-op */ }
+        function drawRing(ring, material) {
+            const pts = ring.map(c => latLonToVector3(c[1], c[0], BORDER_R));
+            globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), material));
+        }
+
+        function loadBorders() {
+            fetch('/static/countries.geojson').then(r => r.json()).then(data => {
+                const material = new THREE.LineBasicMaterial({ color: 0x3fb950, transparent: true, opacity: 0.45 });
+                data.features.forEach(f => {
+                    const coords = f.geometry.coordinates;
+                    if (f.geometry.type === 'Polygon') coords.forEach(r => drawRing(r, material));
+                    else if (f.geometry.type === 'MultiPolygon') coords.forEach(p => p.forEach(r => drawRing(r, material)));
+                });
+            }).catch(() => {});
+        }
+
+        function createEarthArc(p1, p2) {
+            const angle = p1.angleTo(p2);
+            const n = Math.max(40, Math.floor(angle * 100));
+            const points = [];
+            for (let i = 0; i <= n; i++) {
+                const t = i / n;
+                const slerp = new THREE.Vector3().lerpVectors(p1, p2, t).normalize();
+                // 호를 지표 위로 살짝 띄움(중간이 가장 높게)
+                const lift = 1 + 0.15 * Math.sin(Math.PI * t);
+                points.push(slerp.multiplyScalar(p1.length() * lift));
+            }
+            return new THREE.CatmullRomCurve3(points);
+        }
+
+        function addStars() {
+            const pos = new Float32Array(3000);
+            for (let i = 0; i < 3000; i++) pos[i] = (Math.random() - 0.5) * 100;
+            const g = new THREE.BufferGeometry();
+            g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            scene.add(new THREE.Points(g, new THREE.PointsMaterial({ size: 0.1, color: 0xffffff })));
+        }
+
+        function onGlobeResize() {
+            const container = document.getElementById('globe-container');
+            if (!renderer || !container) return;
+            const W = container.clientWidth || window.innerWidth;
+            const H = container.clientHeight || window.innerHeight;
+            camera.aspect = W / H; camera.updateProjectionMatrix();
+            renderer.setSize(W, H);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (cloudsMesh && cloudsMesh.visible) cloudsMesh.rotation.y += 0.0003;
+            if (animationEnabled) updatePackets();
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+        function updatePackets() {
+            animatedPackets.forEach(p => {
+                p.t += p.speed;
+                if (p.t > 1) p.t -= 1;
+                p.mesh.position.copy(p.curve.getPoint(p.t));
+            });
+        }
+
+        function toggleClouds() {
+            const cb = document.getElementById('cloudsToggle');
+            cloudsEnabled = cb ? cb.checked : !cloudsEnabled;
+            if (cloudsMesh) cloudsMesh.visible = cloudsEnabled;
+        }
+        function toggleAnimation() {
+            const cb = document.getElementById('animationToggle');
+            animationEnabled = cb ? cb.checked : !animationEnabled;
+            animatedPackets.forEach(p => { p.mesh.visible = animationEnabled; });
+        }
         function toggleSunPosition() { /* no-op */ }
 
-        function clearAllPaths() {
-            if (!svgRoot) return;
-            // 동심원/중심은 유지하고 trace 결과만 제거
-            const traceEls = svgRoot.querySelectorAll('[data-trace]');
-            traceEls.forEach(el => el.remove());
-            traceAngleCount = 0;
+        // 이전 추적 경로(마커·호) 제거. clearPath 래퍼(아래)가 RTT도 함께 초기화.
+        function clearPath() {
+            if (globe) {
+                hopMarkers.forEach(m => globe.remove(m));
+                pathLines.forEach(l => globe.remove(l));
+                animatedPackets.forEach(p => globe.remove(p.mesh));
+            }
+            hopMarkers = [];
+            pathLines = [];
+            animatedPackets = [];
         }
+        function clearAllPaths() { clearPath(); }
 
         function drawPath(hops) {
             drawPathColored(hops, '#3b82f6');
@@ -438,66 +538,49 @@
         };
 
         function drawPathColored(hops, colorHex) {
-            if (!svgRoot) initGlobe();
-            const validHops = hops.filter(h => h.ip);
-            if (!validHops.length) return;
-            traceAngleCount++;
-            const angleDeg = -90 + (traceAngleCount - 1) * 47;
-            const angleRad = angleDeg * Math.PI / 180;
-            const maxRing = 8 * 55;
-            const maxTtl = Math.max(16, ...validHops.map(h => h.ttl || 0));
+            if (!scene) initGlobe();
+            if (!globe) return;
+            const col = new THREE.Color(colorHex);
+            // 위경도가 있는 홉만 지구본에 배치 (사설/타임아웃 홉은 좌표 없음 → 건너뜀)
+            const geoHops = hops.filter(h => h.ip && h.latitude != null && h.longitude != null);
+            if (!geoHops.length) return;
 
-            const g = document.createElementNS(SVG_NS, 'g');
-            g.setAttribute('data-trace', traceAngleCount);
-            svgRoot.appendChild(g);
+            // 경로 점: 서버(시작) → 각 지오 홉
+            const pts = [latLonToVector3(ORIGIN.lat, ORIGIN.lon, BORDER_R)];
+            geoHops.forEach(h => pts.push(latLonToVector3(h.latitude, h.longitude, BORDER_R)));
 
-            let prevX = 0, prevY = 0;
-            validHops.forEach((hop, idx) => {
-                const ttl = hop.ttl || (idx + 1);
-                const r = (ttl / maxTtl) * maxRing;
-                const x = r * Math.cos(angleRad);
-                const y = r * Math.sin(angleRad);
-                const line = document.createElementNS(SVG_NS, 'line');
-                line.setAttribute('x1', prevX); line.setAttribute('y1', prevY);
-                line.setAttribute('x2', x); line.setAttribute('y2', y);
-                line.setAttribute('stroke', colorHex);
-                line.setAttribute('stroke-width', 1.8);
-                line.setAttribute('opacity', 0.7);
-                g.appendChild(line);
-                const dot = document.createElementNS(SVG_NS, 'circle');
-                dot.setAttribute('cx', x); dot.setAttribute('cy', y);
-                dot.setAttribute('r', 4.5);
-                dot.setAttribute('fill', colorHex);
-                dot.setAttribute('data-ttl', ttl);
-                dot.setAttribute('data-ip', hop.ip || '');
-                dot.style.cursor = 'pointer';
-                const t = document.createElementNS(SVG_NS, 'title');
-                const rtts = (hop.rtts || []).filter(v => typeof v === 'number');
-                const avg = rtts.length ? (rtts.reduce((a,b)=>a+b,0)/rtts.length).toFixed(1) : '-';
-                t.textContent = `TTL ${ttl} · ${hop.ip || 'timeout'}${hop.hostname ? ' (' + hop.hostname + ')' : ''} · ${avg}ms`;
-                dot.appendChild(t);
-                g.appendChild(dot);
-                prevX = x; prevY = y;
+            // 홉 마커
+            geoHops.forEach((h, idx) => {
+                const isLast = idx === geoHops.length - 1;
+                const m = new THREE.Mesh(
+                    new THREE.SphereGeometry(isLast ? 0.12 : 0.07, 16, 16),
+                    new THREE.MeshBasicMaterial({ color: col, depthTest: false })
+                );
+                m.position.copy(latLonToVector3(h.latitude, h.longitude, BORDER_R + 0.02));
+                m.renderOrder = 999;
+                globe.add(m);
+                hopMarkers.push(m);
             });
-            const last = validHops[validHops.length - 1];
-            if (last) {
-                const dest = document.createElementNS(SVG_NS, 'circle');
-                dest.setAttribute('cx', prevX); dest.setAttribute('cy', prevY);
-                dest.setAttribute('r', 9);
-                dest.setAttribute('fill', 'none');
-                dest.setAttribute('stroke', colorHex);
-                dest.setAttribute('stroke-width', 2);
-                g.appendChild(dest);
-                const lbl = document.createElementNS(SVG_NS, 'text');
-                const ox = prevX + (prevX >= 0 ? 14 : -14);
-                const oy = prevY + 4;
-                lbl.setAttribute('x', ox); lbl.setAttribute('y', oy);
-                lbl.setAttribute('text-anchor', prevX >= 0 ? 'start' : 'end');
-                lbl.setAttribute('fill', colorHex);
-                lbl.setAttribute('font-size', 11);
-                lbl.setAttribute('font-weight', 600);
-                lbl.textContent = last.hostname || last.ip;
-                g.appendChild(lbl);
+
+            // 연속 점 사이를 호(arc)로 연결
+            for (let i = 0; i < pts.length - 1; i++) {
+                const curve = createEarthArc(pts[i], pts[i + 1]);
+                const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(60));
+                const mat = new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.85, depthTest: false });
+                const line = new THREE.Line(geo, mat);
+                line.renderOrder = 998;
+                globe.add(line);
+                pathLines.push(line);
+
+                // 호를 따라 움직이는 패킷(빛나는 점)
+                const packet = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.05, 8, 8),
+                    new THREE.MeshBasicMaterial({ color: col, depthTest: false })
+                );
+                packet.renderOrder = 1001;
+                packet.visible = animationEnabled;
+                globe.add(packet);
+                animatedPackets.push({ mesh: packet, curve: curve, t: Math.random(), speed: 0.005 });
             }
         }
 

@@ -6,60 +6,66 @@
   <title>외신이 본 한국 — sosig.shop</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; }
 
-    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
-    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
-    header h1 { font-size: 1.25rem; color: #e6edf3; }
+    header { background: var(--c-bg2); border-bottom: 1px solid var(--c-border); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: var(--c-text); }
 
     .top-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
 
     .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #30363d; background: #161b22; color: #8b949e; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .filter-btn:hover { border-color: #58a6ff; color: #e6edf3; }
-    .filter-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-bg2); color: var(--c-muted); font-size: 0.85rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .filter-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .filter-btn.active { background: var(--c-accent2); border-color: var(--c-accent2); color: #fff; }
     .filter-btn .count { color: rgba(255,255,255,0.7); font-size: 0.78rem; margin-left: 0.3rem; }
 
-    .notice { max-width: 1200px; margin: 1rem auto 0; padding: 0 2rem; font-size: 0.82rem; color: #8b949e; }
+    .notice { max-width: 1200px; margin: 1rem auto 0; padding: 0 2rem; font-size: 0.82rem; color: var(--c-muted); }
 
     .grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; max-width: 1200px; margin: 1.25rem auto; padding: 0 2rem 3rem; }
 
-    .art-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.25rem; transition: border-color 0.15s; border-left: 4px solid #388bfd; }
-    .art-card:hover { border-color: #58a6ff; }
+    .art-card { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 8px; padding: 1rem 1.25rem; transition: border-color 0.15s; border-left: 4px solid var(--c-accent3); }
+    .art-card:hover { border-color: var(--c-accent); }
     .art-card .row1 { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
-    .art-card .source-badge { padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 600; background: #1a2744; color: #58a6ff; border: 1px solid #388bfd; }
-    .art-card .date { font-size: 0.78rem; color: #8b949e; }
-    .art-card .unique-badge { font-size: 0.74rem; color: #3fb950; background: #1a3d2a; border-radius: 10px; padding: 2px 8px; }
-    .art-card h3 { font-size: 1rem; color: #e6edf3; line-height: 1.45; margin-bottom: 0.5rem; }
-    .art-card .summary { font-size: 0.85rem; color: #8b949e; line-height: 1.5; }
+    .art-card .source-badge { padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 600; background: #1a2744; color: var(--c-accent); border: 1px solid var(--c-accent3); }
+    .art-card .date { font-size: 0.78rem; color: var(--c-muted); }
+    .art-card .unique-badge { font-size: 0.74rem; color: var(--c-good); background: #1a3d2a; border-radius: 10px; padding: 2px 8px; }
+    .art-card .kr-badge { font-size: 0.74rem; font-weight: 700; border-radius: 10px; padding: 2px 9px; border: 1px solid transparent; }
+    .art-card .kr-badge.v-호재 { color: var(--c-good); background: #0f2a18; border-color: #2ea043; }
+    .art-card .kr-badge.v-악재 { color: var(--c-bad); background: #2d1416; border-color: #da3633; }
+    .art-card .kr-badge.v-중립 { color: var(--c-muted); background: #1c2128; border-color: #444c56; }
+    .art-card .kr-reason { font-size: 0.78rem; color: #adbac7; margin-top: 0.35rem; padding: 0.4rem 0.6rem; background: #11161c; border-left: 3px solid #444c56; border-radius: 0 6px 6px 0; }
+    .art-card .kr-reason .kr-axis { color: var(--c-muted2); font-size: 0.72rem; margin-left: 0.4rem; }
+    .art-card h3 { font-size: 1rem; color: var(--c-text); line-height: 1.45; margin-bottom: 0.5rem; }
+    .art-card .summary { font-size: 0.85rem; color: var(--c-muted); line-height: 1.5; }
     .art-card .audio-row { margin-top: 0.6rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
     .art-card .audio-row audio { flex: 1 1 280px; max-width: 380px; height: 36px; filter: invert(0.85) hue-rotate(180deg) brightness(1.1); }
-    .art-card .audio-meta { font-size: 0.74rem; color: #8b949e; white-space: nowrap; }
-    .art-card .audio-meta strong { color: #3fb950; font-weight: 600; }
+    .art-card .audio-meta { font-size: 0.74rem; color: var(--c-muted); white-space: nowrap; }
+    .art-card .audio-meta strong { color: var(--c-good); font-weight: 600; }
     .art-card .footer { display: flex; gap: 0.75rem; margin-top: 0.6rem; font-size: 0.78rem; align-items: center; flex-wrap: wrap; }
-    .art-card .footer a { color: #58a6ff; text-decoration: none; }
+    .art-card .footer a { color: var(--c-accent); text-decoration: none; }
     .art-card .footer a:hover { text-decoration: underline; }
 
     /* 펼치기 버튼 */
-    .toggle-btn { background: none; border: 1px solid #30363d; color: #8b949e; font-size: 0.78rem; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
-    .toggle-btn:hover { border-color: #58a6ff; color: #e6edf3; }
-    .toggle-btn.open { border-color: #388bfd; color: #58a6ff; }
+    .toggle-btn { background: none; border: 1px solid var(--c-border); color: var(--c-muted); font-size: 0.78rem; padding: 3px 10px; border-radius: 12px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .toggle-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .toggle-btn.open { border-color: var(--c-accent3); color: var(--c-accent); }
 
     /* 원문 / 번역 패널 */
-    .detail-panel { display: none; margin-top: 0.9rem; border-top: 1px solid #21262d; padding-top: 0.9rem; }
+    .detail-panel { display: none; margin-top: 0.9rem; border-top: 1px solid var(--c-bg3); padding-top: 0.9rem; }
     .detail-panel.visible { display: block; }
-    .detail-panel .panel-loading { color: #484f58; font-size: 0.82rem; }
+    .detail-panel .panel-loading { color: var(--c-border2); font-size: 0.82rem; }
 
     .detail-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 680px) { .detail-cols { grid-template-columns: 1fr; } }
 
-    .detail-block { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 0.75rem 1rem; }
+    .detail-block { background: var(--c-bg); border: 1px solid var(--c-bg3); border-radius: 6px; padding: 0.75rem 1rem; }
     .detail-block .block-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .detail-block.original .block-label { color: #d29922; }
-    .detail-block.translated .block-label { color: #3fb950; }
-    .detail-block .block-body { font-size: 0.83rem; line-height: 1.7; color: #c9d1d9; white-space: pre-wrap; word-break: break-word; }
+    .detail-block.original .block-label { color: var(--c-warn); }
+    .detail-block.translated .block-label { color: var(--c-good); }
+    .detail-block .block-body { font-size: 0.83rem; line-height: 1.7; color: var(--c-text2); white-space: pre-wrap; word-break: break-word; }
 
-    .empty { text-align: center; padding: 4rem 0; color: #484f58; }
+    .empty { text-align: center; padding: 4rem 0; color: var(--c-border2); }
 
     @media (max-width: 500px) {
       .top-bar, .grid, .notice { padding: 0 1rem; }
@@ -71,15 +77,21 @@
   {% if foreign_jsonld %}<script type="application/ld+json">{{ foreign_jsonld | safe }}</script>{% endif %}
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_contentnav.html" %}
 
-<header>
-  <a href="/">← sosig.shop</a>
-  <h1>🌐 외신이 본 한국</h1>
+
+<header class="sg-pagehead">
+  <h1>🌏 외신이 본 한국</h1>
 </header>
 
 <div class="top-bar">
   <div class="filters" id="filters"></div>
   <div class="date-chips" id="dateChips" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.6rem;"></div>
+</div>
+
+<div class="top-bar" style="margin-top:0.5rem;">
+  <div class="filters" id="verdictChips"></div>
 </div>
 
 <p class="notice">BBC, Nikkei Asia 등 해외 매체가 보도한 한국 관련 기사 중 국내 언론이 거의 다루지 않은 것을 골라 한국어 팟캐스트로 발행합니다.</p>
@@ -96,6 +108,7 @@
 <script>
 let currentSource = 'all';
 let currentDate = '';   // '' = 전체 날짜
+let currentVerdict = 'all';   // 'all' | '호재' | '악재' | '중립'
 
 function isAnyAudioPlaying() {
   return Array.from(document.querySelectorAll('audio')).some(a => !a.paused && !a.ended && a.readyState > 2);
@@ -106,10 +119,12 @@ async function load() {
   try {
     let url = `/api/foreign.json?source=${currentSource}&limit=80`;
     if (currentDate) url += `&date=${currentDate}`;
+    if (currentVerdict !== 'all') url += `&verdict=${encodeURIComponent(currentVerdict)}`;
     const r = await fetch(url);
     const d = await r.json();
     renderFilters(d);
     renderDateChips(d.dates || []);
+    renderVerdictChips(d);
     renderGrid(d.articles || []);
   } catch (e) {
     document.getElementById('grid').innerHTML = `<div class="empty">로드 실패: ${e.message}</div>`;
@@ -138,6 +153,20 @@ function renderDateChips(dates) {
   document.getElementById('dateChips').innerHTML = chips.join('');
 }
 
+function renderVerdictChips(d) {
+  const vc = d.verdict_counts || {};
+  const total = (vc['호재'] || 0) + (vc['악재'] || 0) + (vc['중립'] || 0);
+  const chips = [
+    ['all', '전체', total],
+    ['호재', '▲ 호재', vc['호재'] || 0],
+    ['악재', '▼ 악재', vc['악재'] || 0],
+    ['중립', '■ 중립', vc['중립'] || 0],
+  ];
+  document.getElementById('verdictChips').innerHTML = chips.map(([k, label, n]) =>
+    `<button class="filter-btn ${currentVerdict === k ? 'active' : ''}" onclick="setVerdict('${k}')">${esc(label)}<span class="count">${n}</span></button>`
+  ).join('');
+}
+
 function setSrc(k) {
   currentSource = k;
   currentDate = '';   // 매체 변경 시 날짜 초기화
@@ -146,6 +175,11 @@ function setSrc(k) {
 
 function setDate(d) {
   currentDate = d;
+  load();
+}
+
+function setVerdict(k) {
+  currentVerdict = k;
   load();
 }
 
@@ -158,15 +192,23 @@ function renderGrid(articles) {
     const audioHtml = a.audio_url
       ? `<div class="audio-row"><audio controls preload="none" src="${esc(a.audio_url)}"></audio><span class="audio-meta"><strong>🎙️ 팟캐스트</strong> ${esc(a.audio_published_at || '')}</span></div>`
       : '';
+    const krBadge = (a.kr_verdict && a.kr_verdict !== '무관')
+      ? `<span class="kr-badge v-${esc(a.kr_verdict)}">${krIcon(a.kr_verdict)} 한국 ${esc(a.kr_verdict)}</span>`
+      : '';
+    const krReason = (a.kr_verdict && a.kr_verdict !== '무관' && a.kr_reason)
+      ? `<div class="kr-reason">${esc(a.kr_reason)}${a.kr_axis ? `<span class="kr-axis">· ${esc(a.kr_axis)}</span>` : ''}</div>`
+      : '';
     return `
     <div class="art-card" id="card-${a.id}">
       <div class="row1">
         <span class="source-badge">${esc(a.source_label)}</span>
         <span class="date">${esc(a.audio_published_at || '')}</span>
         <span class="unique-badge">국내 미보도</span>
+        ${krBadge}
       </div>
       <h3>${esc(a.original_title)}</h3>
       ${a.original_summary ? `<div class="summary">${esc(a.original_summary)}</div>` : ''}
+      ${krReason}
       ${audioHtml}
       <div class="footer">
         <a href="${esc(a.original_url)}" target="_blank" rel="noopener">원문 보기 →</a>
@@ -225,6 +267,10 @@ async function toggleDetail(id, btn) {
 
 function esc(s) {
   return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function krIcon(v) {
+  return v === '호재' ? '▲' : v === '악재' ? '▼' : '■';
 }
 
 load();

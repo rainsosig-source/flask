@@ -1,0 +1,7 @@
+{# 기타 그룹 공용 섹션 탭 — active 판정은 request.path. 바 CSS는 _topnav.html. #}
+{% set _p = request.path %}
+<div class="sg-secnav" role="navigation" aria-label="기타 섹션">
+  <a class="sg-sl {{ 'active' if _p.startswith('/about') }}" href="/about">ℹ️ 서비스 소개</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/broadcast') }}" href="/broadcast">📝 방명록</a>
+  <a class="sg-sl {{ 'active' if _p.startswith('/status') }}" href="/status">📡 운영 상태</a>
+</div>

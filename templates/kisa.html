@@ -6,59 +6,59 @@
   <title>KISA 보안 권고 — sosig.shop</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+    body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; }
 
-    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
-    header a { color: #58a6ff; text-decoration: none; font-size: 0.9rem; }
-    header h1 { font-size: 1.25rem; color: #e6edf3; }
+    header { background: var(--c-bg2); border-bottom: 1px solid var(--c-border); padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header a { color: var(--c-accent); text-decoration: none; font-size: 0.9rem; }
+    header h1 { font-size: 1.25rem; color: var(--c-text); }
 
     .top-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
 
     .cyber-status { display: inline-flex; align-items: center; gap: 0.5rem; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; }
-    .cyber-status.l-관심 { background: #1a3d2a; color: #3fb950; border: 1px solid #3fb950; }
-    .cyber-status.l-주의 { background: #3d3a1a; color: #d29922; border: 1px solid #d29922; }
+    .cyber-status.l-관심 { background: #1a3d2a; color: var(--c-good); border: 1px solid var(--c-good); }
+    .cyber-status.l-주의 { background: #3d3a1a; color: var(--c-warn); border: 1px solid var(--c-warn); }
     .cyber-status.l-경계 { background: #4a2e1a; color: #f0883e; border: 1px solid #f0883e; }
-    .cyber-status.l-심각 { background: #4d1f1f; color: #f85149; border: 1px solid #f85149; }
-    .cyber-status.l-unknown { background: #1c2128; color: #8b949e; border: 1px solid #30363d; }
+    .cyber-status.l-심각 { background: #4d1f1f; color: var(--c-bad); border: 1px solid var(--c-bad); }
+    .cyber-status.l-unknown { background: #1c2128; color: var(--c-muted); border: 1px solid var(--c-border); }
 
     .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid #30363d; background: #161b22; color: #8b949e; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .filter-btn:hover { border-color: #58a6ff; color: #e6edf3; }
-    .filter-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--c-border); background: var(--c-bg2); color: var(--c-muted); font-size: 0.85rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .filter-btn:hover { border-color: var(--c-accent); color: var(--c-text); }
+    .filter-btn.active { background: var(--c-accent2); border-color: var(--c-accent2); color: #fff; }
     .filter-btn .count { color: rgba(255,255,255,0.7); font-size: 0.78rem; margin-left: 0.3rem; }
 
     .grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; max-width: 1200px; margin: 1.25rem auto; padding: 0 2rem 3rem; }
 
-    .adv-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.25rem; transition: border-color 0.15s; }
-    .adv-card:hover { border-color: #58a6ff; }
+    .adv-card { background: var(--c-bg2); border: 1px solid var(--c-border); border-radius: 8px; padding: 1rem 1.25rem; transition: border-color 0.15s; }
+    .adv-card:hover { border-color: var(--c-accent); }
     .adv-card .row1 { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
     .adv-card .cat { padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 600; }
-    .adv-card .cat-sec_notice { background: #4d1f1f; color: #f85149; }
+    .adv-card .cat-sec_notice { background: #4d1f1f; color: var(--c-bad); }
     .adv-card .cat-vuln_info { background: #4a2e1a; color: #f0883e; }
-    .adv-card .cat-notice { background: #1c2128; color: #8b949e; }
-    .adv-card .date { font-size: 0.78rem; color: #8b949e; }
-    .adv-card .views { font-size: 0.74rem; color: #484f58; margin-left: auto; }
-    .adv-card h3 { font-size: 1rem; color: #e6edf3; line-height: 1.45; margin-bottom: 0.5rem; }
-    .adv-card .summary { font-size: 0.85rem; color: #8b949e; line-height: 1.5; }
+    .adv-card .cat-notice { background: #1c2128; color: var(--c-muted); }
+    .adv-card .date { font-size: 0.78rem; color: var(--c-muted); }
+    .adv-card .views { font-size: 0.74rem; color: var(--c-border2); margin-left: auto; }
+    .adv-card h3 { font-size: 1rem; color: var(--c-text); line-height: 1.45; margin-bottom: 0.5rem; }
+    .adv-card .summary { font-size: 0.85rem; color: var(--c-muted); line-height: 1.5; }
     .adv-card .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
     .adv-card .chip { padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; text-decoration: none; transition: all 0.15s; }
-    .adv-card .chip-cve { background: #1c2128; border: 1px solid #f85149; color: #f85149; }
+    .adv-card .chip-cve { background: #1c2128; border: 1px solid var(--c-bad); color: var(--c-bad); }
     .adv-card .chip-cve:hover { background: #4d1f1f; }
-    .adv-card .chip-sw { background: #1c2128; border: 1px solid #58a6ff; color: #58a6ff; }
+    .adv-card .chip-sw { background: #1c2128; border: 1px solid var(--c-accent); color: var(--c-accent); }
     .adv-card .chip-sw:hover { background: #1f6feb22; }
     .adv-card .footer { display: flex; gap: 0.5rem; margin-top: 0.5rem; font-size: 0.78rem; }
-    .adv-card .footer a { color: #58a6ff; text-decoration: none; }
+    .adv-card .footer a { color: var(--c-accent); text-decoration: none; }
     .adv-card .footer a:hover { text-decoration: underline; }
-    .priority-5 { border-left: 4px solid #f85149; }
+    .priority-5 { border-left: 4px solid var(--c-bad); }
     .priority-4 { border-left: 4px solid #f0883e; }
-    .priority-3 { border-left: 4px solid #d29922; }
+    .priority-3 { border-left: 4px solid var(--c-warn); }
 
     .adv-card .audio-row { margin-top: 0.6rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
     .adv-card .audio-row audio { flex: 1 1 280px; max-width: 380px; height: 36px; filter: invert(0.85) hue-rotate(180deg) brightness(1.1); }
-    .adv-card .audio-meta { font-size: 0.74rem; color: #8b949e; white-space: nowrap; }
-    .adv-card .audio-meta strong { color: #3fb950; font-weight: 600; }
+    .adv-card .audio-meta { font-size: 0.74rem; color: var(--c-muted); white-space: nowrap; }
+    .adv-card .audio-meta strong { color: var(--c-good); font-weight: 600; }
 
-    .empty { text-align: center; padding: 4rem 0; color: #484f58; }
+    .empty { text-align: center; padding: 4rem 0; color: var(--c-border2); }
 
     @media (max-width: 500px) {
       .top-bar, .grid { padding: 0 1rem; }
@@ -69,10 +69,13 @@
   <link rel="apple-touch-icon" sizes="140x140" href="/static/logo/sosig_logo_140.png">
 </head>
 <body>
+{% include "_topnav.html" %}
+{% include "_secnav.html" %}
 
-<header>
-  <a href="/">← sosig.shop</a>
-  <h1>🇰🇷 KISA 보안 권고</h1>
+
+<header class="sg-pagehead">
+  <h1>KISA 보안 권고</h1>
+  <p class="sg-sub">보호나라 공지 매시 자동 수집 · vLLM Gemma 4 우선순위 분류</p>
 </header>
 
 <aside style="max-width: 1100px; margin: 1.25rem auto 0; padding: 1rem 1.25rem; background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; border-radius: 6px; font-size: 0.92rem; line-height: 1.7; color: #c9d1d9;">
