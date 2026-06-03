@@ -194,6 +194,7 @@ def samsung_api():
            'foreign': {'호재': 0, '악재': 0, '중립': 0}}
     daily = defaultdict(lambda: {'호재': 0, '악재': 0})
     pos, neg = [], []
+    kw_pos, kw_neg = {}, {}
     for row in rows:
         s = _r(row, 'sentiment', '중립') or '중립'
         counts[s] = counts.get(s, 0) + 1
@@ -213,6 +214,9 @@ def samsung_api():
             'keywords': [k for k in (_r(row, 'keywords', '') or '').split(',') if k][:6],
             'event': _r(row, 'event', '') or '',
         }
+        for _k in item['keywords']:
+            if s == '호재': kw_pos[_k] = kw_pos.get(_k, 0) + 1
+            elif s == '악재': kw_neg[_k] = kw_neg.get(_k, 0) + 1
         if s == '호재':
             daily[dstr]['호재'] += 1
             if len(pos) < limit:
@@ -223,6 +227,13 @@ def samsung_api():
                 neg.append(item)
     total = sum(counts.values())
     pn = counts['호재'] + counts['악재']
+    top_pos = [{'word': w, 'count': c} for w, c in sorted(kw_pos.items(), key=lambda x: -x[1])[:12]]
+    top_neg = [{'word': w, 'count': c} for w, c in sorted(kw_neg.items(), key=lambda x: -x[1])[:12]]
+    sd = _samsung_daily(days)
+    _prev = None
+    for _e in sd:
+        _e['event'] = bool(_prev is not None and abs(_e['score'] - _prev) >= 0.3)
+        _prev = _e['score']
     trend = [{'date': d[5:], '호재': v['호재'], '악재': v['악재']}
              for d, v in sorted(daily.items()) if d][-30:]
     return jsonify({
@@ -230,7 +241,8 @@ def samsung_api():
         'counts': counts, 'by_source': src,
         'pos_ratio': round(counts['호재'] / pn, 3) if pn else 0,
         'trend': trend, 'positive': pos, 'negative': neg,
-        'price': _samsung_price(), 'sentiment_daily': _samsung_daily(days),
+        'price': _samsung_price(), 'sentiment_daily': sd,
+        'kw_pos': top_pos, 'kw_neg': top_neg,
     })
 
 

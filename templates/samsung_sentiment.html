@@ -15,9 +15,13 @@
     .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
     .top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     h1 { font-size: 22px; margin: 4px 0 2px; }
-    .sub { color:var(--muted); font-size: 13px; margin-bottom: 18px; }
+    .sub { color:var(--muted); font-size: 13px; margin-bottom: 12px; }
     .note { background:rgba(240,180,41,.08); border:1px solid #5c4310; color:#e3b341; font-size:12px;
-            padding:8px 12px; border-radius:8px; margin: 10px 0 20px; }
+            padding:8px 12px; border-radius:8px; margin: 10px 0 18px; }
+    .ranges { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+    .ranges button { background:var(--card); color:var(--muted); border:1px solid var(--line);
+            border-radius:20px; padding:5px 14px; font-size:13px; cursor:pointer; }
+    .ranges button.active { background:#1f6feb; color:#fff; border-color:#1f6feb; }
     .cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:8px; }
     .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; }
     .stat .n { font-size: 30px; font-weight: 800; }
@@ -31,6 +35,18 @@
     .chart-box .cap { font-size:12px; color:var(--muted); margin-bottom:8px; }
     .chart-wrap { position:relative; width:100%; height:320px; }
     #priceSentChart { display:block; max-width:100%; }
+    .kwbox { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:24px; }
+    .kwbox h2 { font-size:15px; margin:0 0 10px; }
+    .kwgrid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    @media(max-width:720px){ .kwgrid{grid-template-columns:1fr;} }
+    .kwcol h3 { font-size:13px; margin:0 0 8px; }
+    .kwcol.pos h3{color:var(--pos);} .kwcol.neg h3{color:var(--neg);}
+    .kwrow { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-size:12px; }
+    .kwrow .w { width:84px; flex:none; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .kwrow .track { flex:1; height:11px; background:#21262d; border-radius:6px; overflow:hidden; }
+    .kwrow .fill { display:block; height:100%; border-radius:6px; }
+    .kwcol.pos .fill{background:var(--pos);} .kwcol.neg .fill{background:var(--neg);}
+    .kwrow .c { width:26px; text-align:right; color:var(--muted); }
     .cols { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
     @media(max-width:720px){ .cols{grid-template-columns:1fr;} }
     .col h2 { font-size:16px; margin:0 0 10px; padding-bottom:6px; border-bottom:2px solid; }
@@ -53,6 +69,12 @@
     <a class="back" href="/sentiment">← 감성 대시보드</a>
     <div class="top"><h1>📊 삼성전자 뉴스 감성 특별관리</h1></div>
     <div class="sub" id="sub">국내·외신 뉴스의 호재/악재 감성 — 수집·분석 전용 (팟캐스트 미생성)</div>
+    <div class="ranges" id="ranges">
+      <button data-days="7">7일</button>
+      <button data-days="30" class="active">30일</button>
+      <button data-days="90">90일</button>
+      <button data-days="400">전체</button>
+    </div>
     <div class="note">※ 뉴스 분위기 집계이며 투자 예측이 아닙니다. 감성 포인트와 주가는 인과가 아닌 참고용 병행 표시입니다.</div>
 
     <div class="cards">
@@ -66,8 +88,16 @@
 
     <div class="chart-box">
       <h2>📈 감성 포인트 × 주가 추이</h2>
-      <div class="cap">파란선=삼성전자 주가(원, 좌축) · 초록점=일별 감성점수(-1~1, 우축). 감성 데이터는 수집 시작 이후 날짜별로 누적됩니다.</div>
+      <div class="cap">파란선=주가(원, 좌축) · 점=일별 감성점수(-1~1, 우축, 초록=호재·빨강=악재). <b>큰 점(◆)</b>=전일 대비 급변일.</div>
       <div class="chart-wrap"><canvas id="priceSentChart"></canvas></div>
+    </div>
+
+    <div class="kwbox">
+      <h2>🏷️ 호재 · 악재 키워드</h2>
+      <div class="kwgrid">
+        <div class="kwcol pos"><h3>📈 호재 키워드</h3><div id="kwPos"><div class="empty">집계 중…</div></div></div>
+        <div class="kwcol neg"><h3>📉 악재 키워드</h3><div id="kwNeg"><div class="empty">집계 중…</div></div></div>
+      </div>
     </div>
 
     <div class="cols">
@@ -77,6 +107,7 @@
   </div>
 
   <script>
+  let chart = null;
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function srcBadge(s){ return s==='foreign' ? '<span class="badge-f">외신</span>' : '<span class="badge-d">국내</span>'; }
   function renderItem(it, cls){
@@ -92,19 +123,32 @@
       + (it.event?'<span>· '+esc(it.event)+'</span>':'')
       + '</div>' + (kws?'<div class="meta">'+kws+'</div>':'') + '</div>';
   }
+  function renderKw(list, elId){
+    const el = document.getElementById(elId);
+    if (!list || !list.length){ el.innerHTML = '<div class="empty">키워드 없음</div>'; return; }
+    const max = Math.max(1, ...list.map(k=>k.count));
+    el.innerHTML = list.map(k =>
+      '<div class="kwrow"><span class="w" title="'+esc(k.word)+'">'+esc(k.word)+'</span>'
+      + '<span class="track"><span class="fill" style="width:'+Math.round(k.count/max*100)+'%"></span></span>'
+      + '<span class="c">'+k.count+'</span></div>').join('');
+  }
   function drawChart(price, daily){
     const labels = (price||[]).map(p=>p.date);
     const priceData = (price||[]).map(p=>p.close);
-    const sm = {}; (daily||[]).forEach(s=>{ sm[s.date]=s.score; });
+    const sm = {}, ev = {}; (daily||[]).forEach(s=>{ sm[s.date]=s.score; ev[s.date]=s.event; });
     const sentData = labels.map(d=> (d in sm) ? sm[d] : null);
-    const ptColors = sentData.map(v=> v===null?'#0000':(v>=0.05?'#16a34a':(v<=-0.05?'#dc2626':'#6b7280')));
-    new Chart(document.getElementById('priceSentChart'), {
+    const ptColors = sentData.map((v,i)=> v===null?'#0000':(v>=0.05?'#3fb950':(v<=-0.05?'#f85149':'#8b949e')));
+    const ptRadius = labels.map(d=> (ev[d]) ? 7 : (d in sm ? 4 : 0));
+    const ptStyle  = labels.map(d=> (ev[d]) ? 'rectRot' : 'circle');
+    if (chart) chart.destroy();
+    chart = new Chart(document.getElementById('priceSentChart'), {
       data:{ labels, datasets:[
         { type:'line', label:'주가(원)', data:priceData, yAxisID:'y',
           borderColor:'#58a6ff', borderWidth:1.6, pointRadius:0, tension:.25, spanGaps:true },
         { type:'line', label:'감성점수', data:sentData, yAxisID:'y1',
-          borderColor:'#16a34a', backgroundColor:'#16a34a', borderWidth:1.2,
-          pointRadius:4, pointBackgroundColor:ptColors, spanGaps:true, tension:0 }
+          borderColor:'#8b949e', backgroundColor:'#8b949e', borderWidth:1.2,
+          pointRadius:ptRadius, pointStyle:ptStyle, pointBackgroundColor:ptColors,
+          pointBorderColor:ptColors, spanGaps:true, tension:0 }
       ]},
       options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
         plugins:{ legend:{labels:{boxWidth:12,font:{size:11},color:'#c9d1d9'}} },
@@ -116,28 +160,37 @@
         } }
     });
   }
-  fetch('/api/sentiment/samsung.json?days=120')
-    .then(r=>r.json()).then(d=>{
-      const c=d.counts||{};
-      document.getElementById('cPos').textContent=c['호재']||0;
-      document.getElementById('cNeg').textContent=c['악재']||0;
-      document.getElementById('cNeu').textContent=c['중립']||0;
-      document.getElementById('cRatio').textContent=Math.round((d.pos_ratio||0)*100)+'%';
-      document.getElementById('sub').textContent='최근 '+d.days+'일 · 총 '+d.total+'건 (국내·외신, 팟캐스트 미생성)';
-      const tot=(c['호재']||0)+(c['악재']||0)+(c['중립']||0)||1;
-      document.getElementById('bar').innerHTML=
-        '<div class="p" style="width:'+(100*(c['호재']||0)/tot)+'%"></div>'+
-        '<div class="g" style="width:'+(100*(c['중립']||0)/tot)+'%"></div>'+
-        '<div class="n" style="width:'+(100*(c['악재']||0)/tot)+'%"></div>';
-      const bs=d.by_source||{};
-      function srcTxt(k,label){const o=bs[k]||{};return label+' 👍'+(o['호재']||0)+' 👎'+(o['악재']||0)+' ·중립'+(o['중립']||0);}
-      document.getElementById('srcrow').innerHTML='<span>'+srcTxt('domestic','🇰🇷 국내')+'</span><span>'+srcTxt('foreign','🌐 외신')+'</span>';
-      try { drawChart(d.price, d.sentiment_daily); } catch(e){}
-      const pl=document.getElementById('posList'), nl=document.getElementById('negList');
-      pl.innerHTML=(d.positive||[]).length?d.positive.map(it=>renderItem(it,'sc-pos')).join(''):'<div class="empty">호재 기사 없음</div>';
-      nl.innerHTML=(d.negative||[]).length?d.negative.map(it=>renderItem(it,'sc-neg')).join(''):'<div class="empty">악재 기사 없음</div>';
-    })
-    .catch(e=>{ document.getElementById('posList').innerHTML='<div class="empty">불러오기 실패</div>'; });
+  function load(days){
+    fetch('/api/sentiment/samsung.json?days='+days)
+      .then(r=>r.json()).then(d=>{
+        const c=d.counts||{};
+        document.getElementById('cPos').textContent=c['호재']||0;
+        document.getElementById('cNeg').textContent=c['악재']||0;
+        document.getElementById('cNeu').textContent=c['중립']||0;
+        document.getElementById('cRatio').textContent=Math.round((d.pos_ratio||0)*100)+'%';
+        document.getElementById('sub').textContent='최근 '+d.days+'일 · 총 '+d.total+'건 (국내·외신, 팟캐스트 미생성)';
+        const tot=(c['호재']||0)+(c['악재']||0)+(c['중립']||0)||1;
+        document.getElementById('bar').innerHTML=
+          '<div class="p" style="width:'+(100*(c['호재']||0)/tot)+'%"></div>'+
+          '<div class="g" style="width:'+(100*(c['중립']||0)/tot)+'%"></div>'+
+          '<div class="n" style="width:'+(100*(c['악재']||0)/tot)+'%"></div>';
+        const bs=d.by_source||{};
+        function srcTxt(k,label){const o=bs[k]||{};return label+' 👍'+(o['호재']||0)+' 👎'+(o['악재']||0)+' ·중립'+(o['중립']||0);}
+        document.getElementById('srcrow').innerHTML='<span>'+srcTxt('domestic','🇰🇷 국내')+'</span><span>'+srcTxt('foreign','🌐 외신')+'</span>';
+        try { drawChart(d.price, d.sentiment_daily); } catch(e){}
+        renderKw(d.kw_pos, 'kwPos'); renderKw(d.kw_neg, 'kwNeg');
+        const pl=document.getElementById('posList'), nl=document.getElementById('negList');
+        pl.innerHTML=(d.positive||[]).length?d.positive.map(it=>renderItem(it,'sc-pos')).join(''):'<div class="empty">호재 기사 없음</div>';
+        nl.innerHTML=(d.negative||[]).length?d.negative.map(it=>renderItem(it,'sc-neg')).join(''):'<div class="empty">악재 기사 없음</div>';
+      })
+      .catch(e=>{ document.getElementById('posList').innerHTML='<div class="empty">불러오기 실패</div>'; });
+  }
+  document.getElementById('ranges').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#ranges button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); load(+b.dataset.days);
+  });
+  load(30);
   </script>
 </body>
 </html>
