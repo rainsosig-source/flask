@@ -232,13 +232,19 @@ def confirm_deleted():
 
 @video_bp.route('/api/news_videos.json')
 def api_json():
+    date = (request.args.get('date') or '').strip()
     conn = get_db_connection()
     try:
         with conn.cursor() as cursor:
-            cursor.execute(
-                "SELECT slug, ko_title, en_title, article_source, youtube_url, created_at "
-                "FROM news_videos WHERE status='approved' AND kind='news' ORDER BY created_at DESC LIMIT 50"
-            )
+            if date:
+                cursor.execute(
+                    "SELECT slug, ko_title, en_title, article_source, reason, youtube_url, created_at "
+                    "FROM news_videos WHERE status='approved' AND kind='news' AND DATE(created_at)=%s "
+                    "ORDER BY created_at DESC", (date,))
+            else:
+                cursor.execute(
+                    "SELECT slug, ko_title, en_title, article_source, reason, youtube_url, created_at "
+                    "FROM news_videos WHERE status='approved' AND kind='news' ORDER BY created_at DESC LIMIT 40")
             rows = cursor.fetchall()
     except Exception as e:
         current_app.logger.error(f'news_videos json error: {e}')
@@ -248,7 +254,11 @@ def api_json():
 
     for r in rows:
         if r.get('created_at'):
-            r['created_at'] = r['created_at'].strftime('%Y-%m-%d %H:%M')
+            r['created_at_iso'] = r['created_at'].strftime('%Y-%m-%d')
+            r['created_at'] = r['created_at'].strftime('%Y년 %m월 %d일')
+        ytu = r.get('youtube_url') or ''
+        m = re.search(r'(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})', ytu)
+        r['yt_id'] = m.group(1) if m else ''
     return jsonify(rows), 200
 
 
@@ -261,9 +271,18 @@ def news_videos_page():
         with conn.cursor() as cursor:
             cursor.execute(
                 "SELECT slug, ko_title, en_title, article_source, youtube_url, reason, created_at "
-                "FROM news_videos WHERE status='approved' AND kind='news' ORDER BY created_at DESC"
+                "FROM news_videos WHERE status='approved' AND kind='news' ORDER BY created_at DESC LIMIT 40"
             )
             videos = cursor.fetchall()
+            cursor.execute(
+                "SELECT DISTINCT DATE(created_at) d FROM news_videos "
+                "WHERE status='approved' AND kind='news' ORDER BY d DESC"
+            )
+            all_dates = [r['d'].strftime('%Y-%m-%d') for r in cursor.fetchall() if r.get('d')]
+            cursor.execute(
+                "SELECT COUNT(*) c FROM news_videos WHERE status='approved' AND kind='news'"
+            )
+            total = cursor.fetchone()['c']
     except Exception as e:
         current_app.logger.error(f'news_videos page error: {e}')
         videos = []
@@ -298,7 +317,9 @@ def news_videos_page():
         g.seo_ld = [{"@context": "https://schema.org", "@type": "ItemList",
                      "name": "뉴스 영상", "numberOfItems": len(_items),
                      "itemListElement": _items}]
-    return render_template('news_videos.html', videos=videos)
+    if videos and videos[0].get('yt_id'):
+        g.og_image = "https://i.ytimg.com/vi/%s/hqdefault.jpg" % videos[0]['yt_id']
+    return render_template('news_videos.html', videos=videos, all_dates=all_dates, total=total)
 
 
 # ── API: pending 목록 (DGX tg_video_cmd용) ───────────────────────────────────

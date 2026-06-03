@@ -315,7 +315,7 @@
       <button class="filter-btn active" id="btnAll" onclick="showAll()">전체 보기</button>
     </div>
     <div class="selected-info">
-      <span class="video-count" id="videoCount">{{ videos|length }}개</span>
+      <span class="video-count" id="videoCount">{{ total }}개</span>
       <span id="selectedDateLabel"></span>
     </div>
     <div class="selected-info" style="font-size:0.74rem; color:#484f58;">
@@ -367,41 +367,49 @@
 <script src="{{ static_v('flatpickr.min.js') }}"></script>
 <script src="{{ static_v('flatpickr-ko.js') }}"></script>
 <script>
-const videoDates = {{ videos | map(attribute='created_at_iso') | list | unique | list | tojson }};
-const totalCount = {{ videos|length }};
+const allDates = {{ all_dates | tojson }};
+const totalCount = {{ total }};
+const grid = document.getElementById('grid');
+const initialGrid = grid ? grid.innerHTML : '';   // 서버 렌더(최근 40)
 
 const fp = flatpickr("#calendar", {
-  inline: true,
-  locale: "ko",
-  dateFormat: "Y-m-d",
-  enable: videoDates,
-  maxDate: "today",
-  onChange: function(selectedDates, dateStr) {
-    if (dateStr) filterByDate(dateStr);
-  }
+  inline: true, locale: "ko", dateFormat: "Y-m-d",
+  enable: allDates, maxDate: "today",
+  onChange: function(sel, dateStr){ if (dateStr) filterByDate(dateStr); }
 });
 
-function filterByDate(iso) {
-  document.getElementById('btnAll').classList.remove('active');
-  const cards = document.querySelectorAll('.card');
-  let count = 0;
-  cards.forEach(card => {
-    const show = card.dataset.date === iso;
-    card.classList.toggle('hidden', !show);
-    if (show) count++;
-  });
-  document.getElementById('videoCount').textContent = count + '개';
-  // 한국어 표시: ISO를 YYYY년 MM월 DD일로 변환
-  const [y, m, d] = iso.split('-');
-  document.getElementById('selectedDateLabel').innerHTML =
-    '<span class="date-pill">' + parseInt(y) + '년 ' + parseInt(m) + '월 ' + parseInt(d) + '일</span>';
+function _esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function _ytId(u){ const m=(u||'').match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/); return m?m[1]:''; }
+function buildCard(v){
+  const id = v.yt_id || _ytId(v.youtube_url);
+  const embed = id
+    ? '<button class="yt-facade" data-id="'+id+'" aria-label="영상 재생"><img src="https://i.ytimg.com/vi/'+id+'/hqdefault.jpg" alt="'+_esc(v.ko_title)+'" loading="lazy"><span class="yt-play" aria-hidden="true">▶</span></button>'
+    : '<div class="no-video">영상 준비 중</div>';
+  const src = v.article_source ? '<span class="source-badge">'+_esc(v.article_source)+'</span>' : '';
+  const reason = (v.reason && v.reason!=='수동 등록') ? '<div class="card-reason">'+_esc(v.reason)+'</div>' : '';
+  const link = v.youtube_url ? '<a class="yt-link" href="'+_esc(v.youtube_url)+'" target="_blank" rel="noopener">▶ YouTube에서 보기</a>' : '';
+  return '<div class="card" data-date="'+_esc(v.created_at_iso)+'"><div class="embed-wrap">'+embed+'</div>'
+    + '<div class="card-body"><div class="card-title">'+_esc(v.ko_title)+'</div>'
+    + '<div class="card-meta">'+src+'<span>'+_esc(v.created_at)+'</span></div>'+reason+link+'</div></div>';
 }
 
-function showAll() {
+async function filterByDate(iso){
+  document.getElementById('btnAll').classList.remove('active');
+  try {
+    const vs = await (await fetch('/api/news_videos.json?date='+encodeURIComponent(iso))).json();
+    grid.innerHTML = (vs && vs.length) ? vs.map(buildCard).join('') : '<div class="empty">해당 날짜 영상이 없습니다.</div>';
+    document.getElementById('videoCount').textContent = (vs?vs.length:0) + '개';
+  } catch(e){ grid.innerHTML = '<div class="empty">불러오기 실패</div>'; }
+  const p = iso.split('-');
+  document.getElementById('selectedDateLabel').innerHTML =
+    '<span class="date-pill">' + parseInt(p[0]) + '년 ' + parseInt(p[1]) + '월 ' + parseInt(p[2]) + '일</span>';
+}
+
+function showAll(){
   document.getElementById('btnAll').classList.add('active');
   fp.clear();
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
-  document.getElementById('videoCount').textContent = totalCount + '개';
+  grid.innerHTML = initialGrid;   // 서버 렌더(최근 40) 복원
+  document.getElementById('videoCount').textContent = totalCount + '개 (최근 40 표시)';
   document.getElementById('selectedDateLabel').innerHTML = '';
 }
 
