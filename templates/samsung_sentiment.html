@@ -83,7 +83,8 @@
     const kws = (it.keywords||[]).map(k=>'<span class="tag">'+esc(k)+'</span>').join(' ');
     const sc = (it.score>=0?'+':'')+it.score;
     return '<div class="item">'
-      + '<a href="'+esc(it.link)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>'
+      + '<a href="'+esc(it.link)+'" target="_blank" rel="noopener">'+esc((it.source==="foreign"&&it.title_ko)?it.title_ko:it.title)+'</a>'
+      + ((it.source==="foreign"&&it.title_ko)?'<div class="meta" style="opacity:.6;font-style:italic">'+esc(it.title)+'</div>':'')
       + '<div class="meta">'+srcBadge(it.source)
       + (it.press?'<span>'+esc(it.press)+'</span>':'')
       + '<span>'+esc(it.date)+'</span>'

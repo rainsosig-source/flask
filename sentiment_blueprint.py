@@ -129,7 +129,7 @@ def _stock_rows(stock, days):
     try:
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT title, link, press, source, sentiment, score, keywords, event, "
+                "SELECT title, title_ko, link, press, source, sentiment, score, keywords, event, "
                 "COALESCE(posted_at, collected_at) AS dt "
                 "FROM stock_sentiment WHERE stock=%s "
                 "AND collected_at >= (NOW() - INTERVAL %s DAY) ORDER BY dt DESC",
@@ -204,6 +204,7 @@ def samsung_api():
         dstr = dt.strftime('%Y-%m-%d') if dt else ''
         item = {
             'title': _r(row, 'title', ''),
+            'title_ko': _r(row, 'title_ko', '') or '',
             'link': _r(row, 'link', ''),
             'press': _r(row, 'press', ''),
             'source': so,
