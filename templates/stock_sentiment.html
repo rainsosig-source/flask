@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>삼성전자 뉴스 감성 — sosig.shop</title>
-  <meta name="description" content="삼성전자 종목 뉴스의 호재·악재 감성을 국내·외신으로 나눠 특별 관리하고, 일별 감성 포인트와 주가 추이를 함께 보는 분석 대시보드. 팟캐스트 없이 수집·분석 전용.">
+  <title>{{ stock_name }} 뉴스 감성 — sosig.shop</title>
+  <meta name="description" content="{{ stock_name }} 종목 뉴스의 호재·악재 감성을 국내·외신으로 나눠 특별 관리하고, 일별 감성 포인트와 주가 추이를 함께 보는 분석 대시보드. 팟캐스트 없이 수집·분석 전용.">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     :root { --pos:#3fb950; --neg:#f85149; --neu:#8b949e; --bg:#0d1117; --card:#161b22; --line:#30363d; --text:#c9d1d9; --muted:#8b949e; --price:#58a6ff; }
@@ -67,7 +67,7 @@
 <body>
   <div class="wrap">
     <a class="back" href="/sentiment">← 감성 대시보드</a>
-    <div class="top"><h1>📊 삼성전자 뉴스 감성 특별관리</h1></div>
+    <div class="top"><h1>📊 {{ stock_name }} 뉴스 감성 특별관리</h1></div>
     <div class="sub" id="sub">국내·외신 뉴스의 호재/악재 감성 — 수집·분석 전용 (팟캐스트 미생성)</div>
     <div class="ranges" id="ranges">
       <button data-days="7">7일</button>
@@ -170,7 +170,7 @@
     });
   }
   function load(days){
-    fetch('/api/sentiment/samsung.json?days='+days)
+    fetch('/api/sentiment/stock/{{ slug }}.json?days='+days)
       .then(r=>r.json()).then(d=>{
         const c=d.counts||{};
         document.getElementById('cPos').textContent=c['호재']||0;
