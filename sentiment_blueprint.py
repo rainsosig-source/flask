@@ -174,11 +174,12 @@ def _samsung_daily(days):
         with conn.cursor() as cur:
             cur.execute(
                 "SELECT DATE(collected_at) d, ROUND(AVG(score),3) s, "
-                "SUM(sentiment='호재') p, SUM(sentiment='악재') n "
+                "SUM(sentiment='호재') p, SUM(sentiment='악재') n, COUNT(*) c "
                 "FROM stock_sentiment WHERE stock=%s AND collected_at >= (NOW() - INTERVAL %s DAY) "
                 "GROUP BY DATE(collected_at) ORDER BY d", (STOCK_NAME, days))
             return [{"date": str(_r(row, 'd')), "score": float(_r(row, 's') or 0),
-                     "pos": int(_r(row, 'p') or 0), "neg": int(_r(row, 'n') or 0)}
+                     "pos": int(_r(row, 'p') or 0), "neg": int(_r(row, 'n') or 0),
+                     "count": int(_r(row, 'c') or 0)}
                     for row in cur.fetchall()]
     finally:
         conn.close()
@@ -234,6 +235,14 @@ def samsung_api():
     for _e in sd:
         _e['event'] = bool(_prev is not None and abs(_e['score'] - _prev) >= 0.3)
         _prev = _e['score']
+    from datetime import date as _date
+    _pts = [(_date.fromisoformat(_e['date']), _e['score']) for _e in sd if _e['date']]
+    for _e in sd:
+        if not _e['date']:
+            _e['ma'] = None; continue
+        _d0 = _date.fromisoformat(_e['date'])
+        _win = [sc for dd, sc in _pts if 0 <= (_d0 - dd).days <= 6]
+        _e['ma'] = round(sum(_win) / len(_win), 3) if _win else None
     trend = [{'date': d[5:], '호재': v['호재'], '악재': v['악재']}
              for d, v in sorted(daily.items()) if d][-30:]
     return jsonify({

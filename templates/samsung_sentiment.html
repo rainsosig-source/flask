@@ -88,7 +88,7 @@
 
     <div class="chart-box">
       <h2>📈 감성 포인트 × 주가 추이</h2>
-      <div class="cap">파란선=주가(원, 좌축) · 점=일별 감성점수(-1~1, 우축, 초록=호재·빨강=악재). <b>큰 점(◆)</b>=전일 대비 급변일.</div>
+      <div class="cap">파란선=주가(원, 좌축) · 점=일별 감성점수(-1~1, 우축, 초록=호재·빨강=악재) · <b style="color:#d29922">주황 점선</b>=감성 7일 이동평균. <b>큰 점(◆)</b>=전일 대비 급변일. 점에 마우스/터치 시 그날 <b>분석 건수</b> 표시.</div>
       <div class="chart-wrap"><canvas id="priceSentChart"></canvas></div>
     </div>
 
@@ -135,8 +135,10 @@
   function drawChart(price, daily){
     const labels = (price||[]).map(p=>p.date);
     const priceData = (price||[]).map(p=>p.close);
-    const sm = {}, ev = {}; (daily||[]).forEach(s=>{ sm[s.date]=s.score; ev[s.date]=s.event; });
+    const sm = {}, ev = {}, cn = {}, mn = {};
+    (daily||[]).forEach(s=>{ sm[s.date]=s.score; ev[s.date]=s.event; cn[s.date]=s.count; mn[s.date]=s.ma; });
     const sentData = labels.map(d=> (d in sm) ? sm[d] : null);
+    const maData   = labels.map(d=> (d in mn && mn[d]!==null) ? mn[d] : null);
     const ptColors = sentData.map((v,i)=> v===null?'#0000':(v>=0.05?'#3fb950':(v<=-0.05?'#f85149':'#8b949e')));
     const ptRadius = labels.map(d=> (ev[d]) ? 7 : (d in sm ? 4 : 0));
     const ptStyle  = labels.map(d=> (ev[d]) ? 'rectRot' : 'circle');
@@ -145,13 +147,20 @@
       data:{ labels, datasets:[
         { type:'line', label:'주가(원)', data:priceData, yAxisID:'y',
           borderColor:'#58a6ff', borderWidth:1.6, pointRadius:0, tension:.25, spanGaps:true },
+        { type:'line', label:'감성 7일 이동평균', data:maData, yAxisID:'y1',
+          borderColor:'#d29922', borderWidth:1.8, borderDash:[5,4], pointRadius:0, tension:.3, spanGaps:true },
         { type:'line', label:'감성점수', data:sentData, yAxisID:'y1',
           borderColor:'#8b949e', backgroundColor:'#8b949e', borderWidth:1.2,
           pointRadius:ptRadius, pointStyle:ptStyle, pointBackgroundColor:ptColors,
           pointBorderColor:ptColors, spanGaps:true, tension:0 }
       ]},
       options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
-        plugins:{ legend:{labels:{boxWidth:12,font:{size:11},color:'#c9d1d9'}} },
+        plugins:{ legend:{labels:{boxWidth:12,font:{size:11},color:'#c9d1d9'}},
+          tooltip:{ callbacks:{ afterLabel:(ctx)=>{
+            if(ctx.dataset.label!=='감성점수') return '';
+            const c=cn[ctx.label];
+            return (c!=null?('분석 '+c+'건'+(ev[ctx.label]?' · 급변일':'')):'');
+          } } } },
         scales:{
           x:{ ticks:{maxTicksLimit:10,font:{size:10},color:'#8b949e'}, grid:{display:false} },
           y:{ position:'left', title:{display:true,text:'주가(원)',color:'#c9d1d9'}, ticks:{font:{size:10},color:'#8b949e'}, grid:{color:'rgba(139,148,158,.15)'} },
