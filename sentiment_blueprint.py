@@ -2,7 +2,7 @@
 데이터: news_sentiment(로컬 Gemma 태깅) JOIN episodes. 예측 아님 — 뉴스 분위기 집계."""
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
-from flask import Blueprint, render_template, jsonify, request, abort
+from flask import Blueprint, render_template, jsonify, request, abort, redirect
 from database import get_db_connection
 
 sentiment_bp = Blueprint('sentiment', __name__)
@@ -276,11 +276,12 @@ def stock_page(slug):
     return render_template('stock_sentiment.html', slug=slug, stock_name=meta['name'])
 
 
-@sentiment_bp.route('/sentiment/samsung', strict_slashes=False)  # 하위호환
+@sentiment_bp.route('/sentiment/samsung', strict_slashes=False)  # 하위호환 → 통일 경로로 301
 def samsung_page():
-    return stock_page('samsung')
+    return redirect('/sentiment/stock/samsung', code=301)
 
 
 @sentiment_bp.route('/sentiment', strict_slashes=False)
 def sentiment_page():
-    return render_template('sentiment.html')
+    stocks = [{'slug': k, 'name': v['name']} for k, v in STOCKS.items()]
+    return render_template('sentiment.html', stocks=stocks)
