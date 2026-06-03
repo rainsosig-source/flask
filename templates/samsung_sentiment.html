@@ -7,28 +7,28 @@
   <meta name="description" content="삼성전자 종목 뉴스의 호재·악재 감성을 국내·외신으로 나눠 특별 관리하고, 일별 감성 포인트와 주가 추이를 함께 보는 분석 대시보드. 팟캐스트 없이 수집·분석 전용.">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
-    :root { --pos:#16a34a; --neg:#dc2626; --neu:#6b7280; --bg:#f7f8fa; --card:#fff; --line:#e5e7eb; --price:#2563eb; }
+    :root { --pos:#3fb950; --neg:#f85149; --neu:#8b949e; --bg:#0d1117; --card:#161b22; --line:#30363d; --text:#c9d1d9; --muted:#8b949e; --price:#58a6ff; }
     * { box-sizing: border-box; }
     html,body { max-width:100%; overflow-x:hidden; }
     body { font-family: "Pretendard","Apple SD Gothic Neo",-apple-system,sans-serif; margin:0;
-           background:var(--bg); color:#111; line-height:1.6; }
+           background:var(--bg); color:var(--text); line-height:1.6; }
     .wrap { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; }
     .top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     h1 { font-size: 22px; margin: 4px 0 2px; }
-    .sub { color:#666; font-size: 13px; margin-bottom: 18px; }
-    .note { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; font-size:12px;
+    .sub { color:var(--muted); font-size: 13px; margin-bottom: 18px; }
+    .note { background:rgba(240,180,41,.08); border:1px solid #5c4310; color:#e3b341; font-size:12px;
             padding:8px 12px; border-radius:8px; margin: 10px 0 20px; }
     .cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:8px; }
     .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; }
     .stat .n { font-size: 30px; font-weight: 800; }
-    .stat .l { font-size: 13px; color:#666; }
+    .stat .l { font-size: 13px; color:var(--muted); }
     .pos .n{color:var(--pos);} .neg .n{color:var(--neg);} .neu .n{color:var(--neu);}
     .bar { height: 14px; border-radius: 8px; overflow: hidden; display:flex; margin: 14px 0 6px; border:1px solid var(--line); }
     .bar .p{background:var(--pos);} .bar .g{background:var(--neu);} .bar .n{background:var(--neg);}
-    .srcrow { display:flex; gap:18px; font-size:13px; color:#444; margin-bottom:18px; flex-wrap:wrap;}
+    .srcrow { display:flex; gap:18px; font-size:13px; color:#adbac7; margin-bottom:18px; flex-wrap:wrap;}
     .chart-box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:24px; }
     .chart-box h2 { font-size:15px; margin:0 0 4px; }
-    .chart-box .cap { font-size:12px; color:#888; margin-bottom:8px; }
+    .chart-box .cap { font-size:12px; color:var(--muted); margin-bottom:8px; }
     .chart-wrap { position:relative; width:100%; height:320px; }
     #priceSentChart { display:block; max-width:100%; }
     .cols { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
@@ -37,15 +37,15 @@
     .col.pos h2{ color:var(--pos); border-color:var(--pos);}
     .col.neg h2{ color:var(--neg); border-color:var(--neg);}
     .item { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px; }
-    .item a { color:#111; text-decoration:none; font-weight:600; font-size:14px; }
+    .item a { color:var(--text); text-decoration:none; font-weight:600; font-size:14px; }
     .item a:hover { text-decoration:underline; }
-    .meta { font-size:12px; color:#777; margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
-    .tag { background:#eef2ff; color:#3730a3; border-radius:6px; padding:1px 6px; font-size:11px; }
-    .badge-f { background:#e0f2fe; color:#075985; border-radius:6px; padding:1px 6px; font-size:11px;}
-    .badge-d { background:#f1f5f9; color:#334155; border-radius:6px; padding:1px 6px; font-size:11px;}
+    .meta { font-size:12px; color:var(--muted); margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+    .tag { background:#1f2d3d; color:#79c0ff; border-radius:6px; padding:1px 6px; font-size:11px; }
+    .badge-f { background:#0d2d3a; color:#58a6ff; border-radius:6px; padding:1px 6px; font-size:11px;}
+    .badge-d { background:#21262d; color:#adbac7; border-radius:6px; padding:1px 6px; font-size:11px;}
     .sc-pos{color:var(--pos);font-weight:700;} .sc-neg{color:var(--neg);font-weight:700;}
-    .empty{color:#999;font-size:13px;padding:10px;}
-    .back { font-size:13px; color:#2563eb; text-decoration:none; }
+    .empty{color:#6e7681;font-size:13px;padding:10px;}
+    .back { font-size:13px; color:#58a6ff; text-decoration:none; }
   </style>
 </head>
 <body>
@@ -100,18 +100,18 @@
     new Chart(document.getElementById('priceSentChart'), {
       data:{ labels, datasets:[
         { type:'line', label:'주가(원)', data:priceData, yAxisID:'y',
-          borderColor:'#2563eb', borderWidth:1.6, pointRadius:0, tension:.25, spanGaps:true },
+          borderColor:'#58a6ff', borderWidth:1.6, pointRadius:0, tension:.25, spanGaps:true },
         { type:'line', label:'감성점수', data:sentData, yAxisID:'y1',
           borderColor:'#16a34a', backgroundColor:'#16a34a', borderWidth:1.2,
           pointRadius:4, pointBackgroundColor:ptColors, spanGaps:true, tension:0 }
       ]},
       options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
-        plugins:{ legend:{labels:{boxWidth:12,font:{size:11}}} },
+        plugins:{ legend:{labels:{boxWidth:12,font:{size:11},color:'#c9d1d9'}} },
         scales:{
-          x:{ ticks:{maxTicksLimit:10,font:{size:10}}, grid:{display:false} },
-          y:{ position:'left', title:{display:true,text:'주가(원)'}, ticks:{font:{size:10}} },
-          y1:{ position:'right', min:-1, max:1, title:{display:true,text:'감성(-1~1)'},
-               grid:{drawOnChartArea:false}, ticks:{font:{size:10}} }
+          x:{ ticks:{maxTicksLimit:10,font:{size:10},color:'#8b949e'}, grid:{display:false} },
+          y:{ position:'left', title:{display:true,text:'주가(원)',color:'#c9d1d9'}, ticks:{font:{size:10},color:'#8b949e'}, grid:{color:'rgba(139,148,158,.15)'} },
+          y1:{ position:'right', min:-1, max:1, title:{display:true,text:'감성(-1~1)',color:'#c9d1d9'},
+               grid:{drawOnChartArea:false}, ticks:{font:{size:10},color:'#8b949e'} }
         } }
     });
   }
