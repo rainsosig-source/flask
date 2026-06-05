@@ -99,6 +99,12 @@
       <div class="chart-wrap"><canvas id="priceSentChart"></canvas></div>
     </div>
 
+    <div class="chart-box">
+      <h2>🌐 외국인 수급 × 환율 <span id="frgnRate" style="font-size:12px;color:var(--muted);font-weight:normal"></span></h2>
+      <div class="cap">막대=외국인 순매수 주식수(<b style="color:#3fb950">초록=순매수</b>·<b style="color:#f85149">빨강=순매도</b>, 좌축, 천주) · <b style="color:#d29922">주황선</b>=원/달러 환율(우축). 외국인 매도+환율 상승이 겹치면 외국인 이탈 신호.</div>
+      <div class="chart-wrap"><canvas id="flowChart"></canvas></div>
+    </div>
+
     <div class="kwbox">
       <h2>🏷️ 호재 · 악재 키워드</h2>
       <div class="kwgrid">
@@ -115,6 +121,37 @@
 
   <script>
   let chart = null;
+  let chart2 = null;
+  function drawFlowChart(foreign, fx){
+    foreign = foreign||[]; fx = fx||[];
+    const labels = foreign.map(f=>f.date);
+    const netData = foreign.map(f=> +(f.net/1000).toFixed(0));  // 천주 단위
+    const barColors = netData.map(v=> v>=0 ? '#3fb950' : '#f85149');
+    const fxMap = {}; fx.forEach(p=>{ fxMap[p.date]=p.close; });
+    const fxData = labels.map(d=> (d in fxMap)? fxMap[d] : null);
+    if (foreign.length){
+      const last = foreign[foreign.length-1];
+      document.getElementById('frgnRate').textContent = '· 외국인 보유율 '+last.rate+'%';
+    }
+    if (chart2) chart2.destroy();
+    chart2 = new Chart(document.getElementById('flowChart'), {
+      data:{ labels, datasets:[
+        { type:'bar', label:'외국인 순매수(천주)', data:netData, yAxisID:'y',
+          backgroundColor:barColors, borderWidth:0, order:2 },
+        { type:'line', label:'원/달러', data:fxData, yAxisID:'y1',
+          borderColor:'#d29922', borderWidth:1.8, pointRadius:0, tension:.25, spanGaps:true, order:1 }
+      ]},
+      options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+        plugins:{ legend:{labels:{boxWidth:12,font:{size:11},color:'#c9d1d9'}} },
+        scales:{
+          x:{ ticks:{maxTicksLimit:10,font:{size:10},color:'#8b949e'}, grid:{display:false} },
+          y:{ position:'left', title:{display:true,text:'외국인 순매수(천주)',color:'#c9d1d9'},
+              ticks:{font:{size:10},color:'#8b949e'}, grid:{color:'rgba(139,148,158,.15)'} },
+          y1:{ position:'right', title:{display:true,text:'원/달러',color:'#c9d1d9'},
+               grid:{drawOnChartArea:false}, ticks:{font:{size:10},color:'#8b949e'} }
+        } }
+    });
+  }
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function srcBadge(s){ return s==='foreign' ? '<span class="badge-f">외신</span>' : '<span class="badge-d">국내</span>'; }
   function renderItem(it, cls){
@@ -194,6 +231,7 @@
         function srcTxt(k,label){const o=bs[k]||{};return label+' 👍'+(o['호재']||0)+' 👎'+(o['악재']||0)+' ·중립'+(o['중립']||0);}
         document.getElementById('srcrow').innerHTML='<span>'+srcTxt('domestic','🇰🇷 국내')+'</span><span>'+srcTxt('foreign','🌐 외신')+'</span>';
         try { drawChart(d.price, d.sentiment_daily); } catch(e){}
+        try { drawFlowChart(d.foreign, d.fx); } catch(e){}
         renderKw(d.kw_pos, 'kwPos'); renderKw(d.kw_neg, 'kwNeg');
         const pl=document.getElementById('posList'), nl=document.getElementById('negList');
         pl.innerHTML=(d.positive||[]).length?d.positive.map(it=>renderItem(it,'sc-pos')).join(''):'<div class="empty">호재 기사 없음</div>';

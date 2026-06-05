@@ -172,6 +172,48 @@ def _stock_price(symbol, rng="3mo"):
         return c[1] if c else []
 
 
+def _foreign_flow(code, days=20):
+    """네이버 금융 종목별 외국인 순매매(주식수)+보유율. urllib+정규식, 1h 캐시."""
+    import re as _re
+    now = _time.time(); ck = ("frgn", code)
+    c = _PRICE_CACHE.get(ck)
+    if c and now - c[0] < 3600:
+        return c[1]
+    try:
+        url = "https://finance.naver.com/item/frgn.naver?code=%s" % code
+        req = _ur.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with _ur.urlopen(req, timeout=12) as r:
+            html = r.read().decode("euc-kr", "ignore")
+        out = []
+        for row in _re.split(r'<tr', html):
+            if 'class="num' not in row:
+                continue
+            text = _re.sub(r'<[^>]+>', ' ', row).replace('&nbsp;', ' ')
+            m = _re.search(r'(\d{4})\.(\d{2})\.(\d{2})', text)
+            if not m:
+                continue
+            toks = _re.findall(r'[\-\+]?[\d,]+\.?\d*%?', text[m.end():])
+            if len(toks) < 8:
+                continue
+            try:
+                net = int(toks[5].replace(',', '').replace('+', ''))
+            except ValueError:
+                continue
+            rate = None
+            for t in toks:
+                if t.endswith('%'):
+                    try: rate = float(t[:-1])
+                    except ValueError: pass
+            if rate is None or not (10 <= rate <= 90):
+                continue
+            out.append({"date": "%s-%s-%s" % (m.group(1), m.group(2), m.group(3)), "net": net, "rate": rate})
+        out = list(reversed(out))[-days:]
+        _PRICE_CACHE[ck] = (now, out)
+        return out
+    except Exception:
+        return c[1] if c else []
+
+
 def _stock_daily(name, days):
     conn = get_db_connection()
     try:
@@ -260,6 +302,7 @@ def stock_api(slug):
         'trend': trend, 'positive': pos, 'negative': neg,
         'price': _stock_price(symbol), 'sentiment_daily': sd,
         'kw_pos': top_pos, 'kw_neg': top_neg,
+        'fx': _stock_price('KRW=X'), 'foreign': _foreign_flow(symbol.split('.')[0]),
     })
 
 
